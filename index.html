@@ -193,7 +193,7 @@
       align-items: center;
       gap: 8px;
       padding: 11px 22px;
-      border-radius: 8px;
+      border-radius: 0;
       font-size: 0.875rem;
       font-weight: 600;
       text-decoration: none;
@@ -202,15 +202,16 @@
       transition: all 0.2s ease;
     }
 
-    .btn-green {
-      background: var(--green);
+    .btn-blue {
+      background: var(--blue);
       color: #000;
+      border-bottom: 3px solid var(--blue-dim);
     }
 
-    .btn-green:hover {
-      background: #86efac;
+    .btn-blue:hover {
+      background: #7dd3fc;
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px var(--green-glow);
+      box-shadow: 0 8px 28px var(--blue-glow);
     }
 
     .btn-ghost {
@@ -220,8 +221,8 @@
     }
 
     .btn-ghost:hover {
-      border-color: rgba(74,222,128,0.35);
-      background: rgba(74,222,128,0.05);
+      border-color: rgba(56,189,248,0.35);
+      background: rgba(56,189,248,0.05);
       transform: translateY(-2px);
     }
 
@@ -494,7 +495,7 @@
     <p class="hero-quote">// I aim to support as many servers as possible</p>
 
     <div class="hero-cta">
-      <a href="#work" class="btn btn-green">
+      <a href="#work" class="btn btn-blue">
         <i class="fas fa-rocket"></i> View My Work
       </a>
       <a href="#contact" class="btn btn-ghost">
@@ -589,7 +590,7 @@
         @cjh1126
       </div>
       <br>
-      <a href="https://discord.gg/m4H55rQJzC" target="_blank" class="btn btn-green">
+      <a href="https://discord.gg/m4H55rQJzC" target="_blank" class="btn btn-blue">
         <i class="fab fa-discord"></i> Join Skript Shack
       </a>
     </div>
