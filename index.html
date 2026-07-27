@@ -135,22 +135,26 @@
     }
 
     .hero h1 {
-      font-size: clamp(3.5rem, 13vw, 7rem);
+      font-size: clamp(1.9rem, 5.6vw, 3.5rem);
       font-weight: 800;
-      letter-spacing: -4px;
-      line-height: 1;
-      background: linear-gradient(135deg, #ffffff 30%, var(--blue) 100%);
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      color: #ffffff;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, #ffffff 10%, var(--blue) 90%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .hero-role {
-      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-size: clamp(1.05rem, 3vw, 1.4rem);
       font-weight: 600;
       color: var(--text);
-      letter-spacing: 0.5px;
-      margin-top: 10px;
+      letter-spacing: 0.3px;
+      margin-top: 12px;
     }
 
     .hero-quote {
@@ -258,14 +262,6 @@
       z-index: 2;
     }
 
-    .box-tag {
-      font-family: 'VT323', monospace;
-      font-size: 0.85rem;
-      color: var(--blue);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
     .box h2 {
       font-size: 1.2rem;
       font-weight: 700;
@@ -293,7 +289,6 @@
     .box:hover .box-go i { transform: translateX(6px); }
 
     .box.soon { border-left-color: var(--muted); }
-    .box.soon .box-tag,
     .box.soon .box-go { color: var(--muted); }
     .box.soon:hover { border-left-color: var(--blue); }
 
@@ -389,8 +384,8 @@
     available
   </div>
 
-  <h1>CJH</h1>
-  <p class="hero-role">Minecraft Developer</p>
+  <h1>Hello World! I'm <span class="accent">CJH</span>!</h1>
+  <p class="hero-role">I develop Minecraft servers.</p>
   <p class="hero-quote">// I aim to support as many servers as possible</p>
 </header>
 
@@ -404,19 +399,17 @@
           <img src="assets/skriptshack.png" alt="Skript Shack logo">
         </div>
         <div class="box-body">
-          <p class="box-tag">// community</p>
           <h2>Skript Shack</h2>
           <p class="box-desc">My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners.</p>
           <span class="box-go">Join the server <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
 
-      <a href="https://youtube.com/CJH3139" target="_blank" rel="noopener" class="box">
+      <a href="https://www.youtube.com/@CJH3139" target="_blank" rel="noopener" class="box">
         <div class="box-art">
           <img src="assets/youtube.jpg" alt="CJH3139 YouTube channel">
         </div>
         <div class="box-body">
-          <p class="box-tag">// videos</p>
           <h2>YouTube</h2>
           <p class="box-desc">Skript showcases, plugin demos, and walkthroughs of the systems I build for Minecraft servers.</p>
           <span class="box-go">Watch on YouTube <i class="fas fa-arrow-right"></i></span>
@@ -428,7 +421,6 @@
           <i class="fas fa-folder-open placeholder"></i>
         </div>
         <div class="box-body">
-          <p class="box-tag">// archive</p>
           <h2>Past Projects</h2>
           <p class="box-desc">A full archive of the servers, plugins, and Skripts I've worked on. Coming soon.</p>
           <span class="box-go">Open archive <i class="fas fa-arrow-right"></i></span>
