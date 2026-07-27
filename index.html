@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CJH — Minecraft Developer</title>
+  <title>CJH | Minecraft Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -21,26 +21,37 @@
       --muted: #64748b;
     }
 
+    html { background: var(--bg); }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
     }
 
-    /* ambient glows */
+    /* ── ANIMATED BACKGROUND ── */
+
+    /* drifting aurora glows */
     body::before {
       content: '';
       position: fixed;
-      inset: 0;
+      inset: -20%;
       background:
-        radial-gradient(ellipse 70% 55% at 15% -10%, rgba(56,189,248,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 85% 105%, rgba(14,165,233,0.05) 0%, transparent 55%);
+        radial-gradient(ellipse 55% 45% at 18% 12%, rgba(56,189,248,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 82% 88%, rgba(14,165,233,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 60% 40%, rgba(99,102,241,0.05) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
+      animation: aurora 28s ease-in-out infinite;
     }
 
-    /* pixel grid */
+    @keyframes aurora {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      33%      { transform: translate3d(2.5%, -2%, 0) scale(1.08); }
+      66%      { transform: translate3d(-2%, 2.5%, 0) scale(0.96); }
+    }
+
+    /* panning pixel grid */
     body::after {
       content: '';
       position: fixed;
@@ -51,6 +62,34 @@
       background-size: 32px 32px;
       pointer-events: none;
       z-index: 0;
+      animation: gridpan 14s linear infinite;
+    }
+
+    @keyframes gridpan {
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: 32px 32px, 32px 32px; }
+    }
+
+    /* floating pixel canvas */
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* glow that follows the cursor */
+    .cursor-glow {
+      position: fixed;
+      top: 0; left: 0;
+      width: 620px;
+      height: 620px;
+      margin: -310px 0 0 -310px;
+      background: radial-gradient(circle, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.03) 35%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
     }
 
     .container {
@@ -123,9 +162,7 @@
     }
 
     /* ── THE 3 BOXES ── */
-    .boxes {
-      padding: 10px 0 90px;
-    }
+    .boxes { padding: 10px 0 80px; }
 
     .box-grid {
       display: grid;
@@ -141,17 +178,46 @@
       color: var(--text);
       display: flex;
       flex-direction: column;
-      transition: all 0.22s ease;
       position: relative;
       overflow: hidden;
+      transform:
+        perspective(900px)
+        rotateX(var(--rx, 0deg))
+        rotateY(var(--ry, 0deg))
+        translate3d(0, var(--lift, 0px), 0)
+        scale(var(--sc, 1));
+      transition:
+        transform 0.5s cubic-bezier(0.22, 0.9, 0.25, 1),
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+      will-change: transform;
     }
 
+    /* snappier while the cursor is actually moving over the card */
+    .box.tilting { transition: transform 0.12s ease-out, box-shadow 0.3s ease, border-color 0.3s ease; }
+
     .box:hover {
-      border-color: rgba(56,189,248,0.35);
+      --lift: -10px;
+      --sc: 1.025;
+      border-color: rgba(56,189,248,0.4);
       border-left-color: var(--blue);
-      transform: translateY(-6px);
-      box-shadow: 6px 6px 0 rgba(56,189,248,0.1), 0 18px 45px rgba(0,0,0,0.45);
+      box-shadow: 0 26px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(56,189,248,0.08);
     }
+
+    /* light sheen that tracks the cursor */
+    .box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%),
+                  rgba(56,189,248,0.18) 0%, rgba(56,189,248,0.05) 35%, transparent 62%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .box:hover::after { opacity: 1; }
 
     .box-art {
       height: 200px;
@@ -161,6 +227,7 @@
       background: rgba(0,0,0,0.28);
       border-bottom: 1px solid var(--border);
       padding: 26px;
+      overflow: hidden;
     }
 
     .box-art img {
@@ -168,15 +235,18 @@
       max-height: 100%;
       object-fit: contain;
       image-rendering: pixelated;
-      transition: transform 0.22s ease;
+      transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.25, 1);
     }
 
-    .box:hover .box-art img { transform: scale(1.06); }
+    .box:hover .box-art img { transform: scale(1.09); }
 
     .box-art .placeholder {
       font-size: 3rem;
       color: rgba(56,189,248,0.35);
+      transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.25, 1), color 0.3s ease;
     }
+
+    .box:hover .box-art .placeholder { transform: scale(1.12); color: rgba(56,189,248,0.55); }
 
     .box-body {
       padding: 22px;
@@ -184,6 +254,8 @@
       flex-direction: column;
       flex: 1;
       gap: 7px;
+      position: relative;
+      z-index: 2;
     }
 
     .box-tag {
@@ -217,34 +289,18 @@
       margin-top: 10px;
     }
 
-    .box-go i { transition: transform 0.2s; }
-    .box:hover .box-go i { transform: translateX(5px); }
+    .box-go i { transition: transform 0.25s ease; }
+    .box:hover .box-go i { transform: translateX(6px); }
 
     .box.soon { border-left-color: var(--muted); }
     .box.soon .box-tag,
     .box.soon .box-go { color: var(--muted); }
     .box.soon:hover { border-left-color: var(--blue); }
 
-    /* ── ABOUT / CONTACT ── */
-    .about-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--blue);
-      padding: 46px 40px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 80px;
-    }
-
-    .about-box::before {
-      content: '';
-      position: absolute;
-      top: -90px;
-      right: -40px;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(56,189,248,0.07), transparent 65%);
-      pointer-events: none;
+    /* ── CONTACT ── */
+    .contact {
+      padding-bottom: 80px;
+      text-align: center;
     }
 
     .sec-eyebrow {
@@ -253,86 +309,45 @@
       color: var(--blue);
       letter-spacing: 3px;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
 
-    .about-box h2 {
-      font-size: clamp(1.6rem, 4vw, 2rem);
+    .contact h2 {
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
       font-weight: 700;
       letter-spacing: -1px;
-      margin-bottom: 14px;
-      position: relative;
+      margin-bottom: 18px;
     }
 
-    .about-box > p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.7;
-      max-width: 620px;
-      margin-bottom: 30px;
-      position: relative;
-    }
-
-    .about-box > p strong { color: var(--text); font-weight: 600; }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    .discord-pill {
+      display: inline-flex;
+      align-items: center;
       gap: 12px;
-      position: relative;
-    }
-
-    .contact-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--blue);
-      padding: 14px 16px;
-      text-decoration: none;
+      background: rgba(88,101,242,0.12);
+      border: 1px solid rgba(88,101,242,0.3);
+      border-left: 3px solid #7289da;
       color: var(--text);
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-
-    .contact-row:hover {
-      border-color: rgba(56,189,248,0.35);
-      border-left-color: var(--blue);
-      transform: translateX(4px);
-      box-shadow: 4px 0 0 var(--blue);
-    }
-
-    .contact-icon {
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 14px 26px;
+      font-weight: 600;
       font-size: 1.05rem;
-      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .ci-discord { background: rgba(88,101,242,0.15); color: #7289da; }
-    .ci-server  { background: rgba(88,101,242,0.15); color: #a5b4fc; }
-    .ci-youtube { background: rgba(255,0,0,0.1);     color: #f87171; }
+    .discord-pill i { color: #7289da; font-size: 1.2rem; }
 
-    .contact-text { min-width: 0; }
-    .contact-text span {
-      display: block;
-      font-size: 0.7rem;
+    .discord-pill:hover {
+      background: rgba(88,101,242,0.22);
+      border-color: rgba(88,101,242,0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(88,101,242,0.25);
+    }
+
+    .contact-hint {
+      font-size: 0.75rem;
       color: var(--muted);
       letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-    .contact-text strong {
-      font-size: 0.88rem;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      display: block;
+      margin-top: 12px;
     }
 
     /* ── FOOTER ── */
@@ -355,12 +370,17 @@
       .hero { padding: 90px 24px 50px; }
     }
 
-    @media (max-width: 580px) {
-      .about-box { padding: 32px 22px; }
+    @media (prefers-reduced-motion: reduce) {
+      body::before, body::after, .badge-dot { animation: none; }
+      .box, .box-art img, .box-go i, .discord-pill { transition: none; }
+      #bg, .cursor-glow { display: none; }
     }
   </style>
 </head>
 <body>
+
+<canvas id="bg"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- HERO -->
 <header class="hero">
@@ -386,7 +406,7 @@
         <div class="box-body">
           <p class="box-tag">// community</p>
           <h2>Skript Shack</h2>
-          <p class="box-desc">My Discord community for free, high-quality Skripts — resources, support, and showcases for server owners.</p>
+          <p class="box-desc">My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners.</p>
           <span class="box-go">Join the server <i class="fas fa-arrow-right"></i></span>
         </div>
       </a>
@@ -419,43 +439,16 @@
   </div>
 </main>
 
-<!-- ABOUT / CONTACT -->
-<section class="container">
-  <div class="about-box">
-    <p class="sec-eyebrow">// about &amp; contact</p>
-    <h2>Who I Am</h2>
-    <p>
-      I'm <strong>CJH</strong> — a Minecraft <strong>Skript and Java plugin developer</strong> and server owner.
-      I build minigames, economy systems, and custom utilities on the Bukkit / Spigot / Paper API, and I run
-      <strong>Skript Shack</strong>, a community dedicated to free, high-quality Skript resources and support.
-      Need something custom built, or a hand with your server? The fastest way to reach me is Discord.
-    </p>
-
-    <div class="contact-grid">
-      <div class="contact-row" onclick="copyTag(this)" title="Click to copy">
-        <div class="contact-icon ci-discord"><i class="fab fa-discord"></i></div>
-        <div class="contact-text">
-          <span>Discord — click to copy</span>
-          <strong>@cjh1126</strong>
-        </div>
-      </div>
-
-      <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="contact-row">
-        <div class="contact-icon ci-server"><i class="fas fa-users"></i></div>
-        <div class="contact-text">
-          <span>Discord server</span>
-          <strong>Skript Shack</strong>
-        </div>
-      </a>
-
-      <a href="https://youtube.com/CJH3139" target="_blank" rel="noopener" class="contact-row">
-        <div class="contact-icon ci-youtube"><i class="fab fa-youtube"></i></div>
-        <div class="contact-text">
-          <span>YouTube</span>
-          <strong>@CJH3139</strong>
-        </div>
-      </a>
+<!-- CONTACT -->
+<section class="contact">
+  <div class="container">
+    <p class="sec-eyebrow">// contact</p>
+    <h2>Get In Touch</h2>
+    <div class="discord-pill" id="discordPill" onclick="copyTag(this)" title="Click to copy">
+      <i class="fab fa-discord"></i>
+      <span id="discordTag">@CJH1126</span>
     </div>
+    <p class="contact-hint">click to copy</p>
   </div>
 </section>
 
@@ -466,14 +459,143 @@
 </footer>
 
 <script>
+  /* ── copy discord tag ── */
   function copyTag(el) {
-    navigator.clipboard.writeText('@cjh1126').then(() => {
-      const label = el.querySelector('.contact-text strong');
-      const orig = label.textContent;
+    const label = document.getElementById('discordTag');
+    const orig = label.textContent;
+    navigator.clipboard.writeText('@CJH1126').then(() => {
       label.textContent = 'Copied!';
-      setTimeout(() => label.textContent = orig, 2000);
+      setTimeout(() => { label.textContent = orig; }, 1800);
     });
   }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ── cursor tilt on the boxes ── */
+  const MAX_TILT = 9;
+
+  if (canHover && !reduceMotion) {
+    document.querySelectorAll('.box').forEach(box => {
+      let raf = null;
+
+      box.addEventListener('pointermove', e => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = null;
+          const r = box.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;   // 0 = left edge, 1 = right edge
+          const py = (e.clientY - r.top) / r.height;   // 0 = top edge, 1 = bottom edge
+
+          box.classList.add('tilting');
+          box.style.setProperty('--ry', ((px - 0.5) * 2 * MAX_TILT).toFixed(2) + 'deg');
+          box.style.setProperty('--rx', ((0.5 - py) * 2 * MAX_TILT).toFixed(2) + 'deg');
+          box.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+          box.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        });
+      });
+
+      box.addEventListener('pointerleave', () => {
+        if (raf) { cancelAnimationFrame(raf); raf = null; }
+        box.classList.remove('tilting');
+        box.style.setProperty('--rx', '0deg');
+        box.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
+
+  /* ── glow that trails the cursor ── */
+  if (canHover && !reduceMotion) {
+    const glow = document.getElementById('cursorGlow');
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let cx = tx, cy = ty, running = false;
+
+    window.addEventListener('pointermove', e => {
+      tx = e.clientX; ty = e.clientY;
+      glow.style.opacity = '1';
+      if (!running) { running = true; requestAnimationFrame(trail); }
+    });
+
+    function trail() {
+      cx += (tx - cx) * 0.09;
+      cy += (ty - cy) * 0.09;
+      glow.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+      if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) {
+        requestAnimationFrame(trail);
+      } else {
+        running = false;
+      }
+    }
+  }
+
+  /* ── floating pixel field ── */
+  (function () {
+    const canvas = document.getElementById('bg');
+    if (!canvas || reduceMotion) return;
+
+    const ctx = canvas.getContext('2d');
+    let w = 0, h = 0, pixels = [];
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function spawn(fromBottom) {
+      const size = 2 + Math.floor(Math.random() * 4) * 2;   // 2, 4, 6 or 8 px
+      return {
+        x: Math.random() * w,
+        y: fromBottom ? h + size : Math.random() * h,
+        size: size,
+        speed: 0.12 + Math.random() * 0.45,
+        drift: (Math.random() - 0.5) * 0.22,
+        alpha: 0.05 + Math.random() * 0.26,
+        phase: Math.random() * Math.PI * 2,
+        phaseSpeed: 0.006 + Math.random() * 0.016
+      };
+    }
+
+    function seed() {
+      const count = Math.max(24, Math.min(80, Math.round(w * h / 20000)));
+      pixels = [];
+      for (let i = 0; i < count; i++) pixels.push(spawn(false));
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < pixels.length; i++) {
+        const p = pixels[i];
+        p.y -= p.speed;
+        p.phase += p.phaseSpeed;
+        p.x += p.drift + Math.sin(p.phase) * 0.16;
+
+        if (p.y + p.size < 0) { pixels[i] = spawn(true); continue; }
+        if (p.x < -p.size) p.x = w + p.size;
+        if (p.x > w + p.size) p.x = -p.size;
+
+        const a = p.alpha * (0.55 + 0.45 * Math.sin(p.phase));
+        ctx.fillStyle = 'rgba(56,189,248,' + (a > 0 ? a : 0).toFixed(3) + ')';
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { resize(); seed(); }, 150);
+    });
+
+    resize();
+    seed();
+    frame();
+  })();
 </script>
 
 </body>
