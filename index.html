@@ -21,8 +21,6 @@
       --muted: #64748b;
     }
 
-    html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
@@ -56,74 +54,19 @@
     }
 
     .container {
-      max-width: 860px;
+      max-width: 1060px;
       margin: 0 auto;
       padding: 0 24px;
       position: relative;
       z-index: 1;
     }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      background: rgba(9,12,16,0.7);
-    }
-
-    .nav-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      font-family: 'VT323', monospace;
-      font-size: 1.5rem;
-      color: var(--blue);
-      letter-spacing: 2px;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 130px 24px 70px;
       text-align: center;
-      padding: 100px 24px 80px;
       position: relative;
-    }
-
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
+      z-index: 1;
     }
 
     .badge {
@@ -132,31 +75,30 @@
       gap: 7px;
       background: rgba(74,222,128,0.08);
       border: 1px solid rgba(74,222,128,0.25);
-      border-radius: 0;
       padding: 5px 16px;
       font-size: 0.75rem;
       color: #4ade80;
       font-weight: 600;
       letter-spacing: 1px;
+      margin-bottom: 20px;
     }
 
     .badge-dot {
       width: 6px;
       height: 6px;
-      border-radius: 0;
       background: #4ade80;
       animation: blink 2s infinite;
     }
 
     @keyframes blink {
       0%,100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      50%     { opacity: 0.3; }
     }
 
     .hero h1 {
-      font-size: clamp(3.5rem, 12vw, 6.5rem);
+      font-size: clamp(3.5rem, 13vw, 7rem);
       font-weight: 800;
-      letter-spacing: -3px;
+      letter-spacing: -4px;
       line-height: 1;
       background: linear-gradient(135deg, #ffffff 30%, var(--blue) 100%);
       -webkit-background-clip: text;
@@ -164,90 +106,146 @@
       background-clip: text;
     }
 
-    .hero-sub {
-      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-      color: var(--muted);
-      max-width: 460px;
-      line-height: 1.65;
+    .hero-role {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.5px;
+      margin-top: 10px;
     }
-
-    .hero-sub strong { color: var(--blue); font-weight: 600; }
 
     .hero-quote {
       font-family: 'VT323', monospace;
-      font-size: 1.35rem;
-      color: rgba(56,189,248,0.65);
+      font-size: clamp(1.15rem, 3vw, 1.5rem);
+      color: rgba(56,189,248,0.7);
       letter-spacing: 0.5px;
+      margin-top: 14px;
     }
 
-    .hero-cta {
+    /* ── THE 3 BOXES ── */
+    .boxes {
+      padding: 10px 0 90px;
+    }
+
+    .box-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      text-decoration: none;
+      color: var(--text);
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding-top: 6px;
+      flex-direction: column;
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .btn {
+    .box:hover {
+      border-color: rgba(56,189,248,0.35);
+      border-left-color: var(--blue);
+      transform: translateY(-6px);
+      box-shadow: 6px 6px 0 rgba(56,189,248,0.1), 0 18px 45px rgba(0,0,0,0.45);
+    }
+
+    .box-art {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.28);
+      border-bottom: 1px solid var(--border);
+      padding: 26px;
+    }
+
+    .box-art img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      image-rendering: pixelated;
+      transition: transform 0.22s ease;
+    }
+
+    .box:hover .box-art img { transform: scale(1.06); }
+
+    .box-art .placeholder {
+      font-size: 3rem;
+      color: rgba(56,189,248,0.35);
+    }
+
+    .box-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 7px;
+    }
+
+    .box-tag {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .box h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .box-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .box-go {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 11px 22px;
-      border-radius: 0;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      color: var(--blue);
+      margin-top: 10px;
     }
 
-    .btn-blue {
-      background: var(--blue);
-      color: #000;
-      border-bottom: 3px solid var(--blue-dim);
-    }
+    .box-go i { transition: transform 0.2s; }
+    .box:hover .box-go i { transform: translateX(5px); }
 
-    .btn-blue:hover {
-      background: #7dd3fc;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px var(--blue-glow);
-    }
+    .box.soon { border-left-color: var(--muted); }
+    .box.soon .box-tag,
+    .box.soon .box-go { color: var(--muted); }
+    .box.soon:hover { border-left-color: var(--blue); }
 
-    .btn-ghost {
+    /* ── ABOUT / CONTACT ── */
+    .about-box {
       background: var(--bg-card);
-      color: var(--text);
       border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      padding: 46px 40px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 80px;
     }
 
-    .btn-ghost:hover {
-      border-color: rgba(56,189,248,0.35);
-      background: rgba(56,189,248,0.05);
-      transform: translateY(-2px);
-    }
-
-    .scroll-cue {
+    .about-box::before {
+      content: '';
       position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      color: var(--muted);
-      font-size: 0.72rem;
-      letter-spacing: 1px;
-      animation: bob 3s ease-in-out infinite;
+      top: -90px;
+      right: -40px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(56,189,248,0.07), transparent 65%);
+      pointer-events: none;
     }
-
-    @keyframes bob {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(7px); }
-    }
-
-    /* ── SECTIONS ── */
-    section { padding: 80px 0; }
 
     .sec-eyebrow {
       font-family: 'VT323', monospace;
@@ -258,200 +256,84 @@
       margin-bottom: 6px;
     }
 
-    .sec-title {
-      font-size: clamp(1.8rem, 5vw, 2.4rem);
+    .about-box h2 {
+      font-size: clamp(1.6rem, 4vw, 2rem);
       font-weight: 700;
       letter-spacing: -1px;
-      margin-bottom: 36px;
-    }
-
-    /* ── SKILLS ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-    }
-
-    .skill-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--blue);
-      border-radius: 0;
-      padding: 22px;
-      transition: all 0.22s ease;
+      margin-bottom: 14px;
       position: relative;
-      overflow: hidden;
     }
 
-    .skill-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(56,189,248,0.06), transparent);
-      opacity: 0;
-      transition: opacity 0.22s;
-    }
-
-    .skill-card:hover {
-      border-color: rgba(56,189,248,0.35);
-      border-left-color: var(--blue);
-      transform: translateY(-4px);
-      box-shadow: 4px 4px 0 rgba(56,189,248,0.08), 0 14px 40px rgba(0,0,0,0.35);
-    }
-
-    .skill-card:hover::after { opacity: 1; }
-
-    .skill-icon {
-      width: 42px;
-      height: 42px;
-      background: rgba(56,189,248,0.1);
-      border-radius: 0;
-      border-left: 2px solid var(--blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: var(--blue);
-      margin-bottom: 13px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .skill-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .skill-card p {
-      font-size: 0.82rem;
+    .about-box > p {
       color: var(--muted);
-      line-height: 1.55;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: 30px;
       position: relative;
-      z-index: 1;
     }
 
-    /* ── LINKS ── */
-    .links-list {
-      display: flex;
-      flex-direction: column;
+    .about-box > p strong { color: var(--text); font-weight: 600; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 12px;
+      position: relative;
     }
 
-    .link-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 2px solid var(--blue);
-      border-radius: 0;
-      padding: 18px 22px;
+    .contact-row {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--blue);
+      padding: 14px 16px;
       text-decoration: none;
       color: var(--text);
       transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .link-card:hover {
+    .contact-row:hover {
       border-color: rgba(56,189,248,0.35);
       border-left-color: var(--blue);
-      background: rgba(56,189,248,0.04);
-      transform: translateX(5px);
+      transform: translateX(4px);
       box-shadow: 4px 0 0 var(--blue);
     }
 
-    .link-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 0;
+    .contact-icon {
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.05rem;
       flex-shrink: 0;
     }
 
-    .li-discord { background: rgba(88,101,242,0.15); color: #7289da; }
-    .li-youtube  { background: rgba(255,0,0,0.1);    color: #f87171; }
-    .li-docs     { background: rgba(56,189,248,0.1); color: var(--blue); }
+    .ci-discord { background: rgba(88,101,242,0.15); color: #7289da; }
+    .ci-server  { background: rgba(88,101,242,0.15); color: #a5b4fc; }
+    .ci-youtube { background: rgba(255,0,0,0.1);     color: #f87171; }
 
-    .link-info { flex: 1; }
-    .link-info h3 { font-size: 0.93rem; font-weight: 600; margin-bottom: 2px; }
-    .link-info p  { font-size: 0.78rem; color: var(--muted); }
-
-    .link-arrow {
+    .contact-text { min-width: 0; }
+    .contact-text span {
+      display: block;
+      font-size: 0.7rem;
       color: var(--muted);
-      font-size: 0.8rem;
-      transition: all 0.2s;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
     }
-
-    .link-card:hover .link-arrow {
-      transform: translateX(4px);
-      color: var(--blue);
-    }
-
-    /* ── CONTACT ── */
-    .contact-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--blue);
-      border-radius: 0;
-      padding: 52px 40px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact-box::before {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(56,189,248,0.07), transparent 65%);
-      pointer-events: none;
-    }
-
-    .contact-box h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 10px;
-      position: relative;
-    }
-
-    .contact-box p {
-      color: var(--muted);
-      font-size: 0.93rem;
-      max-width: 420px;
-      margin: 0 auto 26px;
-      line-height: 1.6;
-      position: relative;
-    }
-
-    .discord-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(88,101,242,0.12);
-      border: 1px solid rgba(88,101,242,0.3);
-      color: #a5b4fc;
-      padding: 9px 20px;
-      border-radius: 0;
+    .contact-text strong {
+      font-size: 0.88rem;
       font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 24px;
-      cursor: pointer;
-      user-select: all;
-      transition: background 0.2s;
-      position: relative;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
     }
-
-    .discord-pill:hover { background: rgba(88,101,242,0.22); }
 
     /* ── FOOTER ── */
     footer {
@@ -460,145 +342,118 @@
       text-align: center;
       font-size: 0.78rem;
       color: var(--muted);
+      position: relative;
+      z-index: 1;
     }
 
     footer span { color: var(--blue); }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .box-grid { grid-template-columns: 1fr; }
+      .box-art { height: 170px; }
+      .hero { padding: 90px 24px 50px; }
+    }
+
     @media (max-width: 580px) {
-      .nav-links { display: none; }
-      .contact-box { padding: 36px 22px; }
+      .about-box { padding: 32px 22px; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">CJH</a>
-    <ul class="nav-links">
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      available
+<header class="hero">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    available
+  </div>
+
+  <h1>CJH</h1>
+  <p class="hero-role">Minecraft Developer</p>
+  <p class="hero-quote">// I aim to support as many servers as possible</p>
+</header>
+
+<!-- THE 3 BOXES -->
+<main class="boxes">
+  <div class="container">
+    <div class="box-grid">
+
+      <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="box">
+        <div class="box-art">
+          <img src="assets/skriptshack.png" alt="Skript Shack logo">
+        </div>
+        <div class="box-body">
+          <p class="box-tag">// community</p>
+          <h2>Skript Shack</h2>
+          <p class="box-desc">My Discord community for free, high-quality Skripts — resources, support, and showcases for server owners.</p>
+          <span class="box-go">Join the server <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="https://youtube.com/CJH3139" target="_blank" rel="noopener" class="box">
+        <div class="box-art">
+          <img src="assets/youtube.jpg" alt="CJH3139 YouTube channel">
+        </div>
+        <div class="box-body">
+          <p class="box-tag">// videos</p>
+          <h2>YouTube</h2>
+          <p class="box-desc">Skript showcases, plugin demos, and walkthroughs of the systems I build for Minecraft servers.</p>
+          <span class="box-go">Watch on YouTube <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="past-projects.html" target="_blank" rel="noopener" class="box soon">
+        <div class="box-art">
+          <i class="fas fa-folder-open placeholder"></i>
+        </div>
+        <div class="box-body">
+          <p class="box-tag">// archive</p>
+          <h2>Past Projects</h2>
+          <p class="box-desc">A full archive of the servers, plugins, and Skripts I've worked on. Coming soon.</p>
+          <span class="box-go">Open archive <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
     </div>
+  </div>
+</main>
 
-    <h1>CJH</h1>
-
-    <p class="hero-sub">
-      <strong>Minecraft Java &amp; Skript Developer</strong> · Server Owner
+<!-- ABOUT / CONTACT -->
+<section class="container">
+  <div class="about-box">
+    <p class="sec-eyebrow">// about &amp; contact</p>
+    <h2>Who I Am</h2>
+    <p>
+      I'm <strong>CJH</strong> — a Minecraft <strong>Skript and Java plugin developer</strong> and server owner.
+      I build minigames, economy systems, and custom utilities on the Bukkit / Spigot / Paper API, and I run
+      <strong>Skript Shack</strong>, a community dedicated to free, high-quality Skript resources and support.
+      Need something custom built, or a hand with your server? The fastest way to reach me is Discord.
     </p>
 
-    <p class="hero-quote">// I aim to support as many servers as possible</p>
-
-    <div class="hero-cta">
-      <a href="#work" class="btn btn-blue">
-        <i class="fas fa-rocket"></i> View My Work
-      </a>
-      <a href="#contact" class="btn btn-ghost">
-        <i class="fab fa-discord"></i> Hire Me
-      </a>
-    </div>
-  </div>
-
-  <div class="scroll-cue">
-    <span>SCROLL</span>
-    <i class="fas fa-chevron-down"></i>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <p class="sec-eyebrow">// expertise</p>
-    <h2 class="sec-title">What I Do</h2>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon"><i class="fas fa-code"></i></div>
-        <h3>Skript Development</h3>
-        <p>Optimized, high-quality Skript for minigames, economy, utility systems, and anything your server needs.</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon"><i class="fas fa-cube"></i></div>
-        <h3>Java Plugin Dev</h3>
-        <p>Custom plugins built on the Bukkit / Spigot / Paper API for complex, performance-sensitive server systems.</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon"><i class="fas fa-server"></i></div>
-        <h3>Server Management</h3>
-        <p>Setup, optimization, and day-to-day management — staff experience across multiple high-traffic networks.</p>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon"><i class="fas fa-users"></i></div>
-        <h3>Community Building</h3>
-        <p>Founder of Skript Shack, a Discord community dedicated to free, high-quality Skript resources &amp; support.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WORK / LINKS -->
-<section id="work">
-  <div class="container">
-    <p class="sec-eyebrow">// projects &amp; links</p>
-    <h2 class="sec-title">My Work</h2>
-    <div class="links-list">
-
-      <a href="https://discord.gg/m4H55rQJzC" target="_blank" class="link-card">
-        <div class="link-icon li-discord"><i class="fab fa-discord"></i></div>
-        <div class="link-info">
-          <h3>Skript Shack — Free High-Quality Skripts</h3>
-          <p>Join the community · discord.gg/m4H55rQJzC</p>
+    <div class="contact-grid">
+      <div class="contact-row" onclick="copyTag(this)" title="Click to copy">
+        <div class="contact-icon ci-discord"><i class="fab fa-discord"></i></div>
+        <div class="contact-text">
+          <span>Discord — click to copy</span>
+          <strong>@cjh1126</strong>
         </div>
-        <i class="fas fa-arrow-right link-arrow"></i>
-      </a>
-
-      <a href="#" class="link-card" id="yt-card">
-        <div class="link-icon li-youtube"><i class="fab fa-youtube"></i></div>
-        <div class="link-info">
-          <h3>Skript Showcases</h3>
-          <p>Video walkthroughs of scripts and Minecraft server projects</p>
-        </div>
-        <i class="fas fa-arrow-right link-arrow"></i>
-      </a>
-
-      <a href="#" class="link-card" id="staff-card">
-        <div class="link-icon li-docs"><i class="fas fa-file-lines"></i></div>
-        <div class="link-info">
-          <h3>Staff Experience Portfolio</h3>
-          <p>Full history of server staff roles and responsibilities</p>
-        </div>
-        <i class="fas fa-arrow-right link-arrow"></i>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-box">
-      <p class="sec-eyebrow" style="text-align:center;">// let's build something</p>
-      <h2>Hire Me</h2>
-      <p>Need a custom Skript, Java plugin, or someone to manage your server? Hit me up on Discord.</p>
-      <div class="discord-pill" onclick="copyTag(this)" title="Click to copy">
-        <i class="fab fa-discord"></i>
-        @cjh1126
       </div>
-      <br>
-      <a href="https://discord.gg/m4H55rQJzC" target="_blank" class="btn btn-blue">
-        <i class="fab fa-discord"></i> Join Skript Shack
+
+      <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="contact-row">
+        <div class="contact-icon ci-server"><i class="fas fa-users"></i></div>
+        <div class="contact-text">
+          <span>Discord server</span>
+          <strong>Skript Shack</strong>
+        </div>
+      </a>
+
+      <a href="https://youtube.com/CJH3139" target="_blank" rel="noopener" class="contact-row">
+        <div class="contact-icon ci-youtube"><i class="fab fa-youtube"></i></div>
+        <div class="contact-text">
+          <span>YouTube</span>
+          <strong>@CJH3139</strong>
+        </div>
       </a>
     </div>
   </div>
@@ -606,16 +461,17 @@
 
 <footer>
   <div class="container">
-    <p>© 2026 <span>CJH</span> · Minecraft Java &amp; Skript Developer</p>
+    <p>© 2026 <span>CJH</span> · Minecraft Developer</p>
   </div>
 </footer>
 
 <script>
   function copyTag(el) {
     navigator.clipboard.writeText('@cjh1126').then(() => {
-      const orig = el.innerHTML;
-      el.innerHTML = '<i class="fas fa-check"></i> Copied!';
-      setTimeout(() => el.innerHTML = orig, 2000);
+      const label = el.querySelector('.contact-text strong');
+      const orig = label.textContent;
+      label.textContent = 'Copied!';
+      setTimeout(() => label.textContent = orig, 2000);
     });
   }
 </script>
