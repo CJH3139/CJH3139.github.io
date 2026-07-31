@@ -11,13 +11,13 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --blue: #38bdf8;
-      --blue-dim: #0284c7;
-      --bg: #080c14;
-      --bg-card: rgba(56,189,248,0.04);
-      --border: rgba(56,189,248,0.12);
-      --text: #e8edf3;
-      --muted: #64748b;
+      --leaf: #86efac;
+      --leaf-dim: #3f9e5a;
+      --bg: #0a1410;
+      --bg-card: rgba(134,239,172,0.04);
+      --border: rgba(134,239,172,0.12);
+      --text: #e9f5ec;
+      --muted: #6f8f7b;
       --rail: 210px;
     }
 
@@ -38,9 +38,9 @@
       position: fixed;
       inset: -20%;
       background:
-        radial-gradient(ellipse 55% 45% at 18% 12%, rgba(56,189,248,0.10) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 40% at 82% 88%, rgba(14,165,233,0.08) 0%, transparent 55%),
-        radial-gradient(ellipse 40% 35% at 60% 40%, rgba(99,102,241,0.05) 0%, transparent 60%);
+        radial-gradient(ellipse 55% 45% at 18% 12%, rgba(134,239,172,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 82% 88%, rgba(74,222,128,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 60% 40%, rgba(163,230,53,0.05) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
       animation: aurora 28s ease-in-out infinite;
@@ -57,7 +57,7 @@
       position: fixed;
       inset: 0;
       background-image:
-        radial-gradient(circle at center, rgba(56,189,248,0.05) 1px, transparent 1px);
+        radial-gradient(circle at center, rgba(134,239,172,0.05) 1px, transparent 1px);
       background-size: 34px 34px;
       pointer-events: none;
       z-index: 0;
@@ -71,13 +71,33 @@
 
     #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
+    /* perched rowlet */
+    .rowlet {
+      position: fixed;
+      right: -46px;
+      bottom: -50px;
+      width: min(40vw, 420px);
+      z-index: 0;
+      opacity: 0.15;
+      pointer-events: none;
+      filter: drop-shadow(0 0 40px rgba(134,239,172,0.25));
+      animation: perch 7s ease-in-out infinite;
+    }
+
+    .rowlet img { width: 100%; display: block; }
+
+    @keyframes perch {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-14px) rotate(-2deg); }
+    }
+
     .cursor-glow {
       position: fixed;
       top: 0; left: 0;
       width: 620px; height: 620px;
       margin: -310px 0 0 -310px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.03) 35%, transparent 65%);
+      background: radial-gradient(circle, rgba(134,239,172,0.09) 0%, rgba(134,239,172,0.03) 35%, transparent 65%);
       pointer-events: none;
       z-index: 0;
       opacity: 0;
@@ -103,7 +123,7 @@
       font-weight: 600;
       letter-spacing: 0.3px;
       color: var(--muted);
-      background: rgba(56,189,248,0.05);
+      background: rgba(134,239,172,0.05);
       border: 1px solid var(--border);
       border-radius: 999px;
       padding: 13px 24px;
@@ -118,19 +138,19 @@
 
     .pill:hover {
       color: var(--text);
-      background: rgba(56,189,248,0.1);
-      border-color: rgba(56,189,248,0.35);
+      background: rgba(134,239,172,0.1);
+      border-color: rgba(134,239,172,0.35);
       transform: translateX(5px);
     }
 
     .pill[aria-expanded="true"] {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: #04121c;
-      box-shadow: 0 10px 28px rgba(56,189,248,0.3);
+      background: var(--leaf);
+      border-color: var(--leaf);
+      color: #062b16;
+      box-shadow: 0 10px 28px rgba(134,239,172,0.3);
     }
 
-    .pill:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    .pill:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
 
     /* ── PAGE ── */
     .page {
@@ -185,12 +205,12 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(74,222,128,0.08);
-      border: 1px solid rgba(74,222,128,0.25);
+      background: rgba(252,211,77,0.08);
+      border: 1px solid rgba(252,211,77,0.25);
       border-radius: 999px;
       padding: 6px 18px;
       font-size: 0.75rem;
-      color: #4ade80;
+      color: #fcd34d;
       font-weight: 600;
       letter-spacing: 1px;
       margin-bottom: 24px;
@@ -199,7 +219,7 @@
     .badge-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: #4ade80;
+      background: #fcd34d;
       animation: blink 2s infinite;
     }
 
@@ -213,7 +233,7 @@
       font-weight: 800;
       letter-spacing: -3px;
       line-height: 1.05;
-      background: linear-gradient(135deg, #ffffff 25%, var(--blue) 100%);
+      background: linear-gradient(135deg, #ffffff 25%, var(--leaf) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -243,8 +263,8 @@
 
     .preview-frame:hover {
       transform: translateY(-6px);
-      border-color: rgba(56,189,248,0.4);
-      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(56,189,248,0.06);
+      border-color: rgba(134,239,172,0.4);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(134,239,172,0.06);
     }
 
     .preview-frame iframe {
@@ -287,7 +307,7 @@
     }
 
     .empty-hint[hidden] { display: none; }
-    .empty-hint i { color: rgba(56,189,248,0.5); animation: nudge 2.4s ease-in-out infinite; }
+    .empty-hint i { color: rgba(134,239,172,0.5); animation: nudge 2.4s ease-in-out infinite; }
 
     @keyframes nudge {
       0%,100% { transform: translateX(0); }
@@ -344,8 +364,8 @@
     .panel-media:hover {
       --lift: -8px;
       --sc: 1.04;
-      border-color: rgba(56,189,248,0.45);
-      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(56,189,248,0.06);
+      border-color: rgba(134,239,172,0.45);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(134,239,172,0.06);
     }
 
     .panel-media::after {
@@ -354,7 +374,7 @@
       inset: 0;
       border-radius: 50%;
       background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
-                  rgba(56,189,248,0.2) 0%, rgba(56,189,248,0.05) 38%, transparent 64%);
+                  rgba(134,239,172,0.2) 0%, rgba(134,239,172,0.05) 38%, transparent 64%);
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
@@ -374,11 +394,11 @@
 
     .panel-media i {
       font-size: 3.2rem;
-      color: rgba(56,189,248,0.42);
+      color: rgba(134,239,172,0.42);
       transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.25, 1), color 0.3s ease;
     }
 
-    .panel-media:hover i { transform: scale(1.1); color: rgba(56,189,248,0.62); }
+    .panel-media:hover i { transform: scale(1.1); color: rgba(134,239,172,0.62); }
     .panel-media.discord i { color: #7289da; }
     .panel-media.discord:hover i { color: #8ea1e1; }
 
@@ -409,15 +429,15 @@
       text-decoration: none;
       border: none;
       cursor: pointer;
-      background: var(--blue);
-      color: #04121c;
+      background: var(--leaf);
+      color: #062b16;
       transition: all 0.25s cubic-bezier(0.22, 0.9, 0.25, 1);
     }
 
     .btn:hover {
-      background: #7dd3fc;
+      background: #bbf7d0;
       transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(56,189,248,0.3);
+      box-shadow: 0 12px 30px rgba(134,239,172,0.3);
     }
 
     .btn-discord {
@@ -470,12 +490,12 @@
     }
 
     .contact-row:hover {
-      background: rgba(56,189,248,0.08);
-      border-color: rgba(56,189,248,0.4);
+      background: rgba(134,239,172,0.08);
+      border-color: rgba(134,239,172,0.4);
       transform: translateY(-2px);
     }
 
-    .contact-row:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    .contact-row:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
 
     .c-ico {
       width: 38px;
@@ -489,7 +509,7 @@
     }
 
     .ci-discord { background: rgba(88,101,242,0.18); color: #7289da; }
-    .ci-github  { background: rgba(232,237,243,0.1);  color: #e8edf3; }
+    .ci-github  { background: rgba(233,245,236,0.1);  color: #e9f5ec; }
     .ci-mail    { background: rgba(251,146,60,0.14);  color: #fb923c; }
 
     .c-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
@@ -516,7 +536,7 @@
       transition: color 0.2s ease, transform 0.2s ease;
     }
 
-    .contact-row:hover .c-act { color: var(--blue); transform: translateX(3px); }
+    .contact-row:hover .c-act { color: var(--leaf); transform: translateX(3px); }
 
     .soon-note {
       display: inline-flex;
@@ -541,7 +561,7 @@
       padding-left: var(--rail);
     }
 
-    footer span { color: var(--blue); }
+    footer span { color: var(--leaf); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 980px) {
@@ -564,6 +584,8 @@
       .hero { padding: 74px 0 34px; }
 
       .preview-grid { grid-template-columns: 1fr; gap: 18px; }
+
+      .rowlet { width: min(58vw, 250px); opacity: 0.11; right: -30px; bottom: -30px; }
 
       .panel {
         grid-template-columns: 1fr;
@@ -588,7 +610,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body::before, body::after, .badge-dot, .empty-hint i { animation: none; }
+      body::before, body::after, .badge-dot, .empty-hint i, .rowlet { animation: none; }
       .panel { animation: none; }
       .panel-media, .panel-media img, .btn, .pill { transition: none; }
       #bg, .cursor-glow { display: none; }
@@ -598,6 +620,7 @@
 <body>
 
 <canvas id="bg"></canvas>
+<div class="rowlet" aria-hidden="true"><img src="assets/rowlet.svg" alt=""></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- LEFT RAIL -->
@@ -900,13 +923,14 @@
     }
   }
 
-  /* ── floating pixel field ── */
+  /* ── drifting leaves ── */
   (function () {
     const canvas = document.getElementById('bg');
     if (!canvas || reduceMotion) return;
 
     const ctx = canvas.getContext('2d');
-    let w = 0, h = 0, dots = [];
+    const TINTS = ['134,239,172', '163,230,53', '110,200,130', '190,242,160'];
+    let w = 0, h = 0, leaves = [];
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -919,43 +943,67 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function spawn(fromBottom) {
-      const r = 1 + Math.random() * 2.6;
+    function spawn(fromTop) {
+      const size = 5 + Math.random() * 9;
       return {
         x: Math.random() * w,
-        y: fromBottom ? h + r : Math.random() * h,
-        r: r,
-        speed: 0.12 + Math.random() * 0.45,
-        drift: (Math.random() - 0.5) * 0.22,
-        alpha: 0.05 + Math.random() * 0.26,
+        y: fromTop ? -size * 2 : Math.random() * h,
+        size: size,
+        speed: 0.18 + Math.random() * 0.5,     // falls downward
+        drift: (Math.random() - 0.5) * 0.3,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.012,
+        alpha: 0.07 + Math.random() * 0.22,
+        tint: TINTS[Math.floor(Math.random() * TINTS.length)],
         phase: Math.random() * Math.PI * 2,
-        phaseSpeed: 0.006 + Math.random() * 0.016
+        phaseSpeed: 0.008 + Math.random() * 0.016
       };
     }
 
     function seed() {
-      const count = Math.max(24, Math.min(80, Math.round(w * h / 20000)));
-      dots = [];
-      for (let i = 0; i < count; i++) dots.push(spawn(false));
+      const count = Math.max(18, Math.min(60, Math.round(w * h / 26000)));
+      leaves = [];
+      for (let i = 0; i < count; i++) leaves.push(spawn(false));
+    }
+
+    function drawLeaf(p, alpha) {
+      const s = p.size;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      // two mirrored curves meeting at the tip and the stem
+      ctx.beginPath();
+      ctx.moveTo(0, -s);
+      ctx.quadraticCurveTo(s * 0.8, -s * 0.15, 0, s);
+      ctx.quadraticCurveTo(-s * 0.8, -s * 0.15, 0, -s);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(' + p.tint + ',' + alpha.toFixed(3) + ')';
+      ctx.fill();
+      // midrib
+      ctx.beginPath();
+      ctx.moveTo(0, -s * 0.85);
+      ctx.lineTo(0, s * 0.85);
+      ctx.strokeStyle = 'rgba(10,20,16,' + (alpha * 0.5).toFixed(3) + ')';
+      ctx.lineWidth = Math.max(0.6, s * 0.07);
+      ctx.stroke();
+      ctx.restore();
     }
 
     function frame() {
       ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < dots.length; i++) {
-        const p = dots[i];
-        p.y -= p.speed;
+      for (let i = 0; i < leaves.length; i++) {
+        const p = leaves[i];
+        p.y += p.speed;
         p.phase += p.phaseSpeed;
-        p.x += p.drift + Math.sin(p.phase) * 0.16;
+        p.angle += p.spin;
+        p.x += p.drift + Math.sin(p.phase) * 0.45;   // sways as it falls
 
-        if (p.y + p.r < 0) { dots[i] = spawn(true); continue; }
-        if (p.x < -p.r) p.x = w + p.r;
-        if (p.x > w + p.r) p.x = -p.r;
+        if (p.y - p.size * 2 > h) { leaves[i] = spawn(true); continue; }
+        if (p.x < -p.size * 2) p.x = w + p.size * 2;
+        if (p.x > w + p.size * 2) p.x = -p.size * 2;
 
-        const a = p.alpha * (0.55 + 0.45 * Math.sin(p.phase));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(56,189,248,' + (a > 0 ? a : 0).toFixed(3) + ')';
-        ctx.fill();
+        const a = p.alpha * (0.6 + 0.4 * Math.sin(p.phase));
+        drawLeaf(p, a > 0 ? a : 0);
       }
       requestAnimationFrame(frame);
     }
