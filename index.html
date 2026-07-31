@@ -18,6 +18,7 @@
       --border: rgba(56,189,248,0.12);
       --text: #e8edf3;
       --muted: #64748b;
+      --rail: 210px;
     }
 
     html { background: var(--bg); }
@@ -56,17 +57,16 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(56,189,248,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(56,189,248,0.025) 1px, transparent 1px);
-      background-size: 32px 32px;
+        radial-gradient(circle at center, rgba(56,189,248,0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
       pointer-events: none;
       z-index: 0;
-      animation: gridpan 14s linear infinite;
+      animation: gridpan 16s linear infinite;
     }
 
     @keyframes gridpan {
-      from { background-position: 0 0, 0 0; }
-      to   { background-position: 32px 32px, 32px 32px; }
+      from { background-position: 0 0; }
+      to   { background-position: 34px 34px; }
     }
 
     #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
@@ -76,6 +76,7 @@
       top: 0; left: 0;
       width: 620px; height: 620px;
       margin: -310px 0 0 -310px;
+      border-radius: 50%;
       background: radial-gradient(circle, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.03) 35%, transparent 65%);
       pointer-events: none;
       z-index: 0;
@@ -83,39 +84,90 @@
       transition: opacity 0.5s ease;
     }
 
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 0 24px;
+    /* ── LEFT RAIL ── */
+    .rail {
+      position: fixed;
+      left: 26px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pill {
+      appearance: none;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: var(--muted);
+      background: rgba(56,189,248,0.05);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 13px 24px;
+      cursor: pointer;
+      text-align: left;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease,
+                  transform 0.25s cubic-bezier(0.22, 0.9, 0.25, 1), box-shadow 0.25s ease;
+    }
+
+    .pill:hover {
+      color: var(--text);
+      background: rgba(56,189,248,0.1);
+      border-color: rgba(56,189,248,0.35);
+      transform: translateX(5px);
+    }
+
+    .pill[aria-expanded="true"] {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #04121c;
+      box-shadow: 0 10px 28px rgba(56,189,248,0.3);
+    }
+
+    .pill:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+    /* ── PAGE ── */
+    .page {
+      flex: 1;
+      padding-left: var(--rail);
       position: relative;
       z-index: 1;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 28px;
       width: 100%;
     }
 
     /* ── HERO ── */
-    .hero {
-      padding: 120px 0 54px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
+    .hero { padding: 104px 0 44px; text-align: center; }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       background: rgba(74,222,128,0.08);
       border: 1px solid rgba(74,222,128,0.25);
-      padding: 5px 16px;
+      border-radius: 999px;
+      padding: 6px 18px;
       font-size: 0.75rem;
       color: #4ade80;
       font-weight: 600;
       letter-spacing: 1px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .badge-dot {
       width: 6px; height: 6px;
+      border-radius: 50%;
       background: #4ade80;
       animation: blink 2s infinite;
     }
@@ -126,12 +178,12 @@
     }
 
     .hero h1 {
-      font-size: clamp(1.65rem, 4.4vw, 3rem);
+      font-size: clamp(1.6rem, 4.1vw, 2.85rem);
       font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.25;
+      letter-spacing: -1.4px;
+      line-height: 1.28;
       color: #ffffff;
-      max-width: 880px;
+      max-width: 820px;
       margin: 0 auto;
     }
 
@@ -150,73 +202,58 @@
       margin-top: 16px;
     }
 
-    /* ── TABS ── */
-    .tabs { padding-bottom: 90px; flex: 1; }
+    /* ── STAGE (panels live here; empty on the homepage) ── */
+    .stage { min-height: 320px; padding-bottom: 60px; }
 
-    .tab-layout {
-      display: grid;
-      grid-template-columns: 190px 1fr;
-      gap: 42px;
-      align-items: start;
-    }
-
-    .tab-list {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      border-left: 2px solid var(--border);
-    }
-
-    .tab-btn {
-      appearance: none;
-      background: none;
-      border: 0;
-      font-family: inherit;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.6px;
-      color: var(--muted);
-      text-align: left;
-      padding: 14px 18px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-
-    .tab-btn:hover { color: var(--text); background: rgba(56,189,248,0.05); }
-    .tab-btn[aria-selected="true"] { color: var(--blue); background: rgba(56,189,248,0.07); }
-    .tab-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
-
-    .tab-marker {
-      position: absolute;
-      left: -2px;
-      top: 0;
-      width: 2px;
-      height: 0;
-      background: var(--blue);
-      transition: transform 0.32s cubic-bezier(0.22, 0.9, 0.25, 1), height 0.32s cubic-bezier(0.22, 0.9, 0.25, 1);
-      pointer-events: none;
-    }
-
-    /* ── PANELS ── */
-    .panel { display: grid; grid-template-columns: 210px 1fr; gap: 32px; align-items: center; }
-    .panel[hidden] { display: none; }
-    .panel { animation: panelIn 0.4s cubic-bezier(0.22, 0.9, 0.25, 1); }
-
-    @keyframes panelIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .panel-media {
-      height: 210px;
+    .empty-hint {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.28);
+      gap: 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      padding: 26px 0;
+    }
+
+    .empty-hint[hidden] { display: none; }
+    .empty-hint i { color: rgba(56,189,248,0.5); animation: nudge 2.4s ease-in-out infinite; }
+
+    @keyframes nudge {
+      0%,100% { transform: translateX(0); }
+      50%     { transform: translateX(-5px); }
+    }
+
+    /* ── PANELS ── */
+    .panel {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 34px;
+      align-items: center;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--blue);
-      padding: 26px;
+      border-radius: 32px;
+      padding: 30px 36px;
+      animation: panelIn 0.42s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    .panel[hidden] { display: none; }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(14px) scale(0.985); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .panel-media {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      padding: 34px;
       overflow: hidden;
       position: relative;
       transform:
@@ -236,18 +273,18 @@
 
     .panel-media:hover {
       --lift: -8px;
-      --sc: 1.03;
-      border-color: rgba(56,189,248,0.4);
-      border-left-color: var(--blue);
-      box-shadow: 0 24px 55px rgba(0,0,0,0.55), 0 0 0 1px rgba(56,189,248,0.08);
+      --sc: 1.04;
+      border-color: rgba(56,189,248,0.45);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(56,189,248,0.06);
     }
 
     .panel-media::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%),
-                  rgba(56,189,248,0.18) 0%, rgba(56,189,248,0.05) 35%, transparent 62%);
+      border-radius: 50%;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%),
+                  rgba(56,189,248,0.2) 0%, rgba(56,189,248,0.05) 38%, transparent 64%);
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
@@ -266,27 +303,27 @@
     .panel-media:hover img { transform: scale(1.08); }
 
     .panel-media i {
-      font-size: 3.4rem;
-      color: rgba(56,189,248,0.4);
+      font-size: 3.2rem;
+      color: rgba(56,189,248,0.42);
       transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.25, 1), color 0.3s ease;
     }
 
-    .panel-media:hover i { transform: scale(1.1); color: rgba(56,189,248,0.6); }
+    .panel-media:hover i { transform: scale(1.1); color: rgba(56,189,248,0.62); }
     .panel-media.discord i { color: #7289da; }
     .panel-media.discord:hover i { color: #8ea1e1; }
 
     .panel-body h2 {
-      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      font-size: clamp(1.3rem, 3vw, 1.65rem);
       font-weight: 700;
-      letter-spacing: -0.6px;
+      letter-spacing: -0.5px;
       margin-bottom: 12px;
     }
 
     .panel-body p {
-      font-size: 0.93rem;
+      font-size: 0.92rem;
       color: var(--muted);
       line-height: 1.7;
-      max-width: 460px;
+      max-width: 440px;
       margin-bottom: 22px;
     }
 
@@ -294,7 +331,8 @@
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      padding: 12px 24px;
+      padding: 13px 26px;
+      border-radius: 999px;
       font-size: 0.875rem;
       font-weight: 600;
       font-family: inherit;
@@ -302,30 +340,28 @@
       border: none;
       cursor: pointer;
       background: var(--blue);
-      color: #000;
-      border-bottom: 3px solid var(--blue-dim);
-      transition: all 0.2s ease;
+      color: #04121c;
+      transition: all 0.25s cubic-bezier(0.22, 0.9, 0.25, 1);
     }
 
     .btn:hover {
       background: #7dd3fc;
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(56,189,248,0.28);
+      box-shadow: 0 12px 30px rgba(56,189,248,0.3);
     }
 
     .btn-discord {
-      background: rgba(88,101,242,0.14);
+      background: rgba(88,101,242,0.16);
       color: var(--text);
-      border: 1px solid rgba(88,101,242,0.32);
-      border-left: 3px solid #7289da;
+      border: 1px solid rgba(88,101,242,0.35);
       font-size: 1rem;
     }
 
     .btn-discord i { color: #7289da; }
 
     .btn-discord:hover {
-      background: rgba(88,101,242,0.24);
-      border-color: rgba(88,101,242,0.5);
+      background: rgba(88,101,242,0.26);
+      border-color: rgba(88,101,242,0.55);
       box-shadow: 0 12px 30px rgba(88,101,242,0.25);
     }
 
@@ -339,11 +375,12 @@
     .soon-note {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       font-size: 0.8rem;
       color: var(--muted);
       border: 1px dashed var(--border);
-      padding: 10px 18px;
+      border-radius: 999px;
+      padding: 11px 22px;
     }
 
     /* ── FOOTER ── */
@@ -355,49 +392,57 @@
       color: var(--muted);
       position: relative;
       z-index: 1;
+      padding-left: var(--rail);
     }
 
     footer span { color: var(--blue); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 820px) {
-      .hero { padding: 84px 0 40px; }
+    @media (max-width: 980px) {
+      :root { --rail: 0px; }
 
-      .tab-layout { grid-template-columns: 1fr; gap: 28px; }
-
-      .tab-list {
+      .rail {
+        position: static;
+        transform: none;
         flex-direction: row;
-        border-left: 0;
-        /* the rail scrolls, so overflow-y computes to auto and clips anything
-           outside the padding box. draw the track as a background instead of a
-           border, and keep the marker inside the box (bottom: 0). */
-        border-bottom: 0;
-        background: linear-gradient(to top, var(--border) 2px, transparent 2px);
-        overflow-x: auto;
-        scrollbar-width: none;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 24px 4px;
+        margin-bottom: 30px;
       }
 
-      .tab-list::-webkit-scrollbar { display: none; }
+      .pill { padding: 11px 20px; font-size: 0.8rem; }
+      .pill:hover { transform: translateY(-3px); }
 
-      .tab-btn { padding: 13px 14px; }
+      .hero { padding: 74px 0 34px; }
 
-      .tab-marker {
-        left: 0;
-        top: auto;
-        bottom: 0;
-        width: 0;
-        height: 2px;
-        transition: transform 0.32s cubic-bezier(0.22, 0.9, 0.25, 1), width 0.32s cubic-bezier(0.22, 0.9, 0.25, 1);
+      .panel {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        justify-items: center;
+        text-align: center;
+        padding: 30px 26px;
+        border-radius: 28px;
       }
 
-      .panel { grid-template-columns: 1fr; gap: 24px; justify-items: start; }
-      .panel-media { width: 100%; height: 180px; }
+      .panel-body p { margin-left: auto; margin-right: auto; }
+      .panel-media { width: 165px; height: 165px; }
+      .stage { min-height: 0; }
+
+      /* the rail sits above the content here, so point the hint up instead of left.
+         the static rotate also covers the reduced-motion case, where animations are off. */
+      .empty-hint i { transform: rotate(90deg); animation-name: nudge-up; }
+      @keyframes nudge-up {
+        0%,100% { transform: rotate(90deg) translateX(0); }
+        50%     { transform: rotate(90deg) translateX(-5px); }
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body::before, body::after, .badge-dot { animation: none; }
+      body::before, body::after, .badge-dot, .empty-hint i { animation: none; }
       .panel { animation: none; }
-      .panel-media, .panel-media img, .btn, .tab-marker { transition: none; }
+      .panel-media, .panel-media img, .btn, .pill { transition: none; }
       #bg, .cursor-glow { display: none; }
     }
   </style>
@@ -407,88 +452,90 @@
 <canvas id="bg"></canvas>
 <div class="cursor-glow" id="cursorGlow"></div>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="container">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      available
-    </div>
-    <h1>Hello World! I'm <span class="accent">CJH</span>, and I develop Minecraft servers.</h1>
-    <p class="hero-quote">// I aim to support as many servers as possible</p>
-  </div>
-</header>
+<!-- LEFT RAIL -->
+<nav class="rail" aria-label="Sections">
+  <button class="pill" id="tab-shack"    type="button" aria-controls="panel-shack"    aria-expanded="false">Skript Shack</button>
+  <button class="pill" id="tab-youtube"  type="button" aria-controls="panel-youtube"  aria-expanded="false">YouTube</button>
+  <button class="pill" id="tab-projects" type="button" aria-controls="panel-projects" aria-expanded="false">Past Projects</button>
+  <button class="pill" id="tab-contact"  type="button" aria-controls="panel-contact"  aria-expanded="false">Contact</button>
+</nav>
 
-<!-- TABS -->
-<main class="tabs">
-  <div class="container">
-    <div class="tab-layout">
+<div class="page">
 
-      <div class="tab-list" role="tablist" aria-label="Sections">
-        <button class="tab-btn" role="tab" id="tab-shack"    aria-controls="panel-shack"    aria-selected="true"  tabindex="0">Skript Shack</button>
-        <button class="tab-btn" role="tab" id="tab-youtube"  aria-controls="panel-youtube"  aria-selected="false" tabindex="-1">YouTube</button>
-        <button class="tab-btn" role="tab" id="tab-projects" aria-controls="panel-projects" aria-selected="false" tabindex="-1">Past Projects</button>
-        <button class="tab-btn" role="tab" id="tab-contact"  aria-controls="panel-contact"  aria-selected="false" tabindex="-1">Contact</button>
-        <span class="tab-marker" id="tabMarker"></span>
+  <!-- HERO / HOMEPAGE -->
+  <header class="hero">
+    <div class="container">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        available
       </div>
-
-      <div class="tab-panels">
-
-        <div class="panel" role="tabpanel" id="panel-shack" aria-labelledby="tab-shack">
-          <div class="panel-media tilt">
-            <img src="assets/skriptshack.png" alt="Skript Shack logo">
-          </div>
-          <div class="panel-body">
-            <h2>Skript Shack</h2>
-            <p>My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners, all in one place.</p>
-            <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="btn">
-              <i class="fab fa-discord"></i> Join the server
-            </a>
-          </div>
-        </div>
-
-        <div class="panel" role="tabpanel" id="panel-youtube" aria-labelledby="tab-youtube" hidden>
-          <div class="panel-media tilt">
-            <img src="assets/youtube.jpg" alt="CJH3139 YouTube channel">
-          </div>
-          <div class="panel-body">
-            <h2>YouTube</h2>
-            <p>Skript showcases, plugin demos, and walkthroughs of the systems I build for Minecraft servers.</p>
-            <a href="https://www.youtube.com/@CJH3139" target="_blank" rel="noopener" class="btn">
-              <i class="fab fa-youtube"></i> Watch on YouTube
-            </a>
-          </div>
-        </div>
-
-        <div class="panel" role="tabpanel" id="panel-projects" aria-labelledby="tab-projects" hidden>
-          <div class="panel-media tilt">
-            <i class="fas fa-folder-open"></i>
-          </div>
-          <div class="panel-body">
-            <h2>Past Projects</h2>
-            <p>A full archive of the servers, plugins, and Skripts I've worked on.</p>
-            <span class="soon-note"><i class="fas fa-hammer"></i> Under construction</span>
-          </div>
-        </div>
-
-        <div class="panel" role="tabpanel" id="panel-contact" aria-labelledby="tab-contact" hidden>
-          <div class="panel-media tilt discord">
-            <i class="fab fa-discord"></i>
-          </div>
-          <div class="panel-body">
-            <h2>Get In Touch</h2>
-            <p>Need a custom Skript, a plugin, or a hand with your server? Discord is the fastest way to reach me.</p>
-            <button class="btn btn-discord" id="discordPill" type="button" title="Click to copy">
-              <i class="fab fa-discord"></i> <span id="discordTag">@CJH1126</span>
-            </button>
-            <p class="hint">click to copy</p>
-          </div>
-        </div>
-
-      </div>
+      <h1>Hello World! I'm <span class="accent">CJH</span>, and I develop Minecraft servers.</h1>
+      <p class="hero-quote">// I aim to support as many servers as possible</p>
     </div>
-  </div>
-</main>
+  </header>
+
+  <!-- STAGE -->
+  <main class="stage">
+    <div class="container">
+
+      <p class="empty-hint" id="emptyHint">
+        <i class="fas fa-arrow-left"></i> pick a section to explore
+      </p>
+
+      <section class="panel" id="panel-shack" role="region" aria-labelledby="tab-shack" hidden>
+        <div class="panel-media tilt">
+          <img src="assets/skriptshack.png" alt="Skript Shack logo">
+        </div>
+        <div class="panel-body">
+          <h2>Skript Shack</h2>
+          <p>My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners, all in one place.</p>
+          <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="btn">
+            <i class="fab fa-discord"></i> Join the server
+          </a>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-youtube" role="region" aria-labelledby="tab-youtube" hidden>
+        <div class="panel-media tilt">
+          <img src="assets/youtube.jpg" alt="CJH3139 YouTube channel">
+        </div>
+        <div class="panel-body">
+          <h2>YouTube</h2>
+          <p>Skript showcases, plugin demos, and walkthroughs of the systems I build for Minecraft servers.</p>
+          <a href="https://www.youtube.com/@CJH3139" target="_blank" rel="noopener" class="btn">
+            <i class="fab fa-youtube"></i> Watch on YouTube
+          </a>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-projects" role="region" aria-labelledby="tab-projects" hidden>
+        <div class="panel-media tilt">
+          <i class="fas fa-folder-open"></i>
+        </div>
+        <div class="panel-body">
+          <h2>Past Projects</h2>
+          <p>A full archive of the servers, plugins, and Skripts I've worked on.</p>
+          <span class="soon-note"><i class="fas fa-hammer"></i> Under construction</span>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-contact" role="region" aria-labelledby="tab-contact" hidden>
+        <div class="panel-media tilt discord">
+          <i class="fab fa-discord"></i>
+        </div>
+        <div class="panel-body">
+          <h2>Get In Touch</h2>
+          <p>Need a custom Skript, a plugin, or a hand with your server? Discord is the fastest way to reach me.</p>
+          <button class="btn btn-discord" id="discordPill" type="button" title="Click to copy">
+            <i class="fab fa-discord"></i> <span id="discordTag">@CJH1126</span>
+          </button>
+          <p class="hint">click to copy</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
 
 <footer>
   <div class="container">
@@ -500,60 +547,33 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
 
-  /* ── tabs ── */
+  /* ── rail: nothing open by default, click again to close ── */
   (function () {
-    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
-    const marker = document.getElementById('tabMarker');
+    const pills = Array.from(document.querySelectorAll('.pill'));
+    const hint = document.getElementById('emptyHint');
 
-    function positionMarker() {
-      const active = tabs.find(t => t.getAttribute('aria-selected') === 'true');
-      if (!active) return;
-      const horizontal = window.matchMedia('(max-width: 820px)').matches;
-      if (horizontal) {
-        marker.style.height = '2px';
-        marker.style.width = active.offsetWidth + 'px';
-        marker.style.transform = 'translateX(' + active.offsetLeft + 'px)';
-      } else {
-        marker.style.width = '2px';
-        marker.style.height = active.offsetHeight + 'px';
-        marker.style.transform = 'translateY(' + active.offsetTop + 'px)';
-      }
-    }
-
-    function select(tab, focus) {
-      tabs.forEach(t => {
-        const on = t === tab;
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-        t.tabIndex = on ? 0 : -1;
-        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    function closeAll() {
+      pills.forEach(p => {
+        p.setAttribute('aria-expanded', 'false');
+        document.getElementById(p.getAttribute('aria-controls')).hidden = true;
       });
-      positionMarker();
-      if (focus) tab.focus();
+      hint.hidden = false;
     }
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => select(tab, false));
-      tab.addEventListener('keydown', e => {
-        const horizontal = window.matchMedia('(max-width: 820px)').matches;
-        const next = horizontal ? 'ArrowRight' : 'ArrowDown';
-        const prev = horizontal ? 'ArrowLeft' : 'ArrowUp';
-        let i = tabs.indexOf(tab);
-        if (e.key === next)      i = (i + 1) % tabs.length;
-        else if (e.key === prev) i = (i - 1 + tabs.length) % tabs.length;
-        else if (e.key === 'Home') i = 0;
-        else if (e.key === 'End')  i = tabs.length - 1;
-        else return;
-        e.preventDefault();
-        select(tabs[i], true);
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const wasOpen = pill.getAttribute('aria-expanded') === 'true';
+        closeAll();
+        if (wasOpen) return;              // clicking the open one returns home
+        pill.setAttribute('aria-expanded', 'true');
+        document.getElementById(pill.getAttribute('aria-controls')).hidden = false;
+        hint.hidden = true;
       });
     });
 
-    // fonts change button metrics, so re-measure once they land
-    positionMarker();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionMarker);
-    window.addEventListener('load', positionMarker);
-    let rt = null;
-    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(positionMarker, 120); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeAll();
+    });
   })();
 
   /* ── copy discord tag ── */
@@ -625,7 +645,7 @@
     if (!canvas || reduceMotion) return;
 
     const ctx = canvas.getContext('2d');
-    let w = 0, h = 0, pixels = [];
+    let w = 0, h = 0, dots = [];
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -639,11 +659,11 @@
     }
 
     function spawn(fromBottom) {
-      const size = 2 + Math.floor(Math.random() * 4) * 2;
+      const r = 1 + Math.random() * 2.6;
       return {
         x: Math.random() * w,
-        y: fromBottom ? h + size : Math.random() * h,
-        size: size,
+        y: fromBottom ? h + r : Math.random() * h,
+        r: r,
         speed: 0.12 + Math.random() * 0.45,
         drift: (Math.random() - 0.5) * 0.22,
         alpha: 0.05 + Math.random() * 0.26,
@@ -654,25 +674,27 @@
 
     function seed() {
       const count = Math.max(24, Math.min(80, Math.round(w * h / 20000)));
-      pixels = [];
-      for (let i = 0; i < count; i++) pixels.push(spawn(false));
+      dots = [];
+      for (let i = 0; i < count; i++) dots.push(spawn(false));
     }
 
     function frame() {
       ctx.clearRect(0, 0, w, h);
-      for (let i = 0; i < pixels.length; i++) {
-        const p = pixels[i];
+      for (let i = 0; i < dots.length; i++) {
+        const p = dots[i];
         p.y -= p.speed;
         p.phase += p.phaseSpeed;
         p.x += p.drift + Math.sin(p.phase) * 0.16;
 
-        if (p.y + p.size < 0) { pixels[i] = spawn(true); continue; }
-        if (p.x < -p.size) p.x = w + p.size;
-        if (p.x > w + p.size) p.x = -p.size;
+        if (p.y + p.r < 0) { dots[i] = spawn(true); continue; }
+        if (p.x < -p.r) p.x = w + p.r;
+        if (p.x > w + p.r) p.x = -p.r;
 
         const a = p.alpha * (0.55 + 0.45 * Math.sin(p.phase));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(56,189,248,' + (a > 0 ? a : 0).toFixed(3) + ')';
-        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+        ctx.fill();
       }
       requestAnimationFrame(frame);
     }
