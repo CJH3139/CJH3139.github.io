@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CJH | Minecraft Developer</title>
+  <title>CJH | Game Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -148,7 +148,36 @@
     }
 
     /* ── HERO ── */
-    .hero { padding: 104px 0 44px; text-align: center; }
+    .hero { padding: 96px 0 40px; text-align: center; }
+
+    .hero-greet {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    .hero-role {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.3px;
+      margin-top: 10px;
+    }
+
+    .hero-bio {
+      max-width: 620px;
+      margin: 30px auto 0;
+    }
+
+    .hero-bio p {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .hero-bio p + p { margin-top: 18px; }
 
     .badge {
       display: inline-flex;
@@ -178,32 +207,71 @@
     }
 
     .hero h1 {
-      font-size: clamp(1.6rem, 4.1vw, 2.85rem);
+      font-size: clamp(3rem, 9vw, 5.2rem);
       font-weight: 800;
-      letter-spacing: -1.4px;
-      line-height: 1.28;
-      color: #ffffff;
-      max-width: 820px;
-      margin: 0 auto;
-    }
-
-    .hero h1 .accent {
-      background: linear-gradient(135deg, #ffffff 10%, var(--blue) 90%);
+      letter-spacing: -3px;
+      line-height: 1.05;
+      background: linear-gradient(135deg, #ffffff 25%, var(--blue) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .hero-quote {
-      font-family: 'VT323', monospace;
-      font-size: clamp(1.1rem, 2.8vw, 1.4rem);
-      color: rgba(56,189,248,0.7);
-      letter-spacing: 0.5px;
-      margin-top: 16px;
+    /* ── VIDEO PREVIEWS ── */
+    .previews { padding-bottom: 26px; }
+
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .preview { display: flex; flex-direction: column; gap: 12px; }
+
+    .preview-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+      transition: transform 0.35s cubic-bezier(0.22, 0.9, 0.25, 1),
+                  box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .preview-frame:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56,189,248,0.4);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(56,189,248,0.06);
+    }
+
+    .preview-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .preview figcaption {
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+
+    .mc-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.6px;
+      margin-top: 20px;
     }
 
     /* ── STAGE (panels live here; empty on the homepage) ── */
-    .stage { min-height: 320px; padding-bottom: 60px; }
+    .stage { padding-bottom: 60px; }
 
     .empty-hint {
       display: flex;
@@ -417,6 +485,8 @@
 
       .hero { padding: 74px 0 34px; }
 
+      .preview-grid { grid-template-columns: 1fr; gap: 18px; }
+
       .panel {
         grid-template-columns: 1fr;
         gap: 24px;
@@ -469,10 +539,51 @@
         <span class="badge-dot"></span>
         available
       </div>
-      <h1>Hello World! I'm <span class="accent">CJH</span>, and I develop Minecraft servers.</h1>
-      <p class="hero-quote">// I aim to support as many servers as possible</p>
+      <p class="hero-greet">Hey! I'm</p>
+      <h1>CJH</h1>
+      <p class="hero-role">game developer</p>
+
+      <div class="hero-bio">
+        <p>I'm a game developer who specializes in the kind of work AI can't do easily yet.</p>
+        <p>My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
+      </div>
     </div>
   </header>
+
+  <!-- VIDEO PREVIEWS -->
+  <section class="previews">
+    <div class="container">
+      <div class="preview-grid">
+
+        <figure class="preview">
+          <div class="preview-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/fbR5O7nM4GM?autoplay=1&mute=1&loop=1&playlist=fbR5O7nM4GM&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1"
+              title="Tetris 40L Sprint in Minecraft"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+          <figcaption>Tetris</figcaption>
+        </figure>
+
+        <figure class="preview">
+          <div class="preview-frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/ZF_F5aS5Sss?autoplay=1&mute=1&loop=1&playlist=ZF_F5aS5Sss&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1"
+              title="StackIt, a Minecraft stacking game"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+          <figcaption>StackIt</figcaption>
+        </figure>
+
+      </div>
+
+      <p class="mc-note">Yes! This is in Minecraft!</p>
+    </div>
+  </section>
 
   <!-- STAGE -->
   <main class="stage">
@@ -539,7 +650,7 @@
 
 <footer>
   <div class="container">
-    <p>© 2026 <span>CJH</span> · Minecraft Developer</p>
+    <p>© 2026 <span>CJH</span> · Game Developer</p>
   </div>
 </footer>
 
@@ -566,8 +677,11 @@
         closeAll();
         if (wasOpen) return;              // clicking the open one returns home
         pill.setAttribute('aria-expanded', 'true');
-        document.getElementById(pill.getAttribute('aria-controls')).hidden = false;
+        const panel = document.getElementById(pill.getAttribute('aria-controls'));
+        panel.hidden = false;
         hint.hidden = true;
+        // panels sit below the video previews, so bring the new one into view
+        panel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
       });
     });
 
