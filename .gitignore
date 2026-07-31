@@ -1,0 +1,25 @@
+# agent / tooling scratch
+.superpowers/
+docs/superpowers/
+
+# editors
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+
+# OS / OneDrive cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# logs & temp
+*.log
+*.tmp
+*.bak
+_cmp_*.html
+
+# deps
+node_modules/

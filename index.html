@@ -32,7 +32,6 @@
       flex-direction: column;
     }
 
-    /* ── ANIMATED BACKGROUND ── */
     body::before {
       content: '';
       position: fixed;
@@ -71,7 +70,6 @@
 
     #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-    /* rowlet gliding in the top corner */
     .rowlet {
       position: fixed;
       right: -20px;
@@ -104,7 +102,6 @@
       transition: opacity 0.5s ease;
     }
 
-    /* ── LEFT RAIL ── */
     .rail {
       position: fixed;
       left: 26px;
@@ -152,9 +149,6 @@
 
     .pill:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
 
-    /* ── PAGE ── */
-    /* symmetric rail-width gutters keep the content centred in the viewport
-       while still reserving clearance for the fixed rail on the left */
     .page {
       flex: 1;
       padding-left: var(--rail);
@@ -170,7 +164,6 @@
       width: 100%;
     }
 
-    /* ── HERO ── */
     .hero { padding: 62px 0 36px; text-align: center; }
 
     .hero-greet {
@@ -215,7 +208,6 @@
       background-clip: text;
     }
 
-    /* ── VIDEO PREVIEWS ── */
     .previews { padding-bottom: 26px; }
 
     .preview-grid {
@@ -251,7 +243,7 @@
       object-fit: cover;
       border: 0;
       display: block;
-      pointer-events: none;   /* nothing to click, behaves like a gif */
+      pointer-events: none;
     }
 
     .preview figcaption {
@@ -270,7 +262,6 @@
       margin-top: 20px;
     }
 
-    /* ── STAGE (panels live here; empty on the homepage) ── */
     .stage { padding-bottom: 60px; }
 
     .empty-hint {
@@ -292,7 +283,6 @@
       50%     { transform: translateX(-5px); }
     }
 
-    /* ── PANELS ── */
     .panel {
       display: grid;
       grid-template-columns: 190px 1fr;
@@ -440,7 +430,6 @@
       margin-top: 12px;
     }
 
-    /* ── CONTACT ROWS ── */
     .contact-list {
       display: flex;
       flex-direction: column;
@@ -527,7 +516,6 @@
       padding: 11px 22px;
     }
 
-    /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
       padding: 22px 0;
@@ -542,7 +530,6 @@
 
     footer span { color: var(--leaf); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 980px) {
       :root { --rail: 0px; }
 
@@ -579,8 +566,6 @@
       .panel-media { width: 165px; height: 165px; }
       .stage { min-height: 0; }
 
-      /* the rail sits above the content here, so point the hint up instead of left.
-         the static rotate also covers the reduced-motion case, where animations are off. */
       .empty-hint i { transform: rotate(90deg); animation-name: nudge-up; }
       @keyframes nudge-up {
         0%,100% { transform: rotate(90deg) translateX(0); }
@@ -594,7 +579,7 @@
       .panel-media, .panel-media img, .btn, .pill { transition: none; }
       #bg, .cursor-glow { display: none; }
     }
-  </style>
+</style>
 </head>
 <body>
 
@@ -602,7 +587,6 @@
 <div class="rowlet" aria-hidden="true"><img src="assets/flyingrowlet.png" alt=""></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 
-<!-- LEFT RAIL -->
 <nav class="rail" aria-label="Sections">
   <button class="pill" id="tab-shack"    type="button" aria-controls="panel-shack"    aria-expanded="false">Skript Shack</button>
   <button class="pill" id="tab-youtube"  type="button" aria-controls="panel-youtube"  aria-expanded="false">YouTube</button>
@@ -612,7 +596,6 @@
 
 <div class="page">
 
-  <!-- HERO / HOMEPAGE -->
   <header class="hero">
     <div class="container">
       <p class="hero-greet">Hey! I'm</p>
@@ -632,7 +615,6 @@
     </div>
   </header>
 
-  <!-- VIDEO PREVIEWS -->
   <section class="previews">
     <div class="container">
       <div class="preview-grid">
@@ -661,7 +643,6 @@
     </div>
   </section>
 
-  <!-- STAGE -->
   <main class="stage">
     <div class="container">
 
@@ -750,9 +731,6 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
 
-  /* ── the clips are pre-trimmed to their ranges, so the native loop attribute
-     is all the looping they need. this just re-arms autoplay if a browser
-     refuses the initial play (some block it until the tab is interacted with). */
   (function () {
     document.querySelectorAll('.preview-frame video').forEach(v => {
       const kick = () => { const p = v.play(); if (p) p.catch(() => {}); };
@@ -764,7 +742,6 @@
     });
   })();
 
-  /* ── rail: nothing open by default, click again to close ── */
   (function () {
     const pills = Array.from(document.querySelectorAll('.pill'));
     const hint = document.getElementById('emptyHint');
@@ -781,12 +758,12 @@
       pill.addEventListener('click', () => {
         const wasOpen = pill.getAttribute('aria-expanded') === 'true';
         closeAll();
-        if (wasOpen) return;              // clicking the open one returns home
+        if (wasOpen) return;
         pill.setAttribute('aria-expanded', 'true');
         const panel = document.getElementById(pill.getAttribute('aria-controls'));
         panel.hidden = false;
         hint.hidden = true;
-        // panels sit below the video previews, so bring the new one into view
+
         panel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
       });
     });
@@ -796,14 +773,13 @@
     });
   })();
 
-  /* ── "Contact Me" jumps to the contact panel ── */
   (function () {
     const cta = document.getElementById('contactCta');
     if (!cta) return;
     cta.addEventListener('click', () => {
       const pill = document.getElementById('tab-contact');
       if (pill.getAttribute('aria-expanded') !== 'true') {
-        pill.click();                     // opens the panel and scrolls to it
+        pill.click();
       } else {
         document.getElementById('panel-contact')
           .scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
@@ -811,7 +787,6 @@
     });
   })();
 
-  /* ── copy-to-clipboard rows ── */
   (function () {
     document.querySelectorAll('[data-copy]').forEach(row => {
       row.addEventListener('click', () => {
@@ -825,7 +800,6 @@
     });
   })();
 
-  /* ── cursor tilt ── */
   if (canHover && !reduceMotion) {
     const MAX_TILT = 9;
     document.querySelectorAll('.tilt').forEach(el => {
@@ -853,7 +827,6 @@
     });
   }
 
-  /* ── glow that trails the cursor ── */
   if (canHover && !reduceMotion) {
     const glow = document.getElementById('cursorGlow');
     let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
@@ -874,7 +847,6 @@
     }
   }
 
-  /* ── drifting leaves ── */
   (function () {
     const canvas = document.getElementById('bg');
     if (!canvas || reduceMotion) return;
@@ -900,7 +872,7 @@
         x: Math.random() * w,
         y: fromTop ? -size * 2 : Math.random() * h,
         size: size,
-        speed: 0.18 + Math.random() * 0.5,     // falls downward
+        speed: 0.18 + Math.random() * 0.5,
         drift: (Math.random() - 0.5) * 0.3,
         angle: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.012,
@@ -922,7 +894,7 @@
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.angle);
-      // two mirrored curves meeting at the tip and the stem
+
       ctx.beginPath();
       ctx.moveTo(0, -s);
       ctx.quadraticCurveTo(s * 0.8, -s * 0.15, 0, s);
@@ -930,7 +902,7 @@
       ctx.closePath();
       ctx.fillStyle = 'rgba(' + p.tint + ',' + alpha.toFixed(3) + ')';
       ctx.fill();
-      // midrib
+
       ctx.beginPath();
       ctx.moveTo(0, -s * 0.85);
       ctx.lineTo(0, s * 0.85);
@@ -947,7 +919,7 @@
         p.y += p.speed;
         p.phase += p.phaseSpeed;
         p.angle += p.spin;
-        p.x += p.drift + Math.sin(p.phase) * 0.45;   // sways as it falls
+        p.x += p.drift + Math.sin(p.phase) * 0.45;
 
         if (p.y - p.size * 2 > h) { leaves[i] = spawn(true); continue; }
         if (p.x < -p.size * 2) p.x = w + p.size * 2;
