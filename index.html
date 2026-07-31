@@ -71,14 +71,14 @@
 
     #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-    /* perched rowlet */
+    /* rowlet gliding in the top corner */
     .rowlet {
       position: fixed;
-      right: -46px;
-      bottom: -50px;
-      width: min(40vw, 420px);
+      right: -20px;
+      top: 6px;
+      width: min(34vw, 380px);
       z-index: 0;
-      opacity: 0.15;
+      opacity: 0.16;
       pointer-events: none;
       filter: drop-shadow(0 0 40px rgba(134,239,172,0.25));
       animation: perch 7s ease-in-out infinite;
@@ -243,13 +243,15 @@
       box-shadow: 0 22px 50px rgba(0,0,0,0.5), 0 0 0 6px rgba(134,239,172,0.06);
     }
 
-    .preview-frame iframe {
+    .preview-frame video {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
+      object-fit: cover;
       border: 0;
       display: block;
+      pointer-events: none;   /* nothing to click, behaves like a gif */
     }
 
     .preview figcaption {
@@ -562,7 +564,7 @@
 
       .preview-grid { grid-template-columns: 1fr; gap: 18px; }
 
-      .rowlet { width: min(58vw, 250px); opacity: 0.11; right: -30px; bottom: -30px; }
+      .rowlet { width: min(56vw, 230px); opacity: 0.12; right: -24px; top: 2px; }
 
       .panel {
         grid-template-columns: 1fr;
@@ -597,7 +599,7 @@
 <body>
 
 <canvas id="bg"></canvas>
-<div class="rowlet" aria-hidden="true"><img src="assets/rowlet.png" alt=""></div>
+<div class="rowlet" aria-hidden="true"><img src="assets/flyingrowlet.png" alt=""></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- LEFT RAIL -->
@@ -636,12 +638,20 @@
       <div class="preview-grid">
 
         <figure class="preview">
-          <div class="preview-frame"><div id="yt-tetris"></div></div>
+          <div class="preview-frame">
+            <video src="assets/tetris.mp4" autoplay muted loop playsinline
+                   preload="auto" disablepictureinpicture disableremoteplayback
+                   aria-label="Tetris running in Minecraft"></video>
+          </div>
           <figcaption>Tetris</figcaption>
         </figure>
 
         <figure class="preview">
-          <div class="preview-frame"><div id="yt-stackit"></div></div>
+          <div class="preview-frame">
+            <video src="assets/stackit.mp4" autoplay muted loop playsinline
+                   preload="auto" disablepictureinpicture disableremoteplayback
+                   aria-label="StackIt running in Minecraft"></video>
+          </div>
           <figcaption>StackIt</figcaption>
         </figure>
 
@@ -740,51 +750,19 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
 
-  /* ── looping video clips ──
-     the plain embed's loop param restarts at 0, so the players are driven through
-     the IFrame API instead: seek back to `start` whenever `end` is reached. */
-  const CLIPS = [
-    { mount: 'yt-tetris',  id: 'fbR5O7nM4GM', start: 10, end: 102 },  // 0:10 -> 1:42
-    { mount: 'yt-stackit', id: 'ZF_F5aS5Sss', start: 24, end: 120 }   // 0:24 -> 2:00
-  ];
-
-  function onYouTubeIframeAPIReady() {
-    CLIPS.forEach(clip => {
-      clip.player = new YT.Player(clip.mount, {
-        videoId: clip.id,
-        width: '100%',
-        height: '100%',
-        playerVars: {
-          autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0,
-          modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3,
-          start: clip.start, end: clip.end
-        },
-        events: {
-          onReady: e => { e.target.mute(); e.target.playVideo(); },
-          onStateChange: e => {
-            if (e.data === YT.PlayerState.ENDED) {
-              e.target.seekTo(clip.start, true);
-              e.target.playVideo();
-            }
-          }
-        }
+  /* ── the clips are pre-trimmed to their ranges, so the native loop attribute
+     is all the looping they need. this just re-arms autoplay if a browser
+     refuses the initial play (some block it until the tab is interacted with). */
+  (function () {
+    document.querySelectorAll('.preview-frame video').forEach(v => {
+      const kick = () => { const p = v.play(); if (p) p.catch(() => {}); };
+      kick();
+      v.addEventListener('canplay', kick, { once: true });
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && v.paused) kick();
       });
     });
-
-    // backstop: `end` does not always fire ENDED cleanly, so catch overruns too
-    setInterval(() => {
-      CLIPS.forEach(clip => {
-        const p = clip.player;
-        if (!p || typeof p.getCurrentTime !== 'function') return;
-        const t = p.getCurrentTime();
-        if (typeof t === 'number' && t >= clip.end - 0.2) {
-          p.seekTo(clip.start, true);
-          p.playVideo();
-        }
-      });
-    }, 400);
-  }
-  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+  })();
 
   /* ── rail: nothing open by default, click again to close ── */
   (function () {
@@ -992,8 +970,6 @@
     frame();
   })();
 </script>
-
-<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
