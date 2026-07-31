@@ -153,9 +153,12 @@
     .pill:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
 
     /* ── PAGE ── */
+    /* symmetric rail-width gutters keep the content centred in the viewport
+       while still reserving clearance for the fixed rail on the left */
     .page {
       flex: 1;
       padding-left: var(--rail);
+      padding-right: var(--rail);
       position: relative;
       z-index: 1;
     }
@@ -168,7 +171,7 @@
     }
 
     /* ── HERO ── */
-    .hero { padding: 96px 0 40px; text-align: center; }
+    .hero { padding: 62px 0 36px; text-align: center; }
 
     .hero-greet {
       font-size: clamp(0.95rem, 2vw, 1.15rem);
@@ -200,33 +203,6 @@
     .hero-bio p + p { margin-top: 18px; }
 
     .hero-cta { margin-top: 32px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(252,211,77,0.08);
-      border: 1px solid rgba(252,211,77,0.25);
-      border-radius: 999px;
-      padding: 6px 18px;
-      font-size: 0.75rem;
-      color: #fcd34d;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 24px;
-    }
-
-    .badge-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #fcd34d;
-      animation: blink 2s infinite;
-    }
-
-    @keyframes blink {
-      0%,100% { opacity: 1; }
-      50%     { opacity: 0.3; }
-    }
 
     .hero h1 {
       font-size: clamp(3rem, 9vw, 5.2rem);
@@ -559,6 +535,7 @@
       position: relative;
       z-index: 1;
       padding-left: var(--rail);
+      padding-right: var(--rail);
     }
 
     footer span { color: var(--leaf); }
@@ -581,7 +558,7 @@
       .pill { padding: 11px 20px; font-size: 0.8rem; }
       .pill:hover { transform: translateY(-3px); }
 
-      .hero { padding: 74px 0 34px; }
+      .hero { padding: 46px 0 30px; }
 
       .preview-grid { grid-template-columns: 1fr; gap: 18px; }
 
@@ -610,7 +587,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body::before, body::after, .badge-dot, .empty-hint i, .rowlet { animation: none; }
+      body::before, body::after, .empty-hint i, .rowlet { animation: none; }
       .panel { animation: none; }
       .panel-media, .panel-media img, .btn, .pill { transition: none; }
       #bg, .cursor-glow { display: none; }
@@ -620,7 +597,7 @@
 <body>
 
 <canvas id="bg"></canvas>
-<div class="rowlet" aria-hidden="true"><img src="assets/rowlet.svg" alt=""></div>
+<div class="rowlet" aria-hidden="true"><img src="assets/rowlet.png" alt=""></div>
 <div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- LEFT RAIL -->
@@ -636,10 +613,6 @@
   <!-- HERO / HOMEPAGE -->
   <header class="hero">
     <div class="container">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        available
-      </div>
       <p class="hero-greet">Hey! I'm</p>
       <h1>CJH</h1>
       <p class="hero-role">Game Developer</p>
