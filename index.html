@@ -179,6 +179,8 @@
 
     .hero-bio p + p { margin-top: 18px; }
 
+    .hero-cta { margin-top: 32px; }
+
     .badge {
       display: inline-flex;
       align-items: center;
@@ -440,6 +442,82 @@
       margin-top: 12px;
     }
 
+    /* ── CONTACT ROWS ── */
+    .contact-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      background: rgba(0,0,0,0.28);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 20px 10px 10px;
+      font-family: inherit;
+      text-align: left;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease,
+                  transform 0.25s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    .contact-row:hover {
+      background: rgba(56,189,248,0.08);
+      border-color: rgba(56,189,248,0.4);
+      transform: translateY(-2px);
+    }
+
+    .contact-row:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+    .c-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .ci-discord { background: rgba(88,101,242,0.18); color: #7289da; }
+    .ci-github  { background: rgba(232,237,243,0.1);  color: #e8edf3; }
+    .ci-mail    { background: rgba(251,146,60,0.14);  color: #fb923c; }
+
+    .c-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+
+    .c-text small {
+      font-size: 0.66rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .c-text strong {
+      font-size: 0.85rem;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .c-act {
+      color: var(--muted);
+      font-size: 0.76rem;
+      flex-shrink: 0;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .contact-row:hover .c-act { color: var(--blue); transform: translateX(3px); }
+
     .soon-note {
       display: inline-flex;
       align-items: center;
@@ -541,11 +619,17 @@
       </div>
       <p class="hero-greet">Hey! I'm</p>
       <h1>CJH</h1>
-      <p class="hero-role">game developer</p>
+      <p class="hero-role">Game Developer</p>
 
       <div class="hero-bio">
         <p>I'm a game developer who specializes in the kind of work AI can't do easily yet.</p>
         <p>My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
+      </div>
+
+      <div class="hero-cta">
+        <button class="btn" type="button" id="contactCta">
+          <i class="fas fa-paper-plane"></i> Contact Me
+        </button>
       </div>
     </div>
   </header>
@@ -556,26 +640,12 @@
       <div class="preview-grid">
 
         <figure class="preview">
-          <div class="preview-frame">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/fbR5O7nM4GM?autoplay=1&mute=1&loop=1&playlist=fbR5O7nM4GM&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1"
-              title="Tetris 40L Sprint in Minecraft"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen></iframe>
-          </div>
+          <div class="preview-frame"><div id="yt-tetris"></div></div>
           <figcaption>Tetris</figcaption>
         </figure>
 
         <figure class="preview">
-          <div class="preview-frame">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/ZF_F5aS5Sss?autoplay=1&mute=1&loop=1&playlist=ZF_F5aS5Sss&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1"
-              title="StackIt, a Minecraft stacking game"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen></iframe>
-          </div>
+          <div class="preview-frame"><div id="yt-stackit"></div></div>
           <figcaption>StackIt</figcaption>
         </figure>
 
@@ -632,15 +702,31 @@
 
       <section class="panel" id="panel-contact" role="region" aria-labelledby="tab-contact" hidden>
         <div class="panel-media tilt discord">
-          <i class="fab fa-discord"></i>
+          <i class="fas fa-paper-plane"></i>
         </div>
         <div class="panel-body">
           <h2>Get In Touch</h2>
-          <p>Need a custom Skript, a plugin, or a hand with your server? Discord is the fastest way to reach me.</p>
-          <button class="btn btn-discord" id="discordPill" type="button" title="Click to copy">
-            <i class="fab fa-discord"></i> <span id="discordTag">@CJH1126</span>
-          </button>
-          <p class="hint">click to copy</p>
+          <p>Need a custom Skript, a plugin, or a hand with your server? Here is everywhere you can reach me.</p>
+
+          <div class="contact-list">
+            <button class="contact-row" type="button" data-copy="@CJH1126" title="Click to copy">
+              <span class="c-ico ci-discord"><i class="fab fa-discord"></i></span>
+              <span class="c-text"><small>Discord</small><strong>@CJH1126</strong></span>
+              <i class="fas fa-copy c-act"></i>
+            </button>
+
+            <a class="contact-row" href="https://github.com/CJH3139" target="_blank" rel="noopener">
+              <span class="c-ico ci-github"><i class="fab fa-github"></i></span>
+              <span class="c-text"><small>GitHub</small><strong>CJH3139</strong></span>
+              <i class="fas fa-arrow-right c-act"></i>
+            </a>
+
+            <a class="contact-row" href="mailto:imnotnotcjh@gmail.com">
+              <span class="c-ico ci-mail"><i class="fas fa-envelope"></i></span>
+              <span class="c-text"><small>Email</small><strong>imnotnotcjh@gmail.com</strong></span>
+              <i class="fas fa-arrow-right c-act"></i>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -657,6 +743,52 @@
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ── looping video clips ──
+     the plain embed's loop param restarts at 0, so the players are driven through
+     the IFrame API instead: seek back to `start` whenever `end` is reached. */
+  const CLIPS = [
+    { mount: 'yt-tetris',  id: 'fbR5O7nM4GM', start: 10, end: 102 },  // 0:10 -> 1:42
+    { mount: 'yt-stackit', id: 'ZF_F5aS5Sss', start: 24, end: 120 }   // 0:24 -> 2:00
+  ];
+
+  function onYouTubeIframeAPIReady() {
+    CLIPS.forEach(clip => {
+      clip.player = new YT.Player(clip.mount, {
+        videoId: clip.id,
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          autoplay: 1, mute: 1, controls: 0, disablekb: 1, fs: 0,
+          modestbranding: 1, rel: 0, playsinline: 1, iv_load_policy: 3,
+          start: clip.start, end: clip.end
+        },
+        events: {
+          onReady: e => { e.target.mute(); e.target.playVideo(); },
+          onStateChange: e => {
+            if (e.data === YT.PlayerState.ENDED) {
+              e.target.seekTo(clip.start, true);
+              e.target.playVideo();
+            }
+          }
+        }
+      });
+    });
+
+    // backstop: `end` does not always fire ENDED cleanly, so catch overruns too
+    setInterval(() => {
+      CLIPS.forEach(clip => {
+        const p = clip.player;
+        if (!p || typeof p.getCurrentTime !== 'function') return;
+        const t = p.getCurrentTime();
+        if (typeof t === 'number' && t >= clip.end - 0.2) {
+          p.seekTo(clip.start, true);
+          p.playVideo();
+        }
+      });
+    }, 400);
+  }
+  window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
 
   /* ── rail: nothing open by default, click again to close ── */
   (function () {
@@ -690,16 +822,31 @@
     });
   })();
 
-  /* ── copy discord tag ── */
+  /* ── "Contact Me" jumps to the contact panel ── */
   (function () {
-    const btn = document.getElementById('discordPill');
-    const label = document.getElementById('discordTag');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const orig = label.textContent;
-      navigator.clipboard.writeText('@CJH1126').then(() => {
-        label.textContent = 'Copied!';
-        setTimeout(() => { label.textContent = orig; }, 1800);
+    const cta = document.getElementById('contactCta');
+    if (!cta) return;
+    cta.addEventListener('click', () => {
+      const pill = document.getElementById('tab-contact');
+      if (pill.getAttribute('aria-expanded') !== 'true') {
+        pill.click();                     // opens the panel and scrolls to it
+      } else {
+        document.getElementById('panel-contact')
+          .scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      }
+    });
+  })();
+
+  /* ── copy-to-clipboard rows ── */
+  (function () {
+    document.querySelectorAll('[data-copy]').forEach(row => {
+      row.addEventListener('click', () => {
+        const label = row.querySelector('.c-text strong');
+        const orig = label.textContent;
+        navigator.clipboard.writeText(row.dataset.copy).then(() => {
+          label.textContent = 'Copied!';
+          setTimeout(() => { label.textContent = orig; }, 1800);
+        });
       });
     });
   })();
@@ -824,6 +971,8 @@
     frame();
   })();
 </script>
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
