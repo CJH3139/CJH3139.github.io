@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CJH | Game Developer</title>
+  <link rel="icon" type="image/png" href="assets/rowlet.png">
+  <link rel="apple-touch-icon" href="assets/rowlet.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -569,6 +571,257 @@
       padding: 11px 22px;
     }
 
+    .exp-block {
+      background: rgba(0,0,0,0.28);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px 22px 20px;
+      max-width: 440px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .exp-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 9px;
+    }
+
+    .exp-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .exp-title i { color: var(--leaf); font-size: 0.88rem; }
+
+    .exp-count {
+      font-size: 0.66rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--leaf);
+      background: rgba(134,239,172,0.1);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 11px;
+      white-space: nowrap;
+    }
+
+    .exp-block .exp-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      max-width: none;
+    }
+
+    body.modal-open { overflow: hidden; }
+
+    .gui-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(4,12,9,0.74);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      animation: guiFade 0.25s ease;
+    }
+
+    .gui-overlay[hidden] { display: none; }
+
+    @keyframes guiFade { from { opacity: 0; } to { opacity: 1; } }
+
+    .gui {
+      width: 100%;
+      max-width: 760px;
+      max-height: 84vh;
+      display: flex;
+      flex-direction: column;
+      background: #12281f;
+      border: 1px solid rgba(134,239,172,0.22);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 6px rgba(134,239,172,0.05);
+      animation: guiIn 0.32s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    @keyframes guiIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .gui-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .gui-head h3 {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .gui-head h3 i { color: var(--leaf); }
+
+    .gui-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: color 0.2s ease, background 0.2s ease,
+                  border-color 0.2s ease, transform 0.3s ease;
+    }
+
+    .gui-close:hover {
+      color: var(--text);
+      background: rgba(134,239,172,0.12);
+      border-color: rgba(134,239,172,0.4);
+      transform: rotate(90deg);
+    }
+
+    .gui-close:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
+
+    .gui-body {
+      overflow-y: auto;
+      padding: 22px 24px 26px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(134,239,172,0.3) transparent;
+    }
+
+    .gui-body::-webkit-scrollbar { width: 10px; }
+    .gui-body::-webkit-scrollbar-track { background: transparent; }
+    .gui-body::-webkit-scrollbar-thumb {
+      background: rgba(134,239,172,0.22);
+      border-radius: 999px;
+      border: 3px solid transparent;
+      background-clip: content-box;
+    }
+
+    .gui-group + .gui-group { margin-top: 26px; }
+
+    .gui-group h4 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'VT323', monospace;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--leaf);
+      margin-bottom: 12px;
+    }
+
+    .gui-group h4::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .gui-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .exp-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      background: rgba(0,0,0,0.26);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 11px 16px;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .exp-row:hover {
+      background: rgba(134,239,172,0.07);
+      border-color: rgba(134,239,172,0.32);
+      transform: translateX(3px);
+    }
+
+    .exp-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1 1 170px;
+      min-width: 0;
+    }
+
+    .exp-name { font-size: 0.87rem; font-weight: 600; color: var(--text); }
+    .exp-role { font-size: 0.76rem; color: var(--leaf); }
+    .exp-note { font-size: 0.7rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+
+    .exp-dates {
+      font-size: 0.73rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .exp-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      text-align: center;
+      min-width: 82px;
+      flex-shrink: 0;
+    }
+
+    .t-present { background: rgba(134,239,172,0.14); color: var(--leaf); border: 1px solid rgba(134,239,172,0.3); }
+    .t-shut    { background: rgba(148,163,184,0.12); color: #94a3b8;     border: 1px solid rgba(148,163,184,0.24); }
+    .t-resign  { background: rgba(251,146,60,0.12);  color: #fb923c;     border: 1px solid rgba(251,146,60,0.26); }
+    .t-other   { background: rgba(248,113,113,0.12); color: #f87171;     border: 1px solid rgba(248,113,113,0.26); }
+
+    .gui-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border);
+      padding: 16px 24px;
+      flex-shrink: 0;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .gui-foot .btn { padding: 10px 20px; font-size: 0.8rem; }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 22px 0;
@@ -617,6 +870,14 @@
 
       .panel-body p { margin-left: auto; margin-right: auto; }
       .proj-list { margin-left: auto; margin-right: auto; }
+      .exp-block { margin-left: auto; margin-right: auto; }
+      .gui-overlay { padding: 14px; }
+      .gui { max-height: 88vh; border-radius: 22px; }
+      .gui-head, .gui-foot { padding-left: 18px; padding-right: 18px; }
+      .gui-body { padding: 18px; }
+      .gui-foot { justify-content: center; text-align: center; }
+      .exp-row { transform: none; }
+      .exp-row:hover { transform: none; }
       .panel-media { width: 165px; height: 165px; }
       .stage { min-height: 0; }
 
@@ -630,6 +891,8 @@
     @media (prefers-reduced-motion: reduce) {
       body::before, body::after, .empty-hint i, .rowlet { animation: none; }
       .panel { animation: none; }
+      .gui, .gui-overlay { animation: none; }
+      .exp-row, .gui-close { transition: none; }
       .panel-media, .panel-media img, .btn, .pill { transition: none; }
       #bg, .cursor-glow { display: none; }
     }
@@ -747,7 +1010,17 @@
         <div class="panel-body">
           <h2>Experiences</h2>
           <p>The roles, teams, and communities I've built things with along the way.</p>
-          <span class="soon-note"><i class="fas fa-hammer"></i> Under construction</span>
+
+          <div class="exp-block">
+            <div class="exp-head">
+              <span class="exp-title"><i class="fas fa-cubes"></i> Minecraft Staff Experience</span>
+              <span class="exp-count">26 past · 5 current</span>
+            </div>
+            <p class="exp-sub">Developer, admin, manager, and owner roles across Minecraft networks, dating back to 2021.</p>
+            <button class="btn" type="button" id="expViewAll" aria-haspopup="dialog">
+              <i class="fas fa-list-ul"></i> View All
+            </button>
+          </div>
         </div>
       </section>
 
@@ -791,6 +1064,213 @@
   </div>
 </footer>
 
+<div class="gui-overlay" id="staffGui" role="dialog" aria-modal="true" aria-labelledby="guiTitle" hidden>
+  <div class="gui">
+
+    <div class="gui-head">
+      <h3 id="guiTitle"><i class="fas fa-cubes"></i> Minecraft Staff Experience</h3>
+      <button class="gui-close" type="button" id="guiClose" aria-label="Close">
+        <i class="fas fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="gui-body">
+
+      <div class="gui-group">
+        <h4>Current Positions</h4>
+        <ul class="gui-list">
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Lazuli/Gravel</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">5/12/2026 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">MoneyRealms</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">5/2/2026 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">LightSkies</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">11/20/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">PyraKits</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">10/16/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">StealABoss/StealItAll</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">9/15/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="gui-group">
+        <h4>Past Positions</h4>
+        <ul class="gui-list">
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Zyptrik</span><span class="exp-role">Moderator</span></span>
+            <span class="exp-dates">11/8/2024 – 4/9/2025</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">EZMines</span><span class="exp-role">Manager</span></span>
+            <span class="exp-dates">3/10/2025 – 4/6/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Lightskies</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">4/30/2022 – May 2022</span>
+            <span class="exp-tag t-shut">—</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Sunforge</span><span class="exp-role">Manager</span></span>
+            <span class="exp-dates">12/07/2024 – 1/13/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main">
+              <span class="exp-name">DireSkies</span>
+              <span class="exp-role">Accepted to interview phase</span>
+              <span class="exp-note">Declined the interview due to receiving a manager commission</span>
+            </span>
+            <span class="exp-dates">1/17/2025</span>
+            <span class="exp-tag t-other">Declined</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main">
+              <span class="exp-name">RizzMines</span>
+              <span class="exp-role">Helper</span>
+              <span class="exp-note">Disliked the system</span>
+            </span>
+            <span class="exp-dates">1/31/2025 – 3/1/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main">
+              <span class="exp-name">ElytraRush</span>
+              <span class="exp-role">Helper</span>
+              <span class="exp-note">Disliked the system</span>
+            </span>
+            <span class="exp-dates">2/7/2025 – 3/1/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">SmallBoxes</span><span class="exp-role">Owner</span></span>
+            <span class="exp-dates">1/1/2025 – 11/20/2025</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Cellbox</span><span class="exp-role">Owner</span></span>
+            <span class="exp-dates">2021</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main">
+              <span class="exp-name">NoobMines</span>
+              <span class="exp-role">Dev</span>
+              <span class="exp-note">Inactivity</span>
+            </span>
+            <span class="exp-dates">7/3/2025 – 8/14/2025</span>
+            <span class="exp-tag t-other">Demoted</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">03 Network</span><span class="exp-role">Admin</span></span>
+            <span class="exp-dates">11/28/2021 – 4/28/2022</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">PowderSkies</span><span class="exp-role">Manager</span></span>
+            <span class="exp-dates">6/1/2022 – 9/14/2022</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">SkyPerkMC</span><span class="exp-role">Admin</span></span>
+            <span class="exp-dates">11/13/2022 – 7/7/2023</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Crazify</span><span class="exp-role">Mod</span></span>
+            <span class="exp-dates">6/2/2025 – shutdown</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Loud</span><span class="exp-role">Staff</span></span>
+            <span class="exp-dates">1/22/2025 – shutdown</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">SmellyBox</span><span class="exp-role">Admin</span></span>
+            <span class="exp-dates">5/20/2025 – 8/1/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">DripMinez</span><span class="exp-role">Dev</span></span>
+            <span class="exp-dates">6/15/2025 – 7/4/2025</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">SkyMinera</span><span class="exp-role">Admin</span></span>
+            <span class="exp-dates">11/21/2024 – 11/20/2025</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Wildcore</span><span class="exp-role">Dev</span></span>
+            <span class="exp-dates">8/1/2025 – 10/1/2025</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Echoboxxx</span><span class="exp-role">Dev</span></span>
+            <span class="exp-dates">8/11/2025 – 11/10/2025</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">BoxRNG</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">8/23/2025 – 1/10/2026</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Wallet</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">11/8/2025 – 3/20/2026</span>
+            <span class="exp-tag t-shut">Shutdown</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">LazysBox</span><span class="exp-role">Developer</span></span>
+            <span class="exp-dates">3/17/2026 – 5/2026</span>
+            <span class="exp-tag t-resign">Resigned</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Variance</span><span class="exp-role">Owner</span></span>
+            <span class="exp-dates">11/22/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Colorss</span><span class="exp-role">Owner</span></span>
+            <span class="exp-dates">11/20/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+          <li class="exp-row">
+            <span class="exp-main"><span class="exp-name">Begun</span><span class="exp-role">Owner</span></span>
+            <span class="exp-dates">11/24/2025 – Present</span>
+            <span class="exp-tag t-present">Present</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="gui-foot">
+      <span>Last updated 5/13/2026</span>
+      <button class="btn" type="button" id="guiHire">
+        <i class="fas fa-paper-plane"></i> Hire me — @cjh1126
+      </button>
+    </div>
+
+  </div>
+</div>
+
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -833,7 +1313,64 @@
     });
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeAll();
+      if (e.key === 'Escape' && !document.body.classList.contains('modal-open')) closeAll();
+    });
+  })();
+
+  (function () {
+    const overlay  = document.getElementById('staffGui');
+    const openBtn  = document.getElementById('expViewAll');
+    const closeBtn = document.getElementById('guiClose');
+    const hireBtn  = document.getElementById('guiHire');
+    if (!overlay || !openBtn) return;
+
+    let lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      overlay.hidden = false;
+      document.body.classList.add('modal-open');
+      overlay.querySelector('.gui-body').scrollTop = 0;
+      closeBtn.focus();
+    }
+
+    function close() {
+      overlay.hidden = true;
+      document.body.classList.remove('modal-open');
+      if (lastFocus) lastFocus.focus();
+    }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    overlay.addEventListener('mousedown', e => {
+      if (e.target === overlay) close();
+    });
+
+    hireBtn.addEventListener('click', () => {
+      close();
+      const pill = document.getElementById('tab-contact');
+      if (pill.getAttribute('aria-expanded') !== 'true') {
+        pill.click();
+      } else {
+        document.getElementById('panel-contact')
+          .scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (overlay.hidden) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab') return;
+
+      const f = overlay.querySelectorAll('button');
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     });
   })();
 
