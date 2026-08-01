@@ -505,6 +505,59 @@
 
     .contact-row:hover .c-act { color: var(--leaf); transform: translateX(3px); }
 
+    .proj-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 440px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .proj-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      background: rgba(0,0,0,0.28);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 12px 20px 12px 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.25s ease, border-color 0.25s ease,
+                  transform 0.25s cubic-bezier(0.22, 0.9, 0.25, 1);
+    }
+
+    .proj-row:hover {
+      background: rgba(134,239,172,0.08);
+      border-color: rgba(134,239,172,0.4);
+      transform: translateY(-2px);
+    }
+
+    .proj-row:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
+
+    .p-ico {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .p-ico img { width: 100%; height: 100%; object-fit: cover; }
+
+    .p-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+    .p-text strong { font-size: 0.9rem; font-weight: 600; }
+    .p-text small { font-size: 0.76rem; color: var(--muted); line-height: 1.55; }
+
+    .proj-row:hover .c-act { color: var(--leaf); transform: translateX(3px); }
+
     .soon-note {
       display: inline-flex;
       align-items: center;
@@ -563,6 +616,7 @@
       }
 
       .panel-body p { margin-left: auto; margin-right: auto; }
+      .proj-list { margin-left: auto; margin-right: auto; }
       .panel-media { width: 165px; height: 165px; }
       .stage { min-height: 0; }
 
@@ -590,7 +644,7 @@
 <nav class="rail" aria-label="Sections">
   <button class="pill" id="tab-projects" type="button" aria-controls="panel-projects" aria-expanded="false">Past Projects</button>
   <button class="pill" id="tab-youtube"  type="button" aria-controls="panel-youtube"  aria-expanded="false">YouTube</button>
-  <button class="pill" id="tab-shack"    type="button" aria-controls="panel-shack"    aria-expanded="false">Skript Shack</button>
+  <button class="pill" id="tab-exp"      type="button" aria-controls="panel-exp"      aria-expanded="false">Experiences</button>
   <button class="pill" id="tab-contact"  type="button" aria-controls="panel-contact"  aria-expanded="false">Contact</button>
 </nav>
 
@@ -650,19 +704,6 @@
         <i class="fas fa-arrow-left"></i> pick a section to explore
       </p>
 
-      <section class="panel" id="panel-shack" role="region" aria-labelledby="tab-shack" hidden>
-        <div class="panel-media tilt">
-          <img src="assets/skriptshack.png" alt="Skript Shack logo">
-        </div>
-        <div class="panel-body">
-          <h2>Skript Shack</h2>
-          <p>My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners, all in one place.</p>
-          <a href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener" class="btn">
-            <i class="fab fa-discord"></i> Join the server
-          </a>
-        </div>
-      </section>
-
       <section class="panel" id="panel-youtube" role="region" aria-labelledby="tab-youtube" hidden>
         <div class="panel-media tilt">
           <img src="assets/youtube.jpg" alt="CJH3139 YouTube channel">
@@ -683,6 +724,29 @@
         <div class="panel-body">
           <h2>Past Projects</h2>
           <p>A full archive of the servers, plugins, and Skripts I've worked on.</p>
+
+          <div class="proj-list">
+            <a class="proj-row" href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener">
+              <span class="p-ico"><img src="assets/skriptshack.png" alt="Skript Shack logo"></span>
+              <span class="p-text">
+                <strong>Skript Shack</strong>
+                <small>My Discord community for free, high quality Skripts. Resources, support, and showcases for server owners, all in one place.</small>
+              </span>
+              <i class="fab fa-discord c-act"></i>
+            </a>
+          </div>
+
+          <span class="soon-note"><i class="fas fa-hammer"></i> More coming soon</span>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-exp" role="region" aria-labelledby="tab-exp" hidden>
+        <div class="panel-media tilt">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <div class="panel-body">
+          <h2>Experiences</h2>
+          <p>The roles, teams, and communities I've built things with along the way.</p>
           <span class="soon-note"><i class="fas fa-hammer"></i> Under construction</span>
         </div>
       </section>
