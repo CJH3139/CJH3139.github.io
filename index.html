@@ -20,7 +20,6 @@
       --border: rgba(134,239,172,0.16);
       --text: #e9f5ec;
       --muted: #85a894;
-      --rail: 210px;
     }
 
     /* Site renders at what used to be 150% browser zoom. Viewport units below are
@@ -112,14 +111,19 @@
     }
 
     .rail {
-      position: fixed;
-      left: 26px;
-      top: 50%;
-      transform: translateY(-50%);
+      position: sticky;
+      top: 0;
       z-index: 20;
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
       gap: 10px;
+      padding: 14px 24px;
+      background: rgba(23,50,42,0.72);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .pill {
@@ -132,9 +136,9 @@
       background: rgba(134,239,172,0.05);
       border: 1px solid var(--border);
       border-radius: 0;
-      padding: 13px 24px;
+      padding: 11px 22px;
       cursor: pointer;
-      text-align: left;
+      text-align: center;
       white-space: nowrap;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -146,7 +150,7 @@
       color: var(--text);
       background: rgba(134,239,172,0.1);
       border-color: rgba(134,239,172,0.35);
-      transform: translateX(5px);
+      transform: translateY(-3px);
     }
 
     .pill[aria-expanded="true"] {
@@ -160,8 +164,6 @@
 
     .page {
       flex: 1;
-      padding-left: var(--rail);
-      padding-right: var(--rail);
       position: relative;
       z-index: 1;
     }
@@ -305,8 +307,8 @@
     .empty-hint i { color: rgba(134,239,172,0.5); animation: nudge 2.4s ease-in-out infinite; }
 
     @keyframes nudge {
-      0%,100% { transform: translateX(0); }
-      50%     { transform: translateX(-5px); }
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-5px); }
     }
 
     .panel {
@@ -664,6 +666,42 @@
       max-width: none;
     }
 
+    .exp-wide { max-width: none; }
+
+    .feat-list { display: flex; flex-direction: column; gap: 9px; }
+
+    .feat {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .feat i { color: var(--leaf); font-size: 0.7rem; flex-shrink: 0; }
+    .feat strong { color: var(--text); font-weight: 600; }
+
+    .shot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .shot {
+      display: block;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      transition: border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .shot:hover { border-color: rgba(134,239,172,0.4); transform: translateY(-3px); }
+    .shot:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
     body.modal-open { overflow: hidden; }
 
     .gui-overlay {
@@ -883,28 +921,14 @@
       color: var(--muted);
       position: relative;
       z-index: 1;
-      padding-left: var(--rail);
-      padding-right: var(--rail);
     }
 
     footer span { color: var(--leaf); }
 
     @media (max-width: 1470px) {
-      :root { --rail: 0px; }
+      .rail { gap: 9px; padding: 11px 18px; }
 
-      .rail {
-        position: static;
-        transform: none;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 9px;
-        padding: 0 24px 4px;
-        margin-bottom: 30px;
-      }
-
-      .pill { padding: 11px 20px; font-size: 0.8rem; }
-      .pill:hover { transform: translateY(-3px); }
+      .pill { padding: 10px 18px; font-size: 0.8rem; }
 
       .hero { padding: 46px 0 30px; }
 
@@ -934,11 +958,6 @@
       .panel-media { width: 165px; height: 165px; }
       .stage { min-height: 0; }
 
-      .empty-hint i { transform: rotate(90deg); animation-name: nudge-up; }
-      @keyframes nudge-up {
-        0%,100% { transform: rotate(90deg) translateX(0); }
-        50%     { transform: rotate(90deg) translateX(-5px); }
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1019,7 +1038,7 @@
     <div class="container">
 
       <p class="empty-hint" id="emptyHint">
-        <i class="fas fa-arrow-left"></i> pick a section to explore
+        <i class="fas fa-arrow-up"></i> pick a section to explore
       </p>
 
       <section class="panel" id="panel-youtube" role="region" aria-labelledby="tab-youtube" hidden>
@@ -1071,30 +1090,14 @@
               <i class="fab fa-discord c-act"></i>
             </a>
 
-            <a class="proj-row" href="https://discord.gg/hurYmN3DTE" target="_blank" rel="noopener">
-              <span class="p-ico"><img src="assets/colorss.jpg" alt="Colorss logo"></span>
+            <a class="proj-row" href="https://learn.gamesforchange.org/student-challenge" target="_blank" rel="noopener">
+              <span class="p-ico"><i class="fas fa-leaf"></i></span>
               <span class="p-text">
-                <span class="p-head"><strong>Colorss</strong><span class="p-tag t-present">Live</span></span>
-                <small>My continuation of SmallBoxes, still running today with 300 members in the Discord.</small>
+                <span class="p-head"><strong>Games for Change Submission</strong><span class="p-tag t-contrib">Unity</span></span>
+                <small>My entry for the Games for Change Student Challenge, built in Unity and inspired by the Leuser rainforest.</small>
               </span>
-              <i class="fab fa-discord c-act"></i>
+              <i class="fas fa-arrow-right c-act"></i>
             </a>
-
-            <div class="proj-row proj-static">
-              <span class="p-ico"><img src="assets/smallboxes.webp" alt="SmallBoxes logo"></span>
-              <span class="p-text">
-                <span class="p-head"><strong>SmallBoxes</strong><span class="p-tag t-shut">Shutdown</span></span>
-                <small>A box server I owned and ran, peaking at 120 concurrent players.</small>
-              </span>
-            </div>
-
-            <div class="proj-row proj-static">
-              <span class="p-ico"><img src="assets/variance.png" alt="Variance logo"></span>
-              <span class="p-text">
-                <span class="p-head"><strong>Variance</strong><span class="p-tag t-shut">Shutdown</span></span>
-                <small>A RandomKits server I owned, peaking at 70 concurrent players.</small>
-              </span>
-            </div>
           </div>
 
           <span class="soon-note"><i class="fas fa-hammer"></i> More coming soon</span>
@@ -1107,7 +1110,7 @@
         </div>
         <div class="panel-body">
           <h2>Experiences</h2>
-          <p>The roles, teams, and communities I've built things with along the way.</p>
+          <p>The roles, teams, and communities I've built things and competed with along the way.</p>
 
           <div class="exp-block">
             <div class="exp-head">
@@ -1118,6 +1121,46 @@
             <button class="btn" type="button" id="expViewAll" aria-haspopup="dialog">
               <i class="fas fa-list-ul"></i> View All
             </button>
+          </div>
+
+          <div class="exp-block exp-wide">
+            <div class="exp-head">
+              <span class="exp-title"><i class="fas fa-mobile-screen-button"></i> Mobile Game Nerd</span>
+              <span class="exp-count">5 titles</span>
+            </div>
+            <p class="exp-sub">I play competitively as well as build. Ranked finishes across the mobile games I take seriously.</p>
+
+            <div class="feat-list">
+              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Brawl Stars</strong> &mdash; Pro rank, former #21 ranked in the world.</span></span>
+              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Clash Royale</strong> &mdash; Ultimate Champion, #2200 finish.</span></span>
+              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Merge Tactics</strong> &mdash; #22 finish.</span></span>
+              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Cookie Run</strong> &mdash; former #58 in Crumble Arena.</span></span>
+              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Pokemon GO</strong> &mdash; level 74.</span></span>
+            </div>
+
+            <div class="shot-grid">
+              <a class="shot" href="assets/gaming/brawl-stars-rank.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/brawl-stars-rank.jpg" alt="Brawl Stars global ranking 21" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/brawl-stars-pro.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/brawl-stars-pro.jpg" alt="Brawl Stars Pro battle card" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/clash-royale.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/clash-royale.jpg" alt="Clash Royale Hall of Fame rating" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/merge-tactics.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/merge-tactics.jpg" alt="Merge Tactics leaderboard rank 24" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/merge-tactics-2.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/merge-tactics-2.jpg" alt="Merge Tactics leaderboard rank 22" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/cookie-run-arena.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/cookie-run-arena.jpg" alt="Cookie Run Crumble Arena rank 58" loading="lazy">
+              </a>
+              <a class="shot" href="assets/gaming/pokemon-go.jpg" target="_blank" rel="noopener">
+                <img src="assets/gaming/pokemon-go.jpg" alt="Pokemon GO trainer profile at level 74" loading="lazy">
+              </a>
+            </div>
           </div>
         </div>
       </section>
