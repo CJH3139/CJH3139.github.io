@@ -666,31 +666,30 @@
       max-width: none;
     }
 
-    .exp-wide { max-width: none; }
-
-    .feat-list { display: flex; flex-direction: column; gap: 9px; }
-
-    .feat {
+    .game-row {
       display: flex;
-      align-items: baseline;
-      gap: 10px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      line-height: 1.55;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px 14px;
+      background: rgba(0,0,0,0.26);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 16px;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
-    .feat i { color: var(--leaf); font-size: 0.7rem; flex-shrink: 0; }
-    .feat strong { color: var(--text); font-weight: 600; }
+    .game-row:hover { background: rgba(134,239,172,0.07); border-color: rgba(134,239,172,0.32); }
 
-    .shot-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 10px;
-      margin-top: 18px;
-    }
+    .game-main { display: flex; flex-direction: column; gap: 3px; flex: 1 1 190px; min-width: 0; }
+    .game-name { font-size: 0.87rem; font-weight: 600; color: var(--text); }
+    .game-feat { font-size: 0.76rem; color: var(--leaf); }
+    .game-note { font-size: 0.72rem; color: var(--muted); line-height: 1.5; }
+
+    .game-shots { display: flex; gap: 8px; flex-shrink: 0; }
 
     .shot {
       display: block;
+      width: 74px;
       aspect-ratio: 3 / 4;
       overflow: hidden;
       background: rgba(0,0,0,0.4);
@@ -698,9 +697,9 @@
       transition: border-color 0.25s ease, transform 0.25s ease;
     }
 
-    .shot:hover { border-color: rgba(134,239,172,0.4); transform: translateY(-3px); }
+    .shot:hover { border-color: rgba(134,239,172,0.45); transform: translateY(-3px); }
     .shot:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; }
-    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 
     body.modal-open { overflow: hidden; }
 
@@ -1123,44 +1122,15 @@
             </button>
           </div>
 
-          <div class="exp-block exp-wide">
+          <div class="exp-block">
             <div class="exp-head">
               <span class="exp-title"><i class="fas fa-mobile-screen-button"></i> Mobile Game Nerd</span>
               <span class="exp-count">5 titles</span>
             </div>
-            <p class="exp-sub">I play competitively as well as build. Ranked finishes across the mobile games I take seriously.</p>
-
-            <div class="feat-list">
-              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Brawl Stars</strong> &mdash; Pro rank, former #21 ranked in the world.</span></span>
-              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Clash Royale</strong> &mdash; Ultimate Champion, #2200 finish.</span></span>
-              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Merge Tactics</strong> &mdash; #22 finish.</span></span>
-              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Cookie Run</strong> &mdash; former #58 in Crumble Arena.</span></span>
-              <span class="feat"><i class="fas fa-trophy"></i><span><strong>Pokemon GO</strong> &mdash; level 74.</span></span>
-            </div>
-
-            <div class="shot-grid">
-              <a class="shot" href="assets/gaming/brawl-stars-rank.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/brawl-stars-rank.jpg" alt="Brawl Stars global ranking 21" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/brawl-stars-pro.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/brawl-stars-pro.jpg" alt="Brawl Stars Pro battle card" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/clash-royale.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/clash-royale.jpg" alt="Clash Royale Hall of Fame rating" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/merge-tactics.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/merge-tactics.jpg" alt="Merge Tactics leaderboard rank 24" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/merge-tactics-2.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/merge-tactics-2.jpg" alt="Merge Tactics leaderboard rank 22" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/cookie-run-arena.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/cookie-run-arena.jpg" alt="Cookie Run Crumble Arena rank 58" loading="lazy">
-              </a>
-              <a class="shot" href="assets/gaming/pokemon-go.jpg" target="_blank" rel="noopener">
-                <img src="assets/gaming/pokemon-go.jpg" alt="Pokemon GO trainer profile at level 74" loading="lazy">
-              </a>
-            </div>
+            <p class="exp-sub">I compete as well as build. Ranked finishes across the mobile games I take seriously.</p>
+            <button class="btn" type="button" id="gameViewAll" aria-haspopup="dialog">
+              <i class="fas fa-list-ul"></i> View All
+            </button>
           </div>
         </div>
       </section>
@@ -1204,6 +1174,83 @@
     <p>© 2026 <span>CJH</span>, Game Developer</p>
   </div>
 </footer>
+
+<div class="gui-overlay" id="gamingGui" role="dialog" aria-modal="true" aria-labelledby="gamingTitle" hidden>
+  <div class="gui">
+
+    <div class="gui-head">
+      <h3 id="gamingTitle"><i class="fas fa-mobile-screen-button"></i> Mobile Game Nerd</h3>
+      <button class="gui-close" type="button" id="gamingClose" aria-label="Close">
+        <i class="fas fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="gui-body">
+      <div class="gui-group">
+        <h4>Ranked Finishes</h4>
+        <ul class="gui-list">
+          <li class="game-row">
+            <span class="game-main">
+              <span class="game-name">Brawl Stars</span>
+              <span class="game-feat">Pro rank</span>
+              <span class="game-note">Former #21 ranked player in the world.</span>
+            </span>
+            <span class="game-shots">
+              <a class="shot" href="assets/gaming/brawl-stars-rank.jpg" target="_blank" rel="noopener"><img src="assets/gaming/brawl-stars-rank.jpg" alt="Brawl Stars global ranking 21" loading="lazy"></a>
+              <a class="shot" href="assets/gaming/brawl-stars-pro.jpg" target="_blank" rel="noopener"><img src="assets/gaming/brawl-stars-pro.jpg" alt="Brawl Stars Pro battle card" loading="lazy"></a>
+            </span>
+          </li>
+          <li class="game-row">
+            <span class="game-main">
+              <span class="game-name">Clash Royale</span>
+              <span class="game-feat">Ultimate Champion</span>
+              <span class="game-note">Finished #2200 globally.</span>
+            </span>
+            <span class="game-shots">
+              <a class="shot" href="assets/gaming/clash-royale.jpg" target="_blank" rel="noopener"><img src="assets/gaming/clash-royale.jpg" alt="Clash Royale Hall of Fame rating" loading="lazy"></a>
+            </span>
+          </li>
+          <li class="game-row">
+            <span class="game-main">
+              <span class="game-name">Merge Tactics</span>
+              <span class="game-feat">#22 finish</span>
+              <span class="game-note">Peaked at rank 22 on the global ladder.</span>
+            </span>
+            <span class="game-shots">
+              <a class="shot" href="assets/gaming/merge-tactics-2.jpg" target="_blank" rel="noopener"><img src="assets/gaming/merge-tactics-2.jpg" alt="Merge Tactics leaderboard rank 22" loading="lazy"></a>
+              <a class="shot" href="assets/gaming/merge-tactics.jpg" target="_blank" rel="noopener"><img src="assets/gaming/merge-tactics.jpg" alt="Merge Tactics leaderboard rank 24" loading="lazy"></a>
+            </span>
+          </li>
+          <li class="game-row">
+            <span class="game-main">
+              <span class="game-name">Cookie Run</span>
+              <span class="game-feat">Master 5</span>
+              <span class="game-note">Former #58 in Crumble Arena.</span>
+            </span>
+            <span class="game-shots">
+              <a class="shot" href="assets/gaming/cookie-run-arena.jpg" target="_blank" rel="noopener"><img src="assets/gaming/cookie-run-arena.jpg" alt="Cookie Run Crumble Arena rank 58" loading="lazy"></a>
+            </span>
+          </li>
+          <li class="game-row">
+            <span class="game-main">
+              <span class="game-name">Pokemon GO</span>
+              <span class="game-feat">Level 74</span>
+              <span class="game-note">4,079 km walked and 203,436 caught.</span>
+            </span>
+            <span class="game-shots">
+              <a class="shot" href="assets/gaming/pokemon-go.jpg" target="_blank" rel="noopener"><img src="assets/gaming/pokemon-go.jpg" alt="Pokemon GO trainer profile at level 74" loading="lazy"></a>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gui-foot">
+      <span>Tap a screenshot to open it full size</span>
+    </div>
+
+  </div>
+</div>
 
 <div class="gui-overlay" id="staffGui" role="dialog" aria-modal="true" aria-labelledby="guiTitle" hidden>
   <div class="gui">
@@ -1344,11 +1391,11 @@
     });
   })();
 
-  (function () {
-    const overlay  = document.getElementById('staffGui');
-    const openBtn  = document.getElementById('expViewAll');
-    const closeBtn = document.getElementById('guiClose');
-    const hireBtn  = document.getElementById('guiHire');
+  function wireModal(overlayId, openBtnId, closeBtnId, hireBtnId) {
+    const overlay  = document.getElementById(overlayId);
+    const openBtn  = document.getElementById(openBtnId);
+    const closeBtn = document.getElementById(closeBtnId);
+    const hireBtn  = hireBtnId ? document.getElementById(hireBtnId) : null;
     if (!overlay || !openBtn) return;
 
     let lastFocus = null;
@@ -1374,7 +1421,7 @@
       if (e.target === overlay) close();
     });
 
-    hireBtn.addEventListener('click', () => {
+    if (hireBtn) hireBtn.addEventListener('click', () => {
       close();
       const pill = document.getElementById('tab-contact');
       if (pill.getAttribute('aria-expanded') !== 'true') {
@@ -1399,7 +1446,10 @@
         e.preventDefault(); first.focus();
       }
     });
-  })();
+  }
+
+  wireModal('staffGui', 'expViewAll', 'guiClose', 'guiHire');
+  wireModal('gamingGui', 'gameViewAll', 'gamingClose');
 
   (function () {
     const cta = document.getElementById('contactCta');
