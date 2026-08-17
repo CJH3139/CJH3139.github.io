@@ -23,13 +23,20 @@
       --rail: 210px;
     }
 
-    html { background: var(--bg); }
+    /* Site renders at what used to be 150% browser zoom. Viewport units below are
+       divided by this factor and breakpoints multiplied by it, since vw/vh and
+       media queries ignore `zoom`. The JS reads this value back for canvas and
+       pointer coordinates. */
+    html {
+      background: var(--bg);
+      zoom: 1.5;
+    }
 
     body {
       font-family: 'Space Grotesk', sans-serif;
       color: var(--text);
       overflow-x: hidden;
-      min-height: 100vh;
+      min-height: 66.667vh;
       display: flex;
       flex-direction: column;
     }
@@ -76,7 +83,7 @@
       position: fixed;
       right: -20px;
       top: 6px;
-      width: min(34vw, 380px);
+      width: min(22.667vw, 380px);
       z-index: 0;
       opacity: 0.16;
       pointer-events: none;
@@ -124,7 +131,7 @@
       color: var(--muted);
       background: rgba(134,239,172,0.05);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       padding: 13px 24px;
       cursor: pointer;
       text-align: left;
@@ -169,7 +176,7 @@
     .hero { padding: 62px 0 36px; text-align: center; }
 
     .hero-greet {
-      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      font-size: clamp(0.95rem, 1.333vw, 1.15rem);
       font-weight: 500;
       color: var(--muted);
       letter-spacing: 0.3px;
@@ -177,7 +184,7 @@
     }
 
     .hero-role {
-      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-size: clamp(1rem, 1.467vw, 1.2rem);
       font-weight: 500;
       color: var(--text);
       letter-spacing: 0.3px;
@@ -190,7 +197,7 @@
     }
 
     .hero-bio p {
-      font-size: clamp(0.9rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 1.333vw, 1rem);
       color: var(--muted);
       line-height: 1.75;
     }
@@ -208,7 +215,7 @@
       text-decoration: none;
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       padding: 9px 18px;
       transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     }
@@ -225,7 +232,7 @@
     .hero-cta { margin-top: 32px; }
 
     .hero h1 {
-      font-size: clamp(3rem, 9vw, 5.2rem);
+      font-size: clamp(3rem, 6vw, 5.2rem);
       font-weight: 700;
       letter-spacing: -3px;
       line-height: 1.05;
@@ -271,14 +278,6 @@
       border: 0;
       display: block;
       pointer-events: none;
-    }
-
-    .preview figcaption {
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.3px;
     }
 
     .mc-note {
@@ -398,7 +397,7 @@
     .panel-media.discord:hover i { color: #8ea1e1; }
 
     .panel-body h2 {
-      font-size: clamp(1.3rem, 3vw, 1.65rem);
+      font-size: clamp(1.3rem, 2vw, 1.65rem);
       font-weight: 700;
       letter-spacing: -0.5px;
       margin-bottom: 12px;
@@ -417,7 +416,7 @@
       align-items: center;
       gap: 9px;
       padding: 13px 26px;
-      border-radius: 999px;
+      border-radius: 0;
       font-size: 0.875rem;
       font-weight: 600;
       font-family: inherit;
@@ -472,7 +471,7 @@
       width: 100%;
       background: rgba(0,0,0,0.28);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       padding: 10px 20px 10px 10px;
       font-family: inherit;
       text-align: left;
@@ -590,7 +589,7 @@
       letter-spacing: 0.7px;
       text-transform: uppercase;
       font-weight: 600;
-      border-radius: 999px;
+      border-radius: 0;
       padding: 3px 9px;
       white-space: nowrap;
     }
@@ -612,7 +611,7 @@
       font-size: 0.8rem;
       color: var(--muted);
       border: 1px dashed var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       padding: 11px 22px;
     }
 
@@ -652,7 +651,7 @@
       color: var(--leaf);
       background: rgba(134,239,172,0.1);
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 0;
       padding: 4px 11px;
       white-space: nowrap;
     }
@@ -688,7 +687,7 @@
     .gui {
       width: 100%;
       max-width: 760px;
-      max-height: 84vh;
+      max-height: 56vh;
       display: flex;
       flex-direction: column;
       background: #12281f;
@@ -763,7 +762,7 @@
     .gui-body::-webkit-scrollbar-track { background: transparent; }
     .gui-body::-webkit-scrollbar-thumb {
       background: rgba(134,239,172,0.22);
-      border-radius: 999px;
+      border-radius: 0;
       border: 3px solid transparent;
       background-clip: content-box;
     }
@@ -826,6 +825,14 @@
     .exp-role { font-size: 0.76rem; color: var(--leaf); }
     .exp-note { font-size: 0.7rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
 
+    .exp-ip {
+      font-size: 0.7rem;
+      color: rgba(134,239,172,0.58);
+      letter-spacing: 0.2px;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+
     .exp-dates {
       font-size: 0.73rem;
       color: var(--muted);
@@ -839,7 +846,7 @@
       letter-spacing: 0.7px;
       text-transform: uppercase;
       font-weight: 600;
-      border-radius: 999px;
+      border-radius: 0;
       padding: 4px 10px;
       white-space: nowrap;
       text-align: center;
@@ -882,7 +889,7 @@
 
     footer span { color: var(--leaf); }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1470px) {
       :root { --rail: 0px; }
 
       .rail {
@@ -903,7 +910,7 @@
 
       .preview-grid { grid-template-columns: 1fr; gap: 18px; }
 
-      .rowlet { width: min(56vw, 230px); opacity: 0.12; right: -24px; top: 2px; }
+      .rowlet { width: min(37.333vw, 230px); opacity: 0.12; right: -24px; top: 2px; }
 
       .panel {
         grid-template-columns: 1fr;
@@ -918,7 +925,7 @@
       .proj-list { margin-left: auto; margin-right: auto; }
       .exp-block { margin-left: auto; margin-right: auto; }
       .gui-overlay { padding: 14px; }
-      .gui { max-height: 88vh; border-radius: 22px; }
+      .gui { max-height: 58.667vh; border-radius: 22px; }
       .gui-head, .gui-foot { padding-left: 18px; padding-right: 18px; }
       .gui-body { padding: 18px; }
       .gui-foot { justify-content: center; text-align: center; }
@@ -971,7 +978,7 @@
       </div>
 
       <a class="hero-badge" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
-        <i class="fab fa-github"></i> Official Skript contributor &middot; SkriptLang/Skript
+        <i class="fab fa-github"></i> Official Skript contributor @ SkriptLang/Skript
       </a>
 
       <div class="hero-cta">
@@ -992,7 +999,6 @@
                    preload="auto" disablepictureinpicture disableremoteplayback
                    aria-label="Tetris running in Minecraft"></video>
           </div>
-          <figcaption>Tetris</figcaption>
         </figure>
 
         <figure class="preview">
@@ -1001,7 +1007,6 @@
                    preload="auto" disablepictureinpicture disableremoteplayback
                    aria-label="StackIt running in Minecraft"></video>
           </div>
-          <figcaption>StackIt</figcaption>
         </figure>
 
       </div>
@@ -1079,7 +1084,7 @@
               <span class="p-ico"><img src="assets/smallboxes.webp" alt="SmallBoxes logo"></span>
               <span class="p-text">
                 <span class="p-head"><strong>SmallBoxes</strong><span class="p-tag t-shut">Shutdown</span></span>
-                <small>A box server I owned and ran, peaking at 120 players online at once.</small>
+                <small>A box server I owned and ran, peaking at 120 concurrent players.</small>
               </span>
             </div>
 
@@ -1087,7 +1092,7 @@
               <span class="p-ico"><img src="assets/variance.png" alt="Variance logo"></span>
               <span class="p-text">
                 <span class="p-head"><strong>Variance</strong><span class="p-tag t-shut">Shutdown</span></span>
-                <small>A RandomKits server I owned, peaking at 70 players online at once.</small>
+                <small>A RandomKits server I owned, peaking at 70 concurrent players.</small>
               </span>
             </div>
           </div>
@@ -1107,7 +1112,7 @@
           <div class="exp-block">
             <div class="exp-head">
               <span class="exp-title"><i class="fas fa-cubes"></i> Minecraft Staff Experience</span>
-              <span class="exp-count">8 past, 5 current</span>
+              <span class="exp-count">6 past, 4 current</span>
             </div>
             <p class="exp-sub">Selected developer, admin, manager, and owner roles across established Minecraft networks, dating back to 2021.</p>
             <button class="btn" type="button" id="expViewAll" aria-haspopup="dialog">
@@ -1173,27 +1178,22 @@
         <h4>Current Positions</h4>
         <ul class="gui-list">
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Colorss</span><span class="exp-role">Owner</span></span>
+            <span class="exp-main"><span class="exp-name">Colorss</span><span class="exp-role">Owner</span><span class="exp-ip">colorss.minehut.gg</span></span>
             <span class="exp-dates">11/20/2025 - Present</span>
             <span class="exp-tag t-present">Present</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">LightSkies</span><span class="exp-role">Developer</span></span>
+            <span class="exp-main"><span class="exp-name">LightSkies</span><span class="exp-role">Developer</span><span class="exp-ip">play.lightskies.gg</span></span>
             <span class="exp-dates">11/20/2025 - Present</span>
             <span class="exp-tag t-present">Present</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">MoneyRealms</span><span class="exp-role">Developer</span></span>
+            <span class="exp-main"><span class="exp-name">MoneyRealms</span><span class="exp-role">Developer</span><span class="exp-ip">moneymc.net</span></span>
             <span class="exp-dates">5/2/2026 - Present</span>
             <span class="exp-tag t-present">Present</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Lazuli/Gravel</span><span class="exp-role">Developer</span></span>
-            <span class="exp-dates">5/12/2026 - Present</span>
-            <span class="exp-tag t-present">Present</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">PyraKits</span><span class="exp-role">Developer</span></span>
+            <span class="exp-main"><span class="exp-name">PyraKits</span><span class="exp-role">Developer</span><span class="exp-ip">pyrakits.net</span></span>
             <span class="exp-dates">10/16/2025 - Present</span>
             <span class="exp-tag t-present">Present</span>
           </li>
@@ -1204,42 +1204,32 @@
         <h4>Notable Past Positions</h4>
         <ul class="gui-list">
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">SmallBoxes</span><span class="exp-role">Owner</span></span>
+            <span class="exp-main"><span class="exp-name">SmallBoxes</span><span class="exp-role">Owner</span><span class="exp-ip">smallboxes.minehut.gg</span></span>
             <span class="exp-dates">1/1/2025 - 11/20/2025</span>
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Variance</span><span class="exp-role">Owner</span></span>
+            <span class="exp-main"><span class="exp-name">Variance</span><span class="exp-role">Owner</span><span class="exp-ip">variance.net</span></span>
             <span class="exp-dates">11/22/2025 - 3/8/2026</span>
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Begun</span><span class="exp-role">Owner</span></span>
-            <span class="exp-dates">11/24/2025 - 5/19/2026</span>
-            <span class="exp-tag t-shut">Shutdown</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">StealABoss/StealItAll</span><span class="exp-role">Developer</span></span>
+            <span class="exp-main"><span class="exp-name">StealABoss/StealItAll</span><span class="exp-role">Developer</span><span class="exp-ip">play.stealamob.net</span></span>
             <span class="exp-dates">9/15/2025 - 8/1/2026</span>
             <span class="exp-tag t-resign">Resigned</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Wallet</span><span class="exp-role">Developer</span></span>
-            <span class="exp-dates">11/8/2025 - 3/20/2026</span>
-            <span class="exp-tag t-shut">Shutdown</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">BoxRNG</span><span class="exp-role">Developer</span></span>
+            <span class="exp-main"><span class="exp-name">BoxRNG</span><span class="exp-role">Developer</span><span class="exp-ip">moneymc.net</span></span>
             <span class="exp-dates">8/23/2025 - 1/10/2026</span>
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Zyptrik</span><span class="exp-role">Moderator</span></span>
+            <span class="exp-main"><span class="exp-name">Zyptrik</span><span class="exp-role">Moderator</span><span class="exp-ip">now techmines.minehut.gg</span></span>
             <span class="exp-dates">11/8/2024 - 4/9/2025</span>
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">EZMines</span><span class="exp-role">Manager</span></span>
+            <span class="exp-main"><span class="exp-name">EZMines</span><span class="exp-role">Manager</span><span class="exp-ip">ezmines.net</span></span>
             <span class="exp-dates">3/10/2025 - 4/6/2025</span>
             <span class="exp-tag t-resign">Resigned</span>
           </li>
@@ -1261,6 +1251,13 @@
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
+
+  // `zoom` on <html> scales CSS pixels but not window.innerWidth/innerHeight or
+  // pointer event coordinates, so those have to be divided back down before they
+  // are used as CSS px inside the zoomed document.
+  const ZOOM = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  const viewW = () => window.innerWidth / ZOOM;
+  const viewH = () => window.innerHeight / ZOOM;
 
   (function () {
     document.querySelectorAll('.preview-frame video').forEach(v => {
@@ -1417,11 +1414,11 @@
 
   if (canHover && !reduceMotion) {
     const glow = document.getElementById('cursorGlow');
-    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let tx = viewW() / 2, ty = viewH() / 2;
     let cx = tx, cy = ty, running = false;
 
     window.addEventListener('pointermove', e => {
-      tx = e.clientX; ty = e.clientY;
+      tx = e.clientX / ZOOM; ty = e.clientY / ZOOM;
       glow.style.opacity = '1';
       if (!running) { running = true; requestAnimationFrame(trail); }
     });
@@ -1445,13 +1442,14 @@
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
+      const scale = dpr * ZOOM;
+      w = viewW();
+      h = viewH();
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
     }
 
     function spawn(fromTop) {
