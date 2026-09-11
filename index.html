@@ -20,22 +20,31 @@
       --border: rgba(134,239,172,0.16);
       --text: #e9f5ec;
       --muted: #85a894;
+      --z: 1.5;
     }
 
-    /* Site renders at what used to be 150% browser zoom. Viewport units below are
-       divided by this factor and breakpoints multiplied by it, since vw/vh and
-       media queries ignore `zoom`. The JS reads this value back for canvas and
-       pointer coordinates. */
+    /* On larger screens the site renders at what used to be 150% browser zoom.
+       Phones and short landscape screens stay at 1x, otherwise the layout is
+       squeezed into ~260 CSS px. Viewport units below are divided by --z and
+       breakpoints multiplied by 1.5, since vw/vh and media queries ignore
+       `zoom`. The JS reads the computed zoom back for canvas and pointer
+       coordinates. */
+    @media (max-width: 767px), (max-height: 500px) {
+      :root { --z: 1; }
+    }
+
     html {
       background: var(--bg);
-      zoom: 1.5;
+      zoom: var(--z);
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
       font-family: 'Space Grotesk', sans-serif;
       color: var(--text);
       overflow-x: hidden;
-      min-height: 66.667vh;
+      min-height: calc(100vh / var(--z));
       display: flex;
       flex-direction: column;
     }
@@ -82,7 +91,7 @@
       position: fixed;
       right: -20px;
       top: 6px;
-      width: min(22.667vw, 380px);
+      width: min(calc(34vw / var(--z)), 380px);
       z-index: 0;
       opacity: 0.16;
       pointer-events: none;
@@ -717,7 +726,7 @@
     .gui {
       width: 100%;
       max-width: 760px;
-      max-height: 56vh;
+      max-height: calc(84vh / var(--z));
       display: flex;
       flex-direction: column;
       background: #12281f;
@@ -783,6 +792,7 @@
 
     .gui-body {
       overflow-y: auto;
+      overscroll-behavior: contain;
       padding: 22px 24px 26px;
       scrollbar-width: thin;
       scrollbar-color: rgba(134,239,172,0.3) transparent;
@@ -926,7 +936,7 @@
 
       .preview-grid { grid-template-columns: 1fr; gap: 18px; }
 
-      .rowlet { width: min(37.333vw, 230px); opacity: 0.12; right: -24px; top: 2px; }
+      .rowlet { width: min(calc(56vw / var(--z)), 230px); opacity: 0.12; right: -24px; top: 2px; }
 
       .panel {
         grid-template-columns: 1fr;
@@ -941,7 +951,7 @@
       .proj-list { margin-left: auto; margin-right: auto; }
       .exp-block { margin-left: auto; margin-right: auto; }
       .gui-overlay { padding: 14px; }
-      .gui { max-height: 58.667vh; border-radius: 22px; }
+      .gui { max-height: calc(88vh / var(--z)); border-radius: 22px; }
       .gui-head, .gui-foot { padding-left: 18px; padding-right: 18px; }
       .gui-body { padding: 18px; }
       .gui-foot { justify-content: center; text-align: center; }
@@ -950,6 +960,46 @@
       .panel-media { width: 165px; height: 165px; }
       .stage { min-height: 0; }
 
+    }
+
+    /* Phones: --z is 1 here, so plain viewport units are safe. */
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      .rail { gap: 6px 20px; padding: 10px 12px; }
+      .hero { padding: 36px 0 26px; }
+      .hero-bio { margin-top: 22px; }
+      .preview-frame { border-radius: 18px; }
+      .stage { padding-bottom: 40px; }
+
+      .panel { padding: 24px 16px; gap: 20px; border-radius: 24px; }
+      .panel-media { width: 132px; height: 132px; padding: 26px; }
+      .panel-media i { font-size: 2.6rem; }
+      .panel-body p { margin-bottom: 18px; }
+
+      .proj-row { gap: 12px; padding: 12px 14px 12px 12px; border-radius: 18px; }
+      .p-ico { width: 40px; height: 40px; }
+      .contact-row { padding: 10px 14px 10px 10px; }
+      .exp-block { padding: 16px 16px 18px; border-radius: 18px; }
+
+      .gui-overlay { padding: 10px; }
+      .gui { max-height: 92vh; max-height: 92dvh; border-radius: 20px; }
+      .gui-head { padding-top: 14px; padding-bottom: 14px; }
+      .gui-head, .gui-foot { padding-left: 14px; padding-right: 14px; }
+      .gui-body { padding: 14px; }
+      .exp-row, .game-row { padding: 11px 12px; }
+      .exp-tag { min-width: 0; }
+    }
+
+    @media (max-width: 360px) {
+      .rail { gap: 4px 12px; padding: 10px 8px; }
+    }
+
+    /* Touch screens keep :hover after a tap, which leaves cards stuck lifted. */
+    @media (hover: none) {
+      .preview-frame:hover, .hero-badge:hover, .btn:hover, .contact-row:hover,
+      .proj-row:hover, .shot:hover, .gui-close:hover, .panel-media:hover img,
+      .panel-media:hover i { transform: none; }
+      .panel-media:hover { --lift: 0px; --sc: 1; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1344,10 +1394,11 @@
 
   // `zoom` on <html> scales CSS pixels but not window.innerWidth/innerHeight or
   // pointer event coordinates, so those have to be divided back down before they
-  // are used as CSS px inside the zoomed document.
-  const ZOOM = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
-  const viewW = () => window.innerWidth / ZOOM;
-  const viewH = () => window.innerHeight / ZOOM;
+  // are used as CSS px inside the zoomed document. Zoom depends on screen size,
+  // so it is read fresh rather than cached.
+  const zoom = () => parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+  const viewW = () => window.innerWidth / zoom();
+  const viewH = () => window.innerHeight / zoom();
 
   (function () {
     document.querySelectorAll('.preview-frame video').forEach(v => {
@@ -1511,7 +1562,8 @@
     let cx = tx, cy = ty, running = false;
 
     window.addEventListener('pointermove', e => {
-      tx = e.clientX / ZOOM; ty = e.clientY / ZOOM;
+      const z = zoom();
+      tx = e.clientX / z; ty = e.clientY / z;
       glow.style.opacity = '1';
       if (!running) { running = true; requestAnimationFrame(trail); }
     });
@@ -1535,7 +1587,7 @@
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const scale = dpr * ZOOM;
+      const scale = dpr * zoom();
       w = viewW();
       h = viewH();
       canvas.width = Math.round(w * scale);
