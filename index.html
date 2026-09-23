@@ -899,6 +899,15 @@
     .t-resign  { background: rgba(251,146,60,0.12);  color: #fb923c;     border: 1px solid rgba(251,146,60,0.26); }
     .t-other   { background: rgba(248,113,113,0.12); color: #f87171;     border: 1px solid rgba(248,113,113,0.26); }
     .t-contrib { background: rgba(125,211,252,0.12); color: #7dd3fc;     border: 1px solid rgba(125,211,252,0.28); }
+    .t-alpha   { background: rgba(251,191,36,0.12);  color: #fbbf24;     border: 1px solid rgba(251,191,36,0.28); }
+
+    .gui-more {
+      font-size: 0.74rem;
+      color: var(--muted);
+      letter-spacing: 0.3px;
+      text-align: center;
+      margin-top: 14px;
+    }
 
     .gui-foot {
       display: flex;
@@ -1102,7 +1111,7 @@
         </div>
         <div class="panel-body">
           <h2>Projects</h2>
-          <p>The servers, plugins, and games I've built, past and present.</p>
+          <p>The mods and plugins I've built, past and present.</p>
 
           <div class="proj-list">
             <a class="proj-row" href="https://github.com/CJH3139/SeedScout" target="_blank" rel="noopener">
@@ -1114,11 +1123,11 @@
               <i class="fas fa-arrow-right c-act"></i>
             </a>
 
-            <a class="proj-row" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
-              <span class="p-ico"><i class="fab fa-github"></i></span>
+            <a class="proj-row" href="https://github.com/CJH3139/MineSkript" target="_blank" rel="noopener">
+              <span class="p-ico"><i class="fas fa-scroll"></i></span>
               <span class="p-text">
-                <span class="p-head"><strong>Skript</strong><span class="p-tag t-contrib">Contributor</span></span>
-                <small>Official contributor to SkriptLang/Skript, the scripting language powering thousands of Minecraft servers.</small>
+                <span class="p-head"><strong>MineSkript</strong><span class="p-tag t-alpha">Early Release</span></span>
+                <small>A client-side Fabric mod that lets you script your client in plain English. Drop a .ms file in a folder, reload without restarting, and react to ticks, key presses and chat.</small>
               </span>
               <i class="fas fa-arrow-right c-act"></i>
             </a>
@@ -1132,20 +1141,11 @@
               <i class="fas fa-arrow-right c-act"></i>
             </a>
 
-            <a class="proj-row" href="https://discord.gg/m4H55rQJzC" target="_blank" rel="noopener">
-              <span class="p-ico"><img src="assets/skriptshack.png" alt="Skript Shack logo"></span>
+            <a class="proj-row" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
+              <span class="p-ico"><i class="fab fa-github"></i></span>
               <span class="p-text">
-                <strong>Skript Shack</strong>
-                <small>My Discord community for free, high quality Skripts. Resources and support for server owners all in one place.</small>
-              </span>
-              <i class="fab fa-discord c-act"></i>
-            </a>
-
-            <a class="proj-row" href="https://learn.gamesforchange.org/student-challenge" target="_blank" rel="noopener">
-              <span class="p-ico"><i class="fas fa-leaf"></i></span>
-              <span class="p-text">
-                <span class="p-head"><strong>Games for Change Submission</strong><span class="p-tag t-contrib">Unity</span></span>
-                <small>My entry for the Games for Change Student Challenge, built in Unity and inspired by the Leuser rainforest.</small>
+                <span class="p-head"><strong>Skript</strong><span class="p-tag t-contrib">Contributor</span></span>
+                <small>Official contributor to SkriptLang/Skript, the scripting language powering thousands of Minecraft servers.</small>
               </span>
               <i class="fas fa-arrow-right c-act"></i>
             </a>
@@ -1194,11 +1194,11 @@
           <p>Need a hand with your server? Here is everywhere you can reach me.</p>
 
           <div class="contact-list">
-            <button class="contact-row" type="button" data-copy="@CJH1126" title="Click to copy">
+            <a class="contact-row" href="https://discord.gg/zSTDbB74wU" target="_blank" rel="noopener">
               <span class="c-ico ci-discord"><i class="fab fa-discord"></i></span>
-              <span class="c-text"><small>Discord</small><strong>@CJH1126</strong></span>
-              <i class="fas fa-copy c-act"></i>
-            </button>
+              <span class="c-text"><small>Discord</small><strong>discord.gg/zSTDbB74wU</strong></span>
+              <i class="fas fa-arrow-right c-act"></i>
+            </a>
 
             <a class="contact-row" href="https://github.com/CJH3139" target="_blank" rel="noopener">
               <span class="c-ico ci-github"><i class="fab fa-github"></i></span>
@@ -1328,7 +1328,7 @@
             <span class="exp-tag t-present">Present</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">MoneyRealms</span><span class="exp-role">Developer</span><span class="exp-ip">moneymc.net</span></span>
+            <span class="exp-main"><span class="exp-name">MoneyMC</span><span class="exp-role">Developer</span><span class="exp-ip">moneymc.net</span></span>
             <span class="exp-dates">5/2/2026 - Present</span>
             <span class="exp-tag t-present">Present</span>
           </li>
@@ -1344,16 +1344,6 @@
         <h4>Notable Past Positions</h4>
         <ul class="gui-list">
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">SmallBoxes</span><span class="exp-role">Owner</span><span class="exp-ip">smallboxes.minehut.gg</span></span>
-            <span class="exp-dates">1/1/2025 - 11/20/2025</span>
-            <span class="exp-tag t-shut">Shutdown</span>
-          </li>
-          <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Variance</span><span class="exp-role">Owner</span><span class="exp-ip">variance.net</span></span>
-            <span class="exp-dates">11/22/2025 - 3/8/2026</span>
-            <span class="exp-tag t-shut">Shutdown</span>
-          </li>
-          <li class="exp-row">
             <span class="exp-main"><span class="exp-name">StealABoss/StealItAll</span><span class="exp-role">Developer</span><span class="exp-ip">play.stealamob.net</span></span>
             <span class="exp-dates">9/15/2025 - 8/1/2026</span>
             <span class="exp-tag t-resign">Resigned</span>
@@ -1364,16 +1354,12 @@
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
           <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">Zyptrik</span><span class="exp-role">Moderator</span><span class="exp-ip">now techmines.minehut.gg</span></span>
+            <span class="exp-main"><span class="exp-name">Zyptrik</span><span class="exp-role">Moderator</span><span class="exp-ip">techmines.net</span></span>
             <span class="exp-dates">11/8/2024 - 4/9/2025</span>
             <span class="exp-tag t-shut">Shutdown</span>
           </li>
-          <li class="exp-row">
-            <span class="exp-main"><span class="exp-name">EZMines</span><span class="exp-role">Manager</span><span class="exp-ip">ezmines.net</span></span>
-            <span class="exp-dates">3/10/2025 - 4/6/2025</span>
-            <span class="exp-tag t-resign">Resigned</span>
-          </li>
         </ul>
+        <p class="gui-more">+33 more roles not listed. Contact me if you want to see them all.</p>
       </div>
 
     </div>
