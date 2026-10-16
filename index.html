@@ -7,479 +7,472 @@
   <meta name="description" content="CJH builds Minecraft games and tools that aren't supposed to be possible, like Tappy, an idle clicker on a plain Minecraft server.">
   <link rel="icon" type="image/png" href="assets/rowlet.png">
   <link rel="apple-touch-icon" href="assets/rowlet.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;600&family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/monocraft.woff" as="font" type="font/woff" crossorigin>
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    /* One neutral ramp (deepslate, tinted slightly green) and one accent.
-       Text colors are checked against --bg: --text 15:1, --muted 7:1, --faint 5:1. */
-    :root {
-      --bg: #161917;
-      --raise: #1d211f;
-      --raise-2: #242926;
-      --line: #2f3531;
-      --faint: #808a83;
-      --muted: #a3ada6;
-      --text: #e6ebe7;
-      --emerald: #4cc27a;
-
-      --sans: 'IBM Plex Sans', system-ui, sans-serif;
-      --mono: 'IBM Plex Mono', ui-monospace, monospace;
-      --pixel: 'Silkscreen', var(--mono);
-
-      --gutter: 16px;
-      --measure: 34em;
+    /* Monocraft by Idrees Hassan, SIL Open Font License (assets/fonts/Monocraft-LICENSE.txt) */
+    @font-face {
+      font-family: 'Monocraft';
+      src: url('assets/fonts/monocraft.woff') format('woff');
+      font-display: swap;
     }
 
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Colors are Minecraft's own: chat codes for text, GUI greys for panels. */
+    :root {
+      --px: 3px;
+
+      --white: #ffffff;
+      --gray: #aaaaaa;
+      --dark-gray: #555555;
+      --yellow: #ffff55;
+      --green: #55ff55;
+      --aqua: #55ffff;
+      --red: #ff5555;
+      --purple: #ff55ff;
+
+      --gui: #c6c6c6;
+      --gui-text: #3f3f3f;
+      --slot: #8b8b8b;
+      --slot-dark: #373737;
+
+      --btn: #727272;
+      --btn-hi: #a9a9a9;
+      --btn-lo: #4c4c4c;
+    }
+
+    @media (max-width: 600px) { :root { --px: 2px; } }
+
     html {
-      font-size: 17px;
-      background: var(--bg);
+      background: #1c140e url('assets/dirt.png') repeat;
+      background-size: 64px 64px;
+      image-rendering: pixelated;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
       scroll-behavior: smooth;
     }
 
-    @media (min-width: 900px) { html { font-size: 18px; } }
-
     body {
-      font-family: var(--sans);
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--text);
-      background: var(--bg);
+      font-family: 'Monocraft', ui-monospace, monospace;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #3f3f3f;
       overflow-x: hidden;
     }
+
+    img, video { image-rendering: auto; }
 
     a { color: inherit; }
 
     a:focus-visible, button:focus-visible {
-      outline: 2px solid var(--emerald);
-      outline-offset: 3px;
+      outline: var(--px) solid var(--white);
+      outline-offset: var(--px);
     }
 
     .wrap {
-      max-width: 920px;
+      max-width: 880px;
       margin: 0 auto;
-      padding: 0 var(--gutter);
+      padding: 0 16px;
     }
 
-    @media (min-width: 600px) { :root { --gutter: 32px; } }
+    @media (min-width: 600px) { .wrap { padding: 0 32px; } }
 
-    /* Top bar */
+    /* Shared pieces */
 
-    .bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-
-    .bar-name {
+    .btn {
+      appearance: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 600;
+      justify-content: center;
+      min-height: 46px;
+      padding: 8px 18px;
+      font: inherit;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #3f3f3f;
       text-decoration: none;
+      text-align: center;
+      background: var(--btn);
+      border: var(--px) solid #000;
+      box-shadow:
+        inset var(--px) var(--px) 0 var(--btn-hi),
+        inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--btn-lo);
+      cursor: pointer;
     }
 
-    .bar-name img { width: 28px; height: 28px; }
+    .btn:hover { border-color: var(--white); color: var(--yellow); text-shadow: 2px 2px 0 #3f3f15; }
+    .btn:active { transform: translateY(1px); }
 
-    .bar nav { display: flex; gap: 22px; }
-
-    .bar nav a {
-      font-size: 0.875rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 150ms ease-out;
+    .slot {
+      display: block;
+      background: var(--slot);
+      padding: var(--px);
+      box-shadow:
+        inset var(--px) var(--px) 0 var(--slot-dark),
+        inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--white);
     }
 
-    .bar nav a:hover { color: var(--text); }
-
-    @media (max-width: 520px) {
-      .bar nav { gap: 16px; }
-      .bar nav a.opt { display: none; }
-    }
-
-    /* Intro: the one place the page spends its boldness */
-
-    .intro { padding: 72px 0 88px; }
-
-    .intro h1 {
-      font-family: var(--pixel);
-      font-weight: 400;
-      font-size: 96px;
-      line-height: 1;
-      letter-spacing: 0;
-      color: var(--text);
-      text-shadow: 6px 6px 0 #2a3a30;
-    }
-
-    .intro .role {
-      margin-top: 22px;
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
-    .intro .bio {
-      margin-top: 18px;
-      max-width: var(--measure);
-      color: var(--muted);
-    }
-
-    .intro .bio + .bio { margin-top: 12px; }
-
-    .intro .meta {
-      margin-top: 28px;
-      font-size: 0.875rem;
-      color: var(--faint);
-    }
-
-    .intro .meta a {
-      color: var(--muted);
-      text-decoration-color: var(--line);
-      text-underline-offset: 3px;
-      transition: color 150ms ease-out, text-decoration-color 150ms ease-out;
-    }
-
-    .intro .meta a:hover { color: var(--text); text-decoration-color: var(--emerald); }
-
-    @media (max-width: 600px) {
-      .intro { padding: 40px 0 56px; }
-      .intro h1 { font-size: 64px; text-shadow: 4px 4px 0 #2a3a30; }
-      .intro .role { font-size: 1.25rem; }
-    }
-
-    /* Sections */
-
-    section { padding: 56px 0; }
-    section + section { border-top: 1px solid var(--line); }
+    .slot picture, .slot img, .slot video { display: block; width: 100%; }
 
     h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 400;
       line-height: 1.3;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    .lead {
-      color: var(--muted);
-      max-width: var(--measure);
-      margin-bottom: 32px;
+    .sub { color: var(--gray); margin-bottom: 24px; max-width: 36em; }
+
+    section { padding: 64px 0 0; }
+
+    /* Title screen */
+
+    .title {
+      padding: 72px 0 8px;
+      text-align: center;
     }
 
-    .label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--faint);
-      margin: 40px 0 12px;
+    .logo {
+      position: relative;
+      display: inline-block;
     }
 
-    /* Tappy */
-
-    .feature {
-      background: var(--raise);
-      margin-bottom: 48px;
+    .logo h1 {
+      font-size: 112px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 6px;
+      color: #e8e8e8;
+      text-shadow:
+        4px 4px 0 #8a8a8a,
+        8px 8px 0 #4a4a4a,
+        12px 12px 0 #1a1a1a;
     }
 
-    .feature picture, .feature img {
-      display: block;
+    .splash {
+      appearance: none;
+      position: absolute;
+      right: -150px;
+      bottom: -6px;
+      width: 260px;
+      font: inherit;
+      font-size: 18px;
+      line-height: 1.2;
+      color: var(--yellow);
+      text-shadow: 2px 2px 0 #3f3f15;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      transform: rotate(-20deg);
+      transform-origin: center;
+    }
+
+    .splash span {
+      display: inline-block;
+      animation: splash 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes splash { to { transform: scale(1.07); } }
+
+    .role {
+      margin-top: 40px;
+      font-size: 20px;
+    }
+
+    .bio {
+      max-width: 34em;
+      margin: 12px auto 0;
+      color: var(--gray);
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
       width: 100%;
+      max-width: 440px;
+      margin: 36px auto 0;
     }
 
-    .feature img {
-      height: auto;
+    .menu .wide { grid-column: 1 / -1; }
+
+    @media (max-width: 600px) {
+      .title { padding-top: 48px; }
+      .logo h1 { font-size: 72px; letter-spacing: 4px; text-shadow: 3px 3px 0 #8a8a8a, 6px 6px 0 #4a4a4a, 9px 9px 0 #1a1a1a; }
+      .splash { right: -64px; bottom: -34px; width: 190px; font-size: 14px; }
+      .role { margin-top: 64px; }
+      .menu { grid-template-columns: 1fr; }
+    }
+
+    /* Tappy: a chest-style GUI panel */
+
+    .panel {
+      background: var(--gui);
+      color: var(--gui-text);
+      text-shadow: none;
+      border: var(--px) solid #000;
+      box-shadow:
+        inset var(--px) var(--px) 0 var(--white),
+        inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--dark-gray);
+      padding: 22px 24px 26px;
+    }
+
+    .panel h3 {
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+
+    .panel .tag { color: #2a7a2a; }
+
+    .tappy-art { margin: 16px 0 20px; }
+
+    .tappy-art img {
       aspect-ratio: 21 / 8;
+      height: auto;
       object-fit: cover;
       object-position: 78% 40%;
     }
 
-    .feature-body {
+    .tappy-body {
       display: grid;
-      grid-template-columns: 1fr 15rem;
-      gap: 32px;
-      padding: 28px 32px 32px;
+      grid-template-columns: 1fr 250px;
+      gap: 28px;
     }
 
-    .feature h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
+    .tappy-body p { max-width: 34em; }
 
-    .feature .tagline { color: var(--emerald); margin-top: 2px; }
+    .facts { list-style: none; margin-top: 14px; }
+    .facts li { padding-left: 22px; position: relative; margin-top: 6px; }
+    .facts li::before { content: '+'; position: absolute; left: 0; color: #2a7a2a; }
 
-    .feature p.desc {
-      color: var(--muted);
-      margin-top: 14px;
-      max-width: var(--measure);
-    }
+    .connect label { display: block; color: var(--gui-text); margin-bottom: 4px; }
 
-    .facts { list-style: none; margin-top: 18px; }
-
-    .facts li {
-      font-size: 0.875rem;
-      color: var(--muted);
-      padding: 8px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .facts li strong { color: var(--text); font-weight: 600; }
-
-    .join {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-self: start;
-    }
-
-    .join-label { font-size: 0.875rem; color: var(--faint); }
-
-    .ip {
-      appearance: none;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+    .field {
+      display: block;
       width: 100%;
-      padding: 12px 14px;
-      font-family: var(--mono);
-      font-size: 0.875rem;
-      color: var(--text);
-      background: var(--bg);
-      border: 1px solid var(--line);
-      cursor: pointer;
-      transition: border-color 150ms ease-out;
+      padding: 8px 10px;
+      font: inherit;
+      color: #e0e0e0;
+      background: #000;
+      border: 2px solid #a0a0a0;
+      text-shadow: 2px 2px 0 #383838;
+      margin-bottom: 10px;
     }
 
-    .ip:hover { border-color: var(--emerald); }
-    .ip:active { transform: scale(0.98); }
-
-    .ip span:last-child {
-      font-family: var(--sans);
-      font-size: 0.875rem;
-      color: var(--emerald);
-    }
-
-    .join a {
-      font-size: 0.875rem;
-      color: var(--muted);
-      text-underline-offset: 3px;
-      text-decoration-color: var(--line);
-    }
-
-    .join a:hover { color: var(--text); text-decoration-color: var(--emerald); }
+    .connect .btn { width: 100%; margin-top: 8px; }
 
     @media (max-width: 760px) {
-      .feature img { aspect-ratio: 4 / 3; object-position: 80% 50%; }
-      .feature-body { grid-template-columns: 1fr; gap: 24px; padding: 20px 16px 24px; }
+      .panel { padding: 16px 14px 20px; }
+      .tappy-art img { aspect-ratio: 4 / 3; object-position: 80% 50%; }
+      .tappy-body { grid-template-columns: 1fr; gap: 20px; }
     }
-
-    /* In-game clips */
 
     .clips {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+      margin-top: 20px;
     }
 
-    .clips figure { min-width: 0; }
-
-    .clips video {
-      display: block;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      background: #000;
-    }
-
-    .clips figcaption {
-      font-size: 0.875rem;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    .clips figcaption strong { color: var(--text); font-weight: 600; }
+    .clips video { aspect-ratio: 16 / 9; object-fit: cover; background: #000; }
+    .clips figcaption { color: var(--gray); margin-top: 6px; }
 
     @media (max-width: 600px) { .clips { grid-template-columns: 1fr; } }
 
-    /* Project rows: separated by rules, not cards */
+    /* Projects: item tooltips */
 
-    .rows { list-style: none; }
-
-    .rows > li { border-top: 1px solid var(--line); }
-    .rows > li:last-child { border-bottom: 1px solid var(--line); }
-
-    .proj {
+    .tooltips {
+      list-style: none;
       display: grid;
-      grid-template-columns: 11rem 1fr auto;
-      gap: 4px 24px;
-      padding: 16px 8px;
-      margin: 0 -8px;
-      text-decoration: none;
-      transition: background 150ms ease-out;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
     }
 
-    .proj:hover { background: var(--raise); }
-
-    .proj-name { font-weight: 600; }
-    .proj-desc { color: var(--muted); max-width: var(--measure); }
-
-    .proj-state {
-      font-size: 0.875rem;
-      color: var(--faint);
-      white-space: nowrap;
-      padding-top: 2px;
-    }
-
-    .proj-state.on { color: var(--emerald); }
-
-    @media (max-width: 680px) {
-      .proj { grid-template-columns: 1fr auto; }
-      .proj-desc { grid-column: 1 / -1; grid-row: 2; }
-    }
-
-    /* Experience table */
-
-    .roles { list-style: none; }
-
-    .roles li {
-      display: grid;
-      grid-template-columns: 1fr 12rem 10.5rem;
-      gap: 2px 24px;
-      align-items: baseline;
-      padding: 12px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .roles li:last-child { border-bottom: 1px solid var(--line); }
-
-    .roles .who strong { font-weight: 600; }
-    .roles .who span { color: var(--muted); }
-
-    .roles .addr {
-      font-family: var(--mono);
-      font-size: 0.875rem;
-      color: var(--faint);
-      overflow-wrap: anywhere;
-    }
-
-    .roles .when {
-      font-size: 0.875rem;
-      color: var(--muted);
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .roles .when small {
+    .tip {
       display: block;
-      font-size: 0.875rem;
-      color: var(--faint);
+      height: 100%;
+      padding: 10px 14px 12px;
+      text-decoration: none;
+      background: rgba(16, 0, 16, 0.94);
+      border: var(--px) solid transparent;
+      border-image: linear-gradient(#5000ff, #28007f) 1;
+      outline: var(--px) solid #100010;
     }
 
-    @media (max-width: 680px) {
-      .roles li { grid-template-columns: 1fr auto; }
-      .roles .addr { grid-column: 1; grid-row: 2; }
-      .roles .when { grid-column: 2; grid-row: 1 / span 2; }
+    .tip:hover { border-image: linear-gradient(#8a55ff, #5a2abf) 1; }
+    .tip:focus-visible { outline-color: var(--white); outline-offset: 0; }
+
+    .tip-name { display: block; }
+    .tip-lore { display: block; color: var(--gray); margin-top: 4px; }
+    .tip-state { display: block; margin-top: 8px; }
+    .tip-url { display: block; color: #8a8a8a; text-shadow: none; font-size: 14px; margin-top: 2px; overflow-wrap: anywhere; }
+
+    .c-green { color: var(--green); }
+    .c-yellow { color: var(--yellow); }
+    .c-aqua { color: var(--aqua); }
+    .c-purple { color: var(--purple); }
+    .c-red { color: var(--red); }
+    .c-gray { color: var(--gray); }
+
+    @media (max-width: 680px) { .tooltips { grid-template-columns: 1fr; } }
+
+    /* Experience: the multiplayer server list */
+
+    .servers {
+      list-style: none;
+      background: rgba(0, 0, 0, 0.45);
+      padding: 6px;
     }
 
-    .aside {
-      font-size: 0.875rem;
-      color: var(--faint);
-      margin-top: 14px;
+    .server {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 0 14px;
+      padding: 8px;
+      border: 2px solid transparent;
     }
 
-    /* Competitive */
+    .server:hover { border-color: #808080; }
 
-    .games { list-style: none; }
+    .icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: var(--white);
+      background: #2d2d2d;
+      box-shadow: inset 0 0 0 2px #1a1a1a;
+    }
 
-    .games li {
+    .icon img { width: 100%; height: 100%; object-fit: cover; }
+
+    .server-name { display: block; }
+    .server-line { display: block; color: var(--gray); }
+    .server-addr { display: block; color: #8a8a8a; text-shadow: none; font-size: 14px; overflow-wrap: anywhere; }
+
+    .ping {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      color: var(--gray);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .bars { display: flex; align-items: flex-end; gap: 2px; height: 16px; }
+    .bars i { width: 4px; background: var(--green); box-shadow: 1px 1px 0 #153f15; }
+    .bars i:nth-child(1) { height: 4px; }
+    .bars i:nth-child(2) { height: 7px; }
+    .bars i:nth-child(3) { height: 10px; }
+    .bars i:nth-child(4) { height: 13px; }
+    .bars i:nth-child(5) { height: 16px; }
+    .bars.off i { background: #404040; box-shadow: none; }
+
+    .x { color: var(--red); font-size: 16px; line-height: 16px; }
+
+    .server-group {
+      color: var(--gray);
+      padding: 14px 10px 4px;
+    }
+
+    .server-group:first-child { padding-top: 6px; }
+
+    .more { color: var(--gray); margin-top: 12px; }
+
+    @media (max-width: 600px) {
+      .server { grid-template-columns: 48px 1fr; }
+      .icon { width: 48px; height: 48px; font-size: 22px; }
+      .ping { grid-column: 2; align-items: flex-start; flex-direction: row; gap: 10px; margin-top: 4px; }
+    }
+
+    /* Competitive: advancement toasts */
+
+    .toasts {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .toast {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 16px;
+      gap: 12px;
       align-items: center;
-      padding: 14px 0;
-      border-top: 1px solid var(--line);
+      height: 100%;
+      padding: 12px 12px 12px 16px;
+      background: #212121;
+      border: var(--px) solid #000;
+      box-shadow:
+        inset var(--px) var(--px) 0 #5a5a5a,
+        inset calc(var(--px) * -1) calc(var(--px) * -1) 0 #141414;
+      border-radius: 6px;
     }
 
-    .games li:last-child { border-bottom: 1px solid var(--line); }
+    .toast-kind { display: block; }
+    .toast-what { display: block; }
+    .toast-note { display: block; color: var(--gray); font-size: 14px; }
 
-    .games .what strong { font-weight: 600; }
-    .games .what .result { color: var(--emerald); }
-    .games .what p { font-size: 0.875rem; color: var(--muted); }
-
-    .shots { display: flex; gap: 8px; }
+    .shots { display: flex; gap: 6px; }
 
     .shots a {
       display: block;
-      width: 52px;
+      width: 46px;
       aspect-ratio: 3 / 4;
       overflow: hidden;
-      background: var(--raise-2);
-      outline-offset: 2px;
-      transition: opacity 150ms ease-out;
+      background: var(--slot);
+      padding: 2px;
+      box-shadow: inset 2px 2px 0 var(--slot-dark), inset -2px -2px 0 var(--white);
     }
 
-    .shots a:hover { opacity: 0.8; }
+    .shots a:hover { background: #c5c5c5; }
 
-    .shots img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
-    }
+    .shots img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
-    /* Contact */
+    @media (max-width: 680px) { .toasts { grid-template-columns: 1fr; } }
 
-    .links {
+    /* Contact: chat */
+
+    .chat {
       list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      max-width: 40rem;
+      max-width: 640px;
     }
 
-    .links a {
-      display: block;
-      padding: 14px 16px;
-      background: var(--raise);
-      text-decoration: none;
-      transition: background 150ms ease-out;
+    .chat li {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 2px 10px;
+      overflow-wrap: anywhere;
     }
 
-    .links a:hover { background: var(--raise-2); }
+    .chat li:first-child { padding-top: 8px; }
+    .chat li:last-child { padding-bottom: 8px; }
 
-    .links small {
-      display: block;
-      font-size: 0.875rem;
-      color: var(--faint);
+    .chat a {
+      color: var(--aqua);
+      text-shadow: 2px 2px 0 #153f3f;
+      text-underline-offset: 3px;
     }
 
-    .links span { font-weight: 600; overflow-wrap: anywhere; }
+    .chat a:hover { color: var(--white); }
 
-    @media (max-width: 520px) { .links { grid-template-columns: 1fr; } }
+    .chat .sys { color: var(--yellow); text-shadow: 2px 2px 0 #3f3f15; }
 
     footer {
-      padding: 32px 0 48px;
-      font-size: 0.875rem;
-      color: var(--faint);
-    }
-
-    /* Touch screens keep :hover after a tap. */
-    @media (hover: none) {
-      .proj:hover { background: none; }
-      .links a:hover { background: var(--raise); }
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      padding: 72px 0 28px;
+      font-size: 14px;
     }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
+      .splash span { animation: none; }
     }
   </style>
 </head>
@@ -487,97 +480,108 @@
 
 <div class="wrap">
 
-  <header class="bar">
-    <a class="bar-name" href="#top" id="top"><img src="assets/rowlet.png" alt="" width="28" height="28">CJH</a>
-    <nav aria-label="Sections">
-      <a href="#work">Work</a>
-      <a class="opt" href="#experience">Experience</a>
-      <a class="opt" href="#competitive">Competitive</a>
-      <a href="#contact">Contact</a>
+  <header class="title">
+    <div class="logo">
+      <h1>CJH</h1>
+      <button class="splash" type="button" id="splash" aria-label="Show another splash text"><span>Also try Tappy!</span></button>
+    </div>
+    <p class="role">Game developer</p>
+    <p class="bio">I specialize in the kind of work AI can't do easily yet. My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
+
+    <nav class="menu" aria-label="Sections">
+      <a class="btn wide" href="#tappy">Play Tappy</a>
+      <a class="btn" href="#projects">Projects</a>
+      <a class="btn" href="#experience">Experience</a>
+      <a class="btn" href="#competitive">Competitive</a>
+      <a class="btn" href="#contact">Contact</a>
     </nav>
   </header>
 
-  <div class="intro">
-    <h1>CJH</h1>
-    <p class="role">Game developer</p>
-    <p class="bio">I specialize in the kind of work AI can't do easily yet.</p>
-    <p class="bio">My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
-    <p class="meta">Contributor to <a href="https://github.com/PaperMC/Paper" target="_blank" rel="noopener">PaperMC</a> and <a href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">Skript</a>. Open to server work, <a href="#contact">get in touch</a>.</p>
-  </div>
+  <section id="tappy" aria-labelledby="tappy-title">
+    <div class="panel">
+      <h3 id="tappy-title">Tappy</h3>
+      <span class="tag">An idle clicker you play in vanilla Minecraft</span>
 
-  <section id="work">
-    <h2>Work</h2>
-    <p class="lead">My newest game first, then the mods and tools.</p>
+      <div class="slot tappy-art">
+        <picture>
+          <source srcset="assets/tappy.webp" type="image/webp">
+          <img src="assets/tappy.jpg" alt="Tappy key art: a giant emerald on a floating island over a dark forest" width="1600" height="533">
+        </picture>
+      </div>
 
-    <article class="feature" aria-labelledby="tappy-title">
-      <picture>
-        <source srcset="assets/tappy.webp" type="image/webp">
-        <img src="assets/tappy.jpg" alt="Tappy key art: a giant emerald on a floating island over a dark forest" width="1600" height="533">
-      </picture>
-      <div class="feature-body">
+      <div class="tappy-body">
         <div>
-          <h3 id="tappy-title">Tappy</h3>
-          <p class="tagline">An idle clicker you play in vanilla Minecraft</p>
-          <p class="desc">Tap emeralds, hire mobs, get rich. The camera is locked onto a flat screen built entirely from display entities, and your mouse drives an on-screen cursor. No mods and no resource pack needed.</p>
+          <p>Tap emeralds, hire mobs, get rich. The camera is locked onto a flat screen built entirely from display entities, and your mouse drives an on-screen cursor. No mods and no resource pack needed.</p>
           <ul class="facts">
-            <li><strong>Custom server</strong> on Minestom, with every player's world ticking in parallel</li>
-            <li><strong>Optional Smooth Cursor pack</strong> draws the cursor on your GPU with core shaders, cutting 115 to 165 ms of lag</li>
-            <li><strong>Plays on 1.19.4 and up</strong> through a Velocity and ViaVersion proxy</li>
+            <li>Custom Minestom server, every player's world ticks in parallel</li>
+            <li>Optional Smooth Cursor pack draws the cursor on your GPU with core shaders, cutting 115 to 165 ms of lag</li>
+            <li>Plays on 1.19.4 and up</li>
           </ul>
         </div>
-        <div class="join">
-          <span class="join-label">Play now</span>
-          <button class="ip" type="button" data-copy="mc.tappymc.com" aria-label="Copy server address mc.tappymc.com">
-            <span>mc.tappymc.com</span><span data-status>Copy</span>
-          </button>
-          <a href="https://discord.gg/a5XHkuTaRz" target="_blank" rel="noopener">Join the Tappy Discord</a>
+        <div class="connect">
+          <label for="tappy-ip">Server Address</label>
+          <input class="field" id="tappy-ip" type="text" value="mc.tappymc.com" readonly>
+          <button class="btn" type="button" data-copy="mc.tappymc.com">Copy Address</button>
+          <a class="btn" href="https://discord.gg/a5XHkuTaRz" target="_blank" rel="noopener">Tappy Discord</a>
         </div>
       </div>
-    </article>
+    </div>
 
     <div class="clips">
       <figure>
-        <video src="assets/tetris.mp4" autoplay muted loop playsinline preload="metadata"
-               disablepictureinpicture disableremoteplayback
-               aria-label="Tetris running in Minecraft"></video>
-        <figcaption><strong>Tetris</strong>, running in Minecraft</figcaption>
+        <div class="slot">
+          <video src="assets/tetris.mp4" autoplay muted loop playsinline preload="metadata"
+                 disablepictureinpicture disableremoteplayback
+                 aria-label="Tetris running in Minecraft"></video>
+        </div>
+        <figcaption>Tetris, in Minecraft</figcaption>
       </figure>
       <figure>
-        <video src="assets/stackit.mp4" autoplay muted loop playsinline preload="metadata"
-               disablepictureinpicture disableremoteplayback
-               aria-label="StackIt running in Minecraft"></video>
-        <figcaption><strong>StackIt</strong>, running in Minecraft</figcaption>
+        <div class="slot">
+          <video src="assets/stackit.mp4" autoplay muted loop playsinline preload="metadata"
+                 disablepictureinpicture disableremoteplayback
+                 aria-label="StackIt running in Minecraft"></video>
+        </div>
+        <figcaption>StackIt, in Minecraft</figcaption>
       </figure>
     </div>
+  </section>
 
-    <p class="label">Mods and tools</p>
-    <ul class="rows">
+  <section id="projects">
+    <h2>Projects</h2>
+    <p class="sub">Mods and tools I've built.</p>
+
+    <ul class="tooltips">
       <li>
-        <a class="proj" href="https://github.com/CJH3139/SeedScout" target="_blank" rel="noopener">
-          <span class="proj-name">SeedScout</span>
-          <span class="proj-desc">A Fabric mod that puts a Chunkbase-style seed map inside Minecraft. Search structures and biomes, click one, and follow the arrow and beam to it.</span>
-          <span class="proj-state on">Live</span>
+        <a class="tip" href="https://github.com/CJH3139/SeedScout" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">SeedScout</span>
+          <span class="tip-lore">A Fabric mod that puts a Chunkbase-style seed map inside Minecraft. Search structures and biomes, click one, and follow the arrow and beam to it.</span>
+          <span class="tip-state c-green">Live</span>
+          <span class="tip-url">github.com/CJH3139/SeedScout</span>
         </a>
       </li>
       <li>
-        <a class="proj" href="https://github.com/CJH3139/MineSkript" target="_blank" rel="noopener">
-          <span class="proj-name">MineSkript</span>
-          <span class="proj-desc">Script your Minecraft client in plain English. Drop a .ms file in a folder, reload without restarting, and react to ticks, key presses and chat.</span>
-          <span class="proj-state">Early release</span>
+        <a class="tip" href="https://github.com/CJH3139/MineSkript" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">MineSkript</span>
+          <span class="tip-lore">Script your Minecraft client in plain English. Drop a .ms file in a folder, reload without restarting, and react to ticks, key presses and chat.</span>
+          <span class="tip-state c-yellow">Early release</span>
+          <span class="tip-url">github.com/CJH3139/MineSkript</span>
         </a>
       </li>
       <li>
-        <a class="proj" href="https://skript-variables.com" target="_blank" rel="noopener">
-          <span class="proj-name">skript-variables</span>
-          <span class="proj-desc">A free Skript addon that opens your server's variables in a web editor. Browse, edit and apply changes without touching variables.csv.</span>
-          <span class="proj-state on">Live</span>
+        <a class="tip" href="https://skript-variables.com" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">skript-variables</span>
+          <span class="tip-lore">A free Skript addon that opens your server's variables in a web editor. Browse, edit and apply changes without touching variables.csv.</span>
+          <span class="tip-state c-green">Live</span>
+          <span class="tip-url">skript-variables.com</span>
         </a>
       </li>
       <li>
-        <a class="proj" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
-          <span class="proj-name">Skript</span>
-          <span class="proj-desc">Official contributor to the scripting language that runs thousands of Minecraft servers.</span>
-          <span class="proj-state">Contributor</span>
+        <a class="tip" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
+          <span class="tip-name c-purple">Skript</span>
+          <span class="tip-lore">Official contributor to the scripting language that runs thousands of Minecraft servers. Also contributing to PaperMC.</span>
+          <span class="tip-state c-purple">Contributor</span>
+          <span class="tip-url">github.com/SkriptLang/Skript</span>
         </a>
       </li>
     </ul>
@@ -585,125 +589,181 @@
 
   <section id="experience">
     <h2>Experience</h2>
-    <p class="lead">Developer, admin, manager and owner roles across established Minecraft networks since 2021.</p>
+    <p class="sub">Developer, admin, manager and owner roles across established Minecraft networks since 2021.</p>
 
-    <p class="label">Current</p>
-    <ul class="roles">
-      <li>
-        <span class="who"><strong>Colorss</strong> <span>Owner</span></span>
-        <span class="addr">colorss.minehut.gg</span>
-        <span class="when">Nov 2025 to now</span>
+    <ul class="servers">
+      <li class="server-group">Current</li>
+      <li class="server">
+        <span class="icon"><img src="assets/colorss.jpg" alt=""></span>
+        <span>
+          <span class="server-name">Colorss</span>
+          <span class="server-line">Owner</span>
+          <span class="server-addr">colorss.minehut.gg</span>
+        </span>
+        <span class="ping"><span class="bars" aria-label="Online"><i></i><i></i><i></i><i></i><i></i></span>Nov 2025 to now</span>
       </li>
-      <li>
-        <span class="who"><strong>LightSkies</strong> <span>Developer</span></span>
-        <span class="addr">play.lightskies.gg</span>
-        <span class="when">Nov 2025 to now</span>
+      <li class="server">
+        <span class="icon" aria-hidden="true">L</span>
+        <span>
+          <span class="server-name">LightSkies</span>
+          <span class="server-line">Developer</span>
+          <span class="server-addr">play.lightskies.gg</span>
+        </span>
+        <span class="ping"><span class="bars" aria-label="Online"><i></i><i></i><i></i><i></i><i></i></span>Nov 2025 to now</span>
       </li>
-      <li>
-        <span class="who"><strong>PyraKits</strong> <span>Developer</span></span>
-        <span class="addr">pyrakits.net</span>
-        <span class="when">Oct 2025 to now</span>
+      <li class="server">
+        <span class="icon" aria-hidden="true">P</span>
+        <span>
+          <span class="server-name">PyraKits</span>
+          <span class="server-line">Developer</span>
+          <span class="server-addr">pyrakits.net</span>
+        </span>
+        <span class="ping"><span class="bars" aria-label="Online"><i></i><i></i><i></i><i></i><i></i></span>Oct 2025 to now</span>
       </li>
-      <li>
-        <span class="who"><strong>MoneyMC</strong> <span>Developer</span></span>
-        <span class="addr">moneymc.net</span>
-        <span class="when">May 2026 to now</span>
+      <li class="server">
+        <span class="icon" aria-hidden="true">M</span>
+        <span>
+          <span class="server-name">MoneyMC</span>
+          <span class="server-line">Developer</span>
+          <span class="server-addr">moneymc.net</span>
+        </span>
+        <span class="ping"><span class="bars" aria-label="Online"><i></i><i></i><i></i><i></i><i></i></span>May 2026 to now</span>
+      </li>
+
+      <li class="server-group">Past</li>
+      <li class="server">
+        <span class="icon" aria-hidden="true">S</span>
+        <span>
+          <span class="server-name">StealABoss / StealItAll</span>
+          <span class="server-line">Developer, <span class="c-yellow">CJH left the game</span></span>
+          <span class="server-addr">play.stealamob.net</span>
+        </span>
+        <span class="ping"><span class="bars off" aria-label="Resigned"><i></i><i></i><i></i><i></i><i></i></span>Sep 2025 to Aug 2026</span>
+      </li>
+      <li class="server">
+        <span class="icon" aria-hidden="true">B</span>
+        <span>
+          <span class="server-name">BoxRNG</span>
+          <span class="server-line">Developer, <span class="c-red">Can't connect to server</span></span>
+          <span class="server-addr">moneymc.net</span>
+        </span>
+        <span class="ping"><span class="x" aria-label="Shut down">X</span>Aug 2025 to Jan 2026</span>
+      </li>
+      <li class="server">
+        <span class="icon" aria-hidden="true">Z</span>
+        <span>
+          <span class="server-name">Zyptrik</span>
+          <span class="server-line">Moderator, <span class="c-red">Can't connect to server</span></span>
+          <span class="server-addr">techmines.net</span>
+        </span>
+        <span class="ping"><span class="x" aria-label="Shut down">X</span>Nov 2024 to Apr 2025</span>
       </li>
     </ul>
-
-    <p class="label">Past</p>
-    <ul class="roles">
-      <li>
-        <span class="who"><strong>StealABoss / StealItAll</strong> <span>Developer</span></span>
-        <span class="addr">play.stealamob.net</span>
-        <span class="when">Sep 2025 to Aug 2026<small>Resigned</small></span>
-      </li>
-      <li>
-        <span class="who"><strong>BoxRNG</strong> <span>Developer</span></span>
-        <span class="addr">moneymc.net</span>
-        <span class="when">Aug 2025 to Jan 2026<small>Shut down</small></span>
-      </li>
-      <li>
-        <span class="who"><strong>Zyptrik</strong> <span>Moderator</span></span>
-        <span class="addr">techmines.net</span>
-        <span class="when">Nov 2024 to Apr 2025<small>Shut down</small></span>
-      </li>
-    </ul>
-    <p class="aside">Plus 33 more roles not listed here. Ask me for the full list. Last updated August 2026.</p>
+    <p class="more">Plus 33 more roles not listed. Ask me for the full list. Last updated August 2026.</p>
   </section>
 
   <section id="competitive">
     <h2>Competitive</h2>
-    <p class="lead">I compete as well as build. Ranked finishes in the mobile games I take seriously. Tap a screenshot for full size.</p>
+    <p class="sub">I compete as well as build. Tap a screenshot for full size.</p>
 
-    <ul class="games">
-      <li>
-        <div class="what">
-          <strong>Brawl Stars</strong> <span class="result">Pro rank</span>
-          <p>Former #21 player in the world.</p>
-        </div>
-        <div class="shots">
+    <ul class="toasts">
+      <li class="toast">
+        <span>
+          <span class="toast-kind c-purple">Challenge Complete!</span>
+          <span class="toast-what">Brawl Stars: Pro rank</span>
+          <span class="toast-note">Former #21 player in the world</span>
+        </span>
+        <span class="shots">
           <a href="assets/gaming/brawl-stars-rank.png" target="_blank" rel="noopener"><img src="assets/gaming/brawl-stars-rank.png" alt="Brawl Stars global ranking 21" loading="lazy"></a>
           <a href="assets/gaming/brawl-stars-pro.png" target="_blank" rel="noopener"><img src="assets/gaming/brawl-stars-pro.png" alt="Brawl Stars Pro battle card" loading="lazy"></a>
-        </div>
+        </span>
       </li>
-      <li>
-        <div class="what">
-          <strong>Clash Royale</strong> <span class="result">Ultimate Champion</span>
-          <p>Finished #2,200 globally.</p>
-        </div>
-        <div class="shots">
-          <a href="assets/gaming/clash-royale.png" target="_blank" rel="noopener"><img src="assets/gaming/clash-royale.png" alt="Clash Royale Hall of Fame rating" loading="lazy"></a>
-        </div>
-      </li>
-      <li>
-        <div class="what">
-          <strong>Merge Tactics</strong> <span class="result">#22</span>
-          <p>Peak rank on the global ladder.</p>
-        </div>
-        <div class="shots">
+      <li class="toast">
+        <span>
+          <span class="toast-kind c-purple">Challenge Complete!</span>
+          <span class="toast-what">Merge Tactics: #22</span>
+          <span class="toast-note">Peak rank on the global ladder</span>
+        </span>
+        <span class="shots">
           <a href="assets/gaming/merge-tactics-2.png" target="_blank" rel="noopener"><img src="assets/gaming/merge-tactics-2.png" alt="Merge Tactics leaderboard rank 22" loading="lazy"></a>
           <a href="assets/gaming/merge-tactics.png" target="_blank" rel="noopener"><img src="assets/gaming/merge-tactics.png" alt="Merge Tactics leaderboard rank 24" loading="lazy"></a>
-        </div>
+        </span>
       </li>
-      <li>
-        <div class="what">
-          <strong>Cookie Run</strong> <span class="result">#58</span>
-          <p>Peak rank in Crumble Arena.</p>
-        </div>
-        <div class="shots">
+      <li class="toast">
+        <span>
+          <span class="toast-kind c-yellow">Advancement Made!</span>
+          <span class="toast-what">Cookie Run: #58</span>
+          <span class="toast-note">Peak rank in Crumble Arena</span>
+        </span>
+        <span class="shots">
           <a href="assets/gaming/cookie-run-arena.png" target="_blank" rel="noopener"><img src="assets/gaming/cookie-run-arena.png" alt="Cookie Run Crumble Arena rank 58" loading="lazy"></a>
-        </div>
+        </span>
       </li>
-      <li>
-        <div class="what">
-          <strong>Pokemon GO</strong> <span class="result">Level 74</span>
-          <p>203,436 Pokemon caught.</p>
-        </div>
-        <div class="shots">
+      <li class="toast">
+        <span>
+          <span class="toast-kind c-yellow">Advancement Made!</span>
+          <span class="toast-what">Clash Royale: Ultimate Champion</span>
+          <span class="toast-note">Finished #2,200 globally</span>
+        </span>
+        <span class="shots">
+          <a href="assets/gaming/clash-royale.png" target="_blank" rel="noopener"><img src="assets/gaming/clash-royale.png" alt="Clash Royale Hall of Fame rating" loading="lazy"></a>
+        </span>
+      </li>
+      <li class="toast">
+        <span>
+          <span class="toast-kind c-yellow">Advancement Made!</span>
+          <span class="toast-what">Pokemon GO: Level 74</span>
+          <span class="toast-note">203,436 Pokemon caught</span>
+        </span>
+        <span class="shots">
           <a href="assets/gaming/pokemon-go.png" target="_blank" rel="noopener"><img src="assets/gaming/pokemon-go.png" alt="Pokemon GO trainer profile at level 74" loading="lazy"></a>
-        </div>
+        </span>
       </li>
     </ul>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
-    <p class="lead">Need a hand with your server? Discord is fastest. I'm <strong>cjh1126</strong> there.</p>
+    <p class="sub">Need a hand with your server?</p>
 
-    <ul class="links">
-      <li><a href="https://discord.gg/zSTDbB74wU" target="_blank" rel="noopener"><small>Discord server</small><span>discord.gg/zSTDbB74wU</span></a></li>
-      <li><a href="mailto:imnotnotcjh@gmail.com"><small>Email</small><span>imnotnotcjh@gmail.com</span></a></li>
-      <li><a href="https://github.com/CJH3139" target="_blank" rel="noopener"><small>GitHub</small><span>CJH3139</span></a></li>
-      <li><a href="https://www.youtube.com/@CJH3139" target="_blank" rel="noopener"><small>YouTube: Skript showcases and game walkthroughs</small><span>@CJH3139</span></a></li>
+    <ul class="chat">
+      <li class="sys">CJH joined the game</li>
+      <li>&lt;CJH&gt; Discord is fastest, I'm cjh1126 there</li>
+      <li>&lt;CJH&gt; Server: <a href="https://discord.gg/zSTDbB74wU" target="_blank" rel="noopener">discord.gg/zSTDbB74wU</a></li>
+      <li>&lt;CJH&gt; Email: <a href="mailto:imnotnotcjh@gmail.com">imnotnotcjh@gmail.com</a></li>
+      <li>&lt;CJH&gt; Code: <a href="https://github.com/CJH3139" target="_blank" rel="noopener">github.com/CJH3139</a></li>
+      <li>&lt;CJH&gt; Videos: <a href="https://www.youtube.com/@CJH3139" target="_blank" rel="noopener">youtube.com/@CJH3139</a></li>
     </ul>
   </section>
 
-  <footer>© 2026 CJH</footer>
+  <footer>
+    <span>CJH 2026</span>
+    <span class="c-gray">Not affiliated with Mojang or Microsoft</span>
+  </footer>
 
 </div>
 
 <script>
+  // Splash text, like the title screen. Click for another.
+  (function () {
+    const lines = [
+      'Also try Tappy!', '100% handmade!', 'Contributor to PaperMC!', 'Runs on vanilla!',
+      'Former #21 in Brawl Stars!', 'Now with emeralds!', 'Skript enjoyer!',
+      'Tetris in Minecraft!', 'No mods required!', 'Hire me!', 'Display entities!'
+    ];
+    const btn = document.getElementById('splash');
+    const text = btn.querySelector('span');
+    let last = -1;
+    const pick = () => {
+      let i;
+      do { i = Math.floor(Math.random() * lines.length); } while (i === last);
+      last = i;
+      text.textContent = lines[i];
+    };
+    pick();
+    btn.addEventListener('click', pick);
+  })();
+
   // Clips only play while on screen.
   (function () {
     const videos = document.querySelectorAll('.clips video');
@@ -724,14 +784,14 @@
 
   // Copy the server address.
   document.querySelectorAll('[data-copy]').forEach(btn => {
-    const status = btn.querySelector('[data-status]');
+    const label = btn.textContent;
     let timer = null;
     btn.addEventListener('click', () => {
       if (!navigator.clipboard) return;
       navigator.clipboard.writeText(btn.dataset.copy).then(() => {
-        status.textContent = 'Copied';
+        btn.textContent = 'Copied!';
         clearTimeout(timer);
-        timer = setTimeout(() => { status.textContent = 'Copy'; }, 1500);
+        timer = setTimeout(() => { btn.textContent = label; }, 1500);
       });
     });
   });
