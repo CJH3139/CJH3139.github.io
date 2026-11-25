@@ -197,6 +197,47 @@
 
     .menu .wide { grid-column: 1 / -1; }
 
+    /* Stack: the hotbar. Hover a slot to see its name above, like switching items. */
+
+    .held {
+      min-height: 1.7em;
+      margin-top: 28px;
+    }
+
+    .hotbar {
+      list-style: none;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      width: 100%;
+      max-width: 520px;
+      margin: 6px auto 0;
+      padding: var(--px);
+      background: rgba(110, 110, 110, 0.8);
+      border: var(--px) solid #000;
+      box-shadow: inset 0 0 0 var(--px) #6f6f6f;
+    }
+
+    .hotbar li {
+      aspect-ratio: 1;
+      padding: 14%;
+      border: var(--px) solid transparent;
+      cursor: default;
+    }
+
+    .hotbar li:hover, .hotbar li:focus-visible, .hotbar li.on {
+      border-color: var(--white);
+      outline: var(--px) solid #000;
+      outline-offset: 0;
+    }
+
+    .hotbar img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .hotbar img.pixel { image-rendering: pixelated; }
+
+    @media (max-width: 600px) {
+      .hotbar { grid-auto-flow: row; grid-template-columns: repeat(7, 1fr); max-width: 340px; }
+    }
+
     @media (max-width: 600px) {
       .title { padding-top: 48px; }
       .logo h1 { font-size: 72px; letter-spacing: 4px; text-shadow: 3px 3px 0 #8a8a8a, 6px 6px 0 #4a4a4a, 9px 9px 0 #1a1a1a; }
@@ -482,6 +523,23 @@
     <p class="role">Game developer</p>
     <p class="bio">I specialize in the kind of work AI can't do easily yet. My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
 
+    <p class="held" id="held" aria-hidden="true">Java</p>
+    <ul class="hotbar" id="hotbar" aria-label="Languages and tools I use">
+      <li class="on" tabindex="0"><img src="assets/stack/java.svg" alt="Java"></li>
+      <li tabindex="0"><img src="assets/stack/kotlin.svg" alt="Kotlin"></li>
+      <li tabindex="0"><img src="assets/stack/csharp.svg" alt="C#"></li>
+      <li tabindex="0"><img src="assets/stack/unity.svg" alt="Unity"></li>
+      <li tabindex="0"><img src="assets/stack/skript.png" alt="Skript"></li>
+      <li tabindex="0"><img src="assets/stack/paper.png" alt="PaperMC"></li>
+      <li tabindex="0"><img class="pixel" src="assets/stack/fabric.png" alt="Fabric"></li>
+      <li tabindex="0"><img src="assets/stack/python.svg" alt="Python"></li>
+      <li tabindex="0"><img src="assets/stack/pytorch.svg" alt="PyTorch"></li>
+      <li tabindex="0"><img src="assets/stack/javascript.svg" alt="JavaScript"></li>
+      <li tabindex="0"><img src="assets/stack/html.svg" alt="HTML and CSS"></li>
+      <li tabindex="0"><img src="assets/stack/docker.svg" alt="Docker"></li>
+      <li tabindex="0"><img src="assets/stack/git.svg" alt="Git"></li>
+    </ul>
+
     <nav class="menu" aria-label="Sections">
       <a class="btn wide" href="#tappy">Play Tappy</a>
       <a class="btn" href="#projects">Projects</a>
@@ -754,6 +812,21 @@
     };
     pick();
     btn.addEventListener('click', pick);
+  })();
+
+  // Hotbar: hovering or focusing a slot selects it and shows its name.
+  (function () {
+    const held = document.getElementById('held');
+    const slots = document.querySelectorAll('#hotbar li');
+    const select = slot => {
+      slots.forEach(s => s.classList.toggle('on', s === slot));
+      held.textContent = slot.querySelector('img').alt;
+    };
+    slots.forEach(s => {
+      s.addEventListener('mouseenter', () => select(s));
+      s.addEventListener('focus', () => select(s));
+      s.addEventListener('click', () => select(s));
+    });
   })();
 
   // Clips only play while on screen.
