@@ -536,13 +536,88 @@
     <p class="bio">I specialize in the kind of work AI can't do easily yet. My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
 
     <nav class="menu" aria-label="Sections">
-      <a class="btn wide" href="#tappy">Play Tappy</a>
+      <a class="btn wide" href="#stack">Languages &amp; Tools</a>
       <a class="btn" href="#projects">Projects</a>
+      <a class="btn" href="#tappy">Play Tappy</a>
       <a class="btn" href="#experience">Experience</a>
       <a class="btn" href="#competitive">Competitive</a>
-      <a class="btn" href="#contact">Contact</a>
+      <a class="btn wide" href="#contact">Contact</a>
     </nav>
   </header>
+
+  <section id="stack">
+    <h2 class="spaced">Languages &amp; Tools</h2>
+
+    <div class="panel inv">
+      <h3>Languages</h3>
+      <ul aria-label="Languages">
+          <li class="slot" tabindex="0"><img src="assets/stack/java.svg" alt="Java"><span class="name" aria-hidden="true">Java</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/kotlin.svg" alt="Kotlin"><span class="name" aria-hidden="true">Kotlin</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/csharp.svg" alt="C#"><span class="name" aria-hidden="true">C#</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/python.svg" alt="Python"><span class="name" aria-hidden="true">Python</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/javascript.svg" alt="JavaScript"><span class="name" aria-hidden="true">JavaScript</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/html.svg" alt="HTML and CSS"><span class="name" aria-hidden="true">HTML and CSS</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/skript.png" alt="Skript"><span class="name" aria-hidden="true">Skript</span></li>
+      </ul>
+
+      <h3>Frameworks &amp; Engines</h3>
+      <ul aria-label="Frameworks &amp; Engines">
+          <li class="slot" tabindex="0"><img src="assets/stack/unity.svg" alt="Unity"><span class="name" aria-hidden="true">Unity</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/paper.png" alt="PaperMC"><span class="name" aria-hidden="true">PaperMC</span></li>
+          <li class="slot" tabindex="0"><img class="pixel" src="assets/stack/fabric.png" alt="Fabric"><span class="name" aria-hidden="true">Fabric</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/pytorch.svg" alt="PyTorch"><span class="name" aria-hidden="true">PyTorch</span></li>
+      </ul>
+
+      <h3>Tools</h3>
+      <ul aria-label="Tools">
+          <li class="slot" tabindex="0"><img src="assets/stack/docker.svg" alt="Docker"><span class="name" aria-hidden="true">Docker</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/git.svg" alt="Git"><span class="name" aria-hidden="true">Git</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/gradle.svg" alt="Gradle"><span class="name" aria-hidden="true">Gradle</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/intellij.svg" alt="IntelliJ IDEA"><span class="name" aria-hidden="true">IntelliJ IDEA</span></li>
+          <li class="slot" tabindex="0"><img src="assets/stack/vscode.svg" alt="VS Code"><span class="name" aria-hidden="true">VS Code</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <p class="sub">Mods, tools and research I've built.</p>
+
+    <ul class="tooltips">
+      <li>
+        <a class="tip" href="https://github.com/CJH3139/SeedScout" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">SeedScout</span>
+          <span class="tip-lore">A Fabric mod that puts a Chunkbase-style seed map inside Minecraft. Search structures and biomes, click one, and follow the arrow and beam to it.</span>
+          <span class="tip-state c-green">Live</span>
+          <span class="tip-url">github.com/CJH3139/SeedScout</span>
+        </a>
+      </li>
+      <li>
+        <a class="tip" href="assets/beta-schedulers-paper.pdf" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">Beta Schedulers in Latent Diffusion</span>
+          <span class="tip-lore">Research paper on swapping the noise schedule at inference time in Stable Diffusion. 750 images across five schedules, scored with HPSv2, PickScore and CLIPScore.</span>
+          <span class="tip-state c-green">Published</span>
+          <span class="tip-url">JYI, 2026</span>
+        </a>
+      </li>
+      <li>
+        <a class="tip" href="https://skript-variables.com" target="_blank" rel="noopener">
+          <span class="tip-name c-aqua">skript-variables</span>
+          <span class="tip-lore">A free Skript addon that opens your server's variables in a web editor. Browse, edit and apply changes without touching variables.csv.</span>
+          <span class="tip-state c-green">Live</span>
+          <span class="tip-url">skript-variables.com</span>
+        </a>
+      </li>
+      <li>
+        <a class="tip" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
+          <span class="tip-name c-purple">Skript</span>
+          <span class="tip-lore">Official contributor to the scripting language that runs thousands of Minecraft servers. Also contributing to PaperMC.</span>
+          <span class="tip-state c-purple">Contributor</span>
+          <span class="tip-url">github.com/SkriptLang/Skript</span>
+        </a>
+      </li>
+    </ul>
+  </section>
 
   <section id="tappy" aria-labelledby="tappy-title">
     <div class="panel">
@@ -590,80 +665,6 @@
         </div>
         <figcaption>StackIt, in Minecraft</figcaption>
       </figure>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <p class="sub">Mods, tools and research I've built.</p>
-
-    <ul class="tooltips">
-      <li>
-        <a class="tip" href="https://github.com/CJH3139/SeedScout" target="_blank" rel="noopener">
-          <span class="tip-name c-aqua">SeedScout</span>
-          <span class="tip-lore">A Fabric mod that puts a Chunkbase-style seed map inside Minecraft. Search structures and biomes, click one, and follow the arrow and beam to it.</span>
-          <span class="tip-state c-green">Live</span>
-          <span class="tip-url">github.com/CJH3139/SeedScout</span>
-        </a>
-      </li>
-      <li>
-        <a class="tip" href="assets/beta-schedulers-paper.pdf" target="_blank" rel="noopener">
-          <span class="tip-name c-aqua">Beta Schedulers in Latent Diffusion</span>
-          <span class="tip-lore">Research paper on swapping the noise schedule at inference time in Stable Diffusion. 750 images across five schedules, scored with HPSv2, PickScore and CLIPScore.</span>
-          <span class="tip-state c-green">Published</span>
-          <span class="tip-url">JYI, 2026</span>
-        </a>
-      </li>
-      <li>
-        <a class="tip" href="https://skript-variables.com" target="_blank" rel="noopener">
-          <span class="tip-name c-aqua">skript-variables</span>
-          <span class="tip-lore">A free Skript addon that opens your server's variables in a web editor. Browse, edit and apply changes without touching variables.csv.</span>
-          <span class="tip-state c-green">Live</span>
-          <span class="tip-url">skript-variables.com</span>
-        </a>
-      </li>
-      <li>
-        <a class="tip" href="https://github.com/SkriptLang/Skript" target="_blank" rel="noopener">
-          <span class="tip-name c-purple">Skript</span>
-          <span class="tip-lore">Official contributor to the scripting language that runs thousands of Minecraft servers. Also contributing to PaperMC.</span>
-          <span class="tip-state c-purple">Contributor</span>
-          <span class="tip-url">github.com/SkriptLang/Skript</span>
-        </a>
-      </li>
-    </ul>
-  </section>
-
-  <section id="stack">
-    <h2 class="spaced">Languages &amp; Tools</h2>
-
-    <div class="panel inv">
-      <h3>Languages</h3>
-      <ul aria-label="Languages">
-          <li class="slot" tabindex="0"><img src="assets/stack/java.svg" alt="Java"><span class="name" aria-hidden="true">Java</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/kotlin.svg" alt="Kotlin"><span class="name" aria-hidden="true">Kotlin</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/csharp.svg" alt="C#"><span class="name" aria-hidden="true">C#</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/python.svg" alt="Python"><span class="name" aria-hidden="true">Python</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/javascript.svg" alt="JavaScript"><span class="name" aria-hidden="true">JavaScript</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/html.svg" alt="HTML and CSS"><span class="name" aria-hidden="true">HTML and CSS</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/skript.png" alt="Skript"><span class="name" aria-hidden="true">Skript</span></li>
-      </ul>
-
-      <h3>Frameworks &amp; Engines</h3>
-      <ul aria-label="Frameworks &amp; Engines">
-          <li class="slot" tabindex="0"><img src="assets/stack/unity.svg" alt="Unity"><span class="name" aria-hidden="true">Unity</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/paper.png" alt="PaperMC"><span class="name" aria-hidden="true">PaperMC</span></li>
-          <li class="slot" tabindex="0"><img class="pixel" src="assets/stack/fabric.png" alt="Fabric"><span class="name" aria-hidden="true">Fabric</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/pytorch.svg" alt="PyTorch"><span class="name" aria-hidden="true">PyTorch</span></li>
-      </ul>
-
-      <h3>Tools</h3>
-      <ul aria-label="Tools">
-          <li class="slot" tabindex="0"><img src="assets/stack/docker.svg" alt="Docker"><span class="name" aria-hidden="true">Docker</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/git.svg" alt="Git"><span class="name" aria-hidden="true">Git</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/gradle.svg" alt="Gradle"><span class="name" aria-hidden="true">Gradle</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/intellij.svg" alt="IntelliJ IDEA"><span class="name" aria-hidden="true">IntelliJ IDEA</span></li>
-          <li class="slot" tabindex="0"><img src="assets/stack/vscode.svg" alt="VS Code"><span class="name" aria-hidden="true">VS Code</span></li>
-      </ul>
     </div>
   </section>
 
@@ -826,8 +827,8 @@
   // Splash text, like the title screen. Click for another.
   (function () {
     const lines = [
-      'Also try Tappy!', '100% handmade!', 'Contributor to PaperMC!', 'Runs on vanilla!',
-      'Former #21 in Brawl Stars!', 'Now with emeralds!', 'Skript enjoyer!',
+      'Also try Tappy!', '100% handmade!', 'Runs on vanilla!',
+      'Now with emeralds!', 'Skript enjoyer!',
       'Tetris in Minecraft!', 'No mods required!', 'Hire me!', 'Display entities!'
     ];
     const btn = document.getElementById('splash');
