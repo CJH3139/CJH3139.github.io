@@ -128,14 +128,52 @@
 
     /* Title screen */
 
+    /* Panorama: slowly pans behind the title, like the main menu, then fades into the dirt */
+
+    .panorama {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: -1;
+      image-rendering: auto;
+      -webkit-mask-image: linear-gradient(#000 70%, transparent);
+      mask-image: linear-gradient(#000 70%, transparent);
+    }
+
+    .panorama::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      background: url('assets/tappy.jpg') 35% 50% / auto 100% repeat-x;
+      filter: blur(3px) brightness(0.75);
+      animation: pan 90s linear infinite alternate;
+    }
+
+    .panorama::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes pan { to { background-position-x: 100%; } }
+
     .title {
-      padding: 72px 0 8px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 0;
       text-align: center;
     }
 
     .logo {
       position: relative;
       display: inline-block;
+      align-self: center;
     }
 
     .logo h1 {
@@ -195,17 +233,14 @@
       margin: 36px auto 0;
     }
 
-    .menu .wide { grid-column: 1 / -1; }
 
     @media (max-width: 600px) {
-      .title { padding-top: 48px; }
       .logo h1 { font-size: 72px; letter-spacing: 4px; text-shadow: 3px 3px 0 #8a8a8a, 6px 6px 0 #4a4a4a, 9px 9px 0 #1a1a1a; }
       .splash { right: -64px; bottom: -34px; width: 190px; font-size: 14px; }
       .role { margin-top: 64px; }
-      .menu { grid-template-columns: 1fr; }
     }
 
-    /* Tappy: a chest-style GUI panel */
+    /* GUI panel, like a chest screen */
 
     .panel {
       background: var(--gui);
@@ -225,41 +260,8 @@
     }
 
 
-    .tappy-art { margin: 16px 0 20px; }
-
-    .tappy-art img { height: auto; }
-
-    .tappy-body {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 28px;
-    }
-
-    .tappy-body p { max-width: 34em; }
-
-    .facts { list-style: none; margin-top: 14px; }
-    .facts li { padding-left: 22px; position: relative; margin-top: 6px; }
-    .facts li::before { content: '+'; position: absolute; left: 0; color: #2a7a2a; }
-
-    .connect label { display: block; color: var(--gui-text); margin-bottom: 4px; }
-
-    .field {
-      display: block;
-      width: 100%;
-      padding: 8px 10px;
-      font: inherit;
-      color: #e0e0e0;
-      background: #000;
-      border: 2px solid #a0a0a0;
-      text-shadow: 2px 2px 0 #383838;
-      margin-bottom: 10px;
-    }
-
-    .connect .btn { width: 100%; margin-top: 8px; }
-
     @media (max-width: 760px) {
       .panel { padding: 16px 14px 20px; }
-      .tappy-body { grid-template-columns: 1fr; gap: 20px; }
     }
 
     .clips {
@@ -395,6 +397,7 @@
     }
 
     .icon img { width: 100%; height: 100%; object-fit: cover; }
+    .icon img.tappy-icon { object-position: 77% 50%; }
 
     .server-name { display: block; }
     .server-line { display: block; color: var(--gray); }
@@ -520,10 +523,13 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .splash span { animation: none; }
+      .panorama::before { animation: none; background-position-x: 70%; }
     }
   </style>
 </head>
 <body>
+
+<div class="panorama" aria-hidden="true"></div>
 
 <div class="wrap">
 
@@ -536,14 +542,31 @@
     <p class="bio">I specialize in the kind of work AI can't do easily yet. My passion lies in breaking the limits of Minecraft, and in making game development more accessible to anyone who wants to get into it.</p>
 
     <nav class="menu" aria-label="Sections">
-      <a class="btn wide" href="#stack">Languages &amp; Tools</a>
-      <a class="btn" href="#projects">Projects</a>
-      <a class="btn" href="#tappy">Play Tappy</a>
-      <a class="btn" href="#experience">Experience</a>
-      <a class="btn" href="#competitive">Competitive</a>
-      <a class="btn wide" href="#contact">Contact</a>
+      <a class="btn" href="#clips">See My Work</a>
+      <a class="btn" href="#contact">Contact</a>
     </nav>
   </header>
+
+  <section id="clips" aria-label="Games in Minecraft">
+    <div class="clips">
+      <figure>
+        <div class="slot">
+          <video src="assets/tetris.mp4" autoplay muted loop playsinline preload="metadata"
+                 disablepictureinpicture disableremoteplayback
+                 aria-label="Tetris running in Minecraft"></video>
+        </div>
+        <figcaption>Tetris, in Minecraft</figcaption>
+      </figure>
+      <figure>
+        <div class="slot">
+          <video src="assets/stackit.mp4" autoplay muted loop playsinline preload="metadata"
+                 disablepictureinpicture disableremoteplayback
+                 aria-label="StackIt running in Minecraft"></video>
+        </div>
+        <figcaption>StackIt, in Minecraft</figcaption>
+      </figure>
+    </div>
+  </section>
 
   <section id="stack">
     <h2 class="spaced">Languages &amp; Tools</h2>
@@ -619,60 +642,20 @@
     </ul>
   </section>
 
-  <section id="tappy" aria-labelledby="tappy-title">
-    <div class="panel">
-      <h3 id="tappy-title">Tappy</h3>
-
-      <div class="slot tappy-art">
-        <picture>
-          <source srcset="assets/tappy-screen.webp" type="image/webp">
-          <img src="assets/tappy-screen.jpg" alt="Tappy in game: a big emerald with a 7.692 billion counter, rows of chickens, villagers and bees earning emeralds, and the mob shop" width="1920" height="1029">
-        </picture>
-      </div>
-
-      <div class="tappy-body">
-        <div>
-          <p>Cookie Clicker, but Minecraft. Click the emerald, hire mobs to earn more for you, and get rich. It runs right inside Minecraft. Just join the server, nothing to download.</p>
-          <ul class="facts">
-            <li>Upgrades, achievements and a leaderboard</li>
-            <li>Optional add-on that makes the cursor feel instant</li>
-            <li>26.2 recommended</li>
-          </ul>
-        </div>
-        <div class="connect">
-          <label for="tappy-ip">Server Address</label>
-          <input class="field" id="tappy-ip" type="text" value="play.tappymc.com" readonly>
-          <button class="btn" type="button" data-copy="play.tappymc.com">Copy Address</button>
-          <a class="btn" href="https://discord.gg/a5XHkuTaRz" target="_blank" rel="noopener">Tappy Discord</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="clips">
-      <figure>
-        <div class="slot">
-          <video src="assets/tetris.mp4" autoplay muted loop playsinline preload="metadata"
-                 disablepictureinpicture disableremoteplayback
-                 aria-label="Tetris running in Minecraft"></video>
-        </div>
-        <figcaption>Tetris, in Minecraft</figcaption>
-      </figure>
-      <figure>
-        <div class="slot">
-          <video src="assets/stackit.mp4" autoplay muted loop playsinline preload="metadata"
-                 disablepictureinpicture disableremoteplayback
-                 aria-label="StackIt running in Minecraft"></video>
-        </div>
-        <figcaption>StackIt, in Minecraft</figcaption>
-      </figure>
-    </div>
-  </section>
-
   <section id="experience">
     <h2 class="spaced">Experience</h2>
 
     <ul class="servers">
       <li class="server-group">Current</li>
+      <li class="server">
+        <span class="icon"><img class="tappy-icon" src="assets/tappy.jpg" alt=""></span>
+        <span>
+          <span class="server-name">Tappy</span>
+          <span class="server-line">Creator, Cookie Clicker inside Minecraft</span>
+          <span class="server-addr">play.tappymc.com</span>
+        </span>
+        <span class="ping"><span class="bars" aria-label="Online"><i></i><i></i><i></i><i></i><i></i></span>Live</span>
+      </li>
       <li class="server">
         <span class="icon"><img src="assets/colorss.jpg" alt=""></span>
         <span>
@@ -861,20 +844,6 @@
     }, { threshold: 0.25 });
     videos.forEach(v => io.observe(v));
   })();
-
-  // Copy the server address.
-  document.querySelectorAll('[data-copy]').forEach(btn => {
-    const label = btn.textContent;
-    let timer = null;
-    btn.addEventListener('click', () => {
-      if (!navigator.clipboard) return;
-      navigator.clipboard.writeText(btn.dataset.copy).then(() => {
-        btn.textContent = 'Copied!';
-        clearTimeout(timer);
-        timer = setTimeout(() => { btn.textContent = label; }, 1500);
-      });
-    });
-  });
 </script>
 
 </body>
